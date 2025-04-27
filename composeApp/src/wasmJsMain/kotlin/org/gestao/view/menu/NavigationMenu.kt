@@ -50,16 +50,6 @@ fun setupNavigation() {
 fun navigationRail() {
     val itemSelected by itemMenuSelected.collectAsState()
 
-    Icon(
-        painter = painterResource(Res.drawable.logo),
-        contentDescription = "Ícone do Menu",
-        modifier = Modifier
-            .size(150.dp)
-
-            .padding(start = 25.dp, bottom =5.dp),
-        tint = colorIconClient
-    )
-
     NavigationRail(
         modifier = Modifier
             .padding(top = 140.dp)

@@ -75,14 +75,12 @@ fun authenticationFields() {
     val focusRequesterLogin = remember { FocusRequester() }
 
     Row {
-        ShowLogo()
-
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Card(
                 modifier = Modifier
-                    .align(Alignment.CenterEnd)
+                    .align(Alignment.Center)
                     .padding(end = 50.dp)
                     .size(width = 400.dp, height = 420.dp),
                 shape = RoundedCornerShape(32.dp)

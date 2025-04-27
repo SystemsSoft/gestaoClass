@@ -2,9 +2,11 @@ package org.gestao.view.Acessos
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -19,9 +21,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gestaoclass.composeapp.generated.resources.Res
@@ -32,6 +36,7 @@ import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
+import gestaoweb.bbf.com.util.Theme.transparentColor
 import org.gestao.viewmodel.acessosDto
 import org.jetbrains.compose.resources.painterResource
 
@@ -40,9 +45,12 @@ fun cadastroScreen() {
     val errorMessage by remember { mutableStateOf("") }
 
 
-    Column {
+    Column(
+        Modifier.fillMaxWidth()
+    ) {
         Row(
             modifier = Modifier
+                .padding(start = 4.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
@@ -75,7 +83,7 @@ fun cadastroScreen() {
                 onValueChange = { acessosDto.value.senha = it },
                 label = {
                     Text(
-                        "RG/IE",
+                        "Senha",
                         style = TextStyle(fontSize = fontDefault)
                     )
                 },
@@ -91,32 +99,20 @@ fun cadastroScreen() {
                 )
             )
         }
-        Row(
+        Button(
+            onClick = {
+                //  bindCadastroCliente()
+            },
             modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
                 .align(Alignment.CenterHorizontally)
+                .height(35.dp)
+                .padding(end = 10.dp)
+                .width(150.dp),
+            colors = ButtonDefaults.buttonColors(backgroundColor = transparentColor),
+            elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp, disabledElevation = 0.dp)
         ) {
-
-            Button(
-                onClick = {
-                  //  bindCadastroCliente()
-                },
-                modifier = Modifier
-                    .padding(start = 380.dp, bottom = 10.dp)
-                    .align(Alignment.Bottom)
-                    .height(35.dp)
-                    .width(150.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = darkBlueColor)
-            ) {
-                Text(text = "Cadastrar", color = Color.White)
-            }
-            if (errorMessage.isNotEmpty()) {
-                Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    text = errorMessage,
-                    color = Color.Red,
-                    style = TextStyle(fontSize = 12.sp)
-                )
-            }
+            Text(text = "Cadastrar", color = Color.Black)
         }
     }
 }
