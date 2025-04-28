@@ -12,7 +12,7 @@ import org.gestao.viewmodel.usuarioValidado
 @Composable
 fun App() {
     Theme.MyAppTheme {
-        if (usuarioValidado.collectAsState().value) {
+        if (!usuarioValidado.collectAsState().value) {
             openAcessoScreen()
             setupNavigation()
             navigationRail()

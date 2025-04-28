@@ -1,7 +1,10 @@
 package org.gestao.view.Acessos
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,9 +47,9 @@ import org.jetbrains.compose.resources.painterResource
 fun cadastroScreen() {
     val errorMessage by remember { mutableStateOf("") }
 
-
     Column(
-        Modifier.fillMaxWidth()
+        Modifier
+            .fillMaxSize()
     ) {
         Row(
             modifier = Modifier
@@ -75,7 +78,6 @@ fun cadastroScreen() {
                     cursorColor = Color.Black,
                     textColor = Color.Black
                 ),
-                enabled = false
             )
 
             OutlinedTextField(
@@ -101,16 +103,12 @@ fun cadastroScreen() {
         }
         Button(
             onClick = {
-                //  bindCadastroCliente()
+                // bindCadastroCliente()
             },
             modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .align(Alignment.CenterHorizontally)
-                .height(35.dp)
-                .padding(end = 10.dp)
-                .width(150.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = transparentColor),
-            elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp, disabledElevation = 0.dp)
+                .padding(40.dp)
+                .align(Alignment.CenterHorizontally),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Text(text = "Cadastrar", color = Color.Black)
         }

@@ -32,7 +32,7 @@ object Theme {
     )
 
     private val LightColorPalette = lightColors(
-        primary = Color.Black,
+        primary = Color.LightGray,
 
     )
 
