@@ -9,6 +9,7 @@ class AcessosList {
     var codClass = ""
     var nome = ""
     var senha = ""
+    var email = ""
 }
 
 class AcessosListDto {
@@ -16,4 +17,6 @@ class AcessosListDto {
     var codClass by mutableStateOf("")
     var nome by mutableStateOf("")
     var senha by mutableStateOf("")
+
+    var email by mutableStateOf("")
 }

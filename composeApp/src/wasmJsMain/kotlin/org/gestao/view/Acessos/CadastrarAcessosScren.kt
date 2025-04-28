@@ -100,10 +100,31 @@ fun cadastroScreen() {
                     textColor = Color.Black
                 )
             )
+
+            OutlinedTextField(
+                value = acessosDto.value.email,
+                onValueChange = { acessosDto.value.email = it },
+                label = {
+                    Text(
+                        "Email",
+                        style = TextStyle(fontSize = fontDefault)
+                    )
+                },
+                textStyle = TextStyle(fontSize = fontDefault),
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .height(heightField),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = darkBlueColor,
+                    focusedLabelColor = darkBlueColor,
+                    cursorColor = Color.Black,
+                    textColor = Color.Black
+                )
+            )
         }
         Button(
             onClick = {
-                // bindCadastroCliente()
+                 bindCadastroCliente()
             },
             modifier = Modifier
                 .padding(40.dp)
@@ -113,6 +134,10 @@ fun cadastroScreen() {
             Text(text = "Cadastrar", color = Color.Black)
         }
     }
+}
+
+fun bindCadastroCliente() {
+
 }
 
 @Composable
