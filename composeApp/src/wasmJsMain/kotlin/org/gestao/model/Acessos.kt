@@ -3,8 +3,10 @@ package model
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import kotlinx.serialization.Serializable
 
-class AcessosList {
+@Serializable
+class Acessos {
     var className = ""
     var codClass = ""
     var nome = ""

@@ -1,12 +1,21 @@
 package org.gestao.viewmodel
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import model.Acessos
 import model.AcessosListDto
 import org.bff.erp.model.Usuario
+import org.gestao.networking.setCadastroAcessos
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
 var usuarioLogado  = MutableStateFlow(Usuario())
+
+var retornoStatusCadastroAcesso = MutableStateFlow(0)
+
+var showDialogRetornoCadastro = MutableStateFlow(false)
 
 var acessosDto = MutableStateFlow(AcessosListDto())
 
@@ -17,5 +26,21 @@ fun validarUsuario(nomeUsuario: String, senhaUsuario: String) {
         usuarioValidado.value = true
     } else {
         falhaAutenticacao.value = true
+    }
+}
+
+fun bindCadastroAcesso() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setCadastroAcessos(convertDtoToAcessosList())
+    }
+}
+
+fun convertDtoToAcessosList(): Acessos {
+    return Acessos().apply {
+        codClass = acessosDto.value.codClass
+        className = acessosDto.value.className
+        senha = acessosDto.value.senha
+        nome = acessosDto.value.nome
+        email = acessosDto.value.email
     }
 }
