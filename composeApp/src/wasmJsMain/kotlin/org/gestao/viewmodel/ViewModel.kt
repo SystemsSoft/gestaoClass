@@ -7,7 +7,10 @@ import kotlinx.coroutines.launch
 import model.Acessos
 import model.AcessosListDto
 import org.bff.erp.model.Usuario
+import org.gestao.model.ClassesList
+import org.gestao.model.ClassesListDto
 import org.gestao.networking.setCadastroAcessos
+import org.gestao.networking.setCadastroClasse
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
@@ -18,6 +21,7 @@ var retornoStatusCadastroAcesso = MutableStateFlow(0)
 var showDialogRetornoCadastro = MutableStateFlow(false)
 
 var acessosDto = MutableStateFlow(AcessosListDto())
+var classDto = MutableStateFlow(ClassesListDto())
 
 
 
@@ -42,5 +46,17 @@ fun convertDtoToAcessosList(): Acessos {
         senha = acessosDto.value.senha
         nome = acessosDto.value.nome
         email = acessosDto.value.email
+    }
+}
+fun convertDtoToClassesList(): ClassesList {
+    return ClassesList().apply {
+        codClass = acessosDto.value.codClass
+        className = acessosDto.value.className
+    }
+}
+
+fun bindCadastroClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setCadastroClasse(convertDtoToClassesList())
     }
 }

@@ -6,8 +6,8 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import org.gestao.view.Acessos.abrirEditar
-import org.gestao.view.Acessos.editarAcessoScreen
+import org.gestao.view.acessos.abrirEditar
+import org.gestao.view.acessos.editarAcessoScreen
 
 
 @Composable

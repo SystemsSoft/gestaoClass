@@ -1,4 +1,4 @@
-package org.gestao.view.Acessos
+package org.gestao.view.acessos
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -14,9 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.backgroundCard
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,12 +38,12 @@ fun openAcessoScreen() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        acessosScreen()
+        classeScreen()
     }
 }
 
 @Composable
-fun acessosScreen() {
+fun classeScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)

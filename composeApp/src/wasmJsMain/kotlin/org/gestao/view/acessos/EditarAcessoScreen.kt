@@ -1,4 +1,4 @@
-package org.gestao.view.Acessos
+package org.gestao.view.acessos
 
 import androidx.compose.runtime.Composable
 

@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.painterResource
 
 val itemMenuSelected = MutableStateFlow(0)
 var acessosScreen  = MutableStateFlow (false)
+var classesScreen  = MutableStateFlow (false)
 
 
 @Composable
@@ -39,7 +40,7 @@ fun setupNavigation() {
             0 -> dashBoardScreen()
             1 -> "Uploads"
             2 -> acessosScreen.value = !acessosScreen.value
-            3 -> "Classes"
+            3 -> classesScreen.value = !classesScreen.value
 
             else -> {}
         }

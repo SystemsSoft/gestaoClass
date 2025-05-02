@@ -1,4 +1,4 @@
-package org.gestao.view.Acessos
+package org.gestao.view.classes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,12 +34,14 @@ import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.bindCadastroAcesso
+import org.gestao.viewmodel.bindCadastroClasse
+import org.gestao.viewmodel.classDto
 import org.gestao.viewmodel.retornoStatusCadastroAcesso
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun cadastroScreen() {
+fun cadastroClasseScreen() {
     val errorMessage by remember { mutableStateOf("") }
 
     Column(
@@ -52,12 +54,12 @@ fun cadastroScreen() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = acessosDto.value.nome,
-                onValueChange = { acessosDto.value.nome = it },
+                value = classDto.value.className,
+                onValueChange = { classDto.value.className = it },
 
                 label = {
                     Text(
-                        "Nome",
+                        "Nome da classe",
                         style = TextStyle(
                             fontSize = fontDefault
                         )
@@ -76,32 +78,11 @@ fun cadastroScreen() {
             )
 
             OutlinedTextField(
-                value = acessosDto.value.senha,
-                onValueChange = { acessosDto.value.senha = it },
+                value = classDto.value.codClass,
+                onValueChange = { classDto.value.codClass = it },
                 label = {
                     Text(
-                        "Senha",
-                        style = TextStyle(fontSize = fontDefault)
-                    )
-                },
-                textStyle = TextStyle(fontSize = fontDefault),
-                modifier = Modifier
-                    .padding(start = 4.dp)
-                    .height(heightField),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = darkBlueColor,
-                    focusedLabelColor = darkBlueColor,
-                    cursorColor = Color.Black,
-                    textColor = Color.Black
-                )
-            )
-
-            OutlinedTextField(
-                value = acessosDto.value.email,
-                onValueChange = { acessosDto.value.email = it },
-                label = {
-                    Text(
-                        "Email",
+                        "Código da classe",
                         style = TextStyle(fontSize = fontDefault)
                     )
                 },
@@ -117,9 +98,10 @@ fun cadastroScreen() {
                 )
             )
         }
+
         Button(
             onClick = {
-                 bindCadastroAcesso()
+                bindCadastroClasse()
             },
             modifier = Modifier
                 .padding(40.dp)
@@ -132,7 +114,7 @@ fun cadastroScreen() {
 }
 
 @Composable
-fun novoCadastroIcon(onClick: () -> Unit){
+fun novoCadastroClasseIcon(onClick: () -> Unit){
     Row(modifier =
         Modifier.padding(8.dp)
     ) {
@@ -156,7 +138,7 @@ fun novoCadastroIcon(onClick: () -> Unit){
 }
 
 @Composable
-fun editarCadastroIcon(onClick: () -> Unit){
+fun editarCadastroClasseIcon(onClick: () -> Unit){
     Row(modifier =
         Modifier.padding(8.dp)
     ) {
@@ -180,7 +162,7 @@ fun editarCadastroIcon(onClick: () -> Unit){
 }
 
 @Composable
-fun excluirCadastroIcon(onClick: () -> Unit){
+fun excluirCadastroClasseIcon(onClick: () -> Unit){
     Row(modifier =
         Modifier.padding(8.dp)
     ) {
