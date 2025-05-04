@@ -50,8 +50,8 @@ fun convertDtoToAcessosList(): Acessos {
 }
 fun convertDtoToClassesList(): ClassesList {
     return ClassesList().apply {
-        codClass = acessosDto.value.codClass
-        className = acessosDto.value.className
+        codClass = classDto.value.codClass
+        className = classDto.value.className
     }
 }
 
