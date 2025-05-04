@@ -49,7 +49,7 @@ fun convertDtoToAcessosList(): Acessos {
     }
 }
 fun convertDtoToClassesList(): ClassesList {
-    return ClassesList().apply {
+    return ClassesList("Administração", "ADM").apply {
         codClass = classDto.value.codClass
         className = classDto.value.className
     }

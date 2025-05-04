@@ -5,8 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.serialization.Serializable
 
-@Serializable
-class ClassesList {
+class ClassesList(string: String, string1: String) {
     var className = ""
     var codClass = ""
 }
