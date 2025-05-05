@@ -1,7 +1,9 @@
 package org.gestao.networking
 
+import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -36,4 +38,24 @@ fun setCadastroAcessos(acessos: Acessos) {
     } catch (e: Exception) {
         println("Error in setCadastroAcessos: ${e.message}")
     }
+}
+
+suspend fun fetchAllAcessos(): MutableList<Acessos> {
+    val allAcessosList = mutableListOf<Acessos>()
+
+    try {
+        val response = window.fetch("$BASE_SERVIDOR/acessos").then {
+                res -> res.text()
+        }
+
+        response.await<JsString>().toString().let { retorno ->
+            val acessos: List<Acessos> = Json.decodeFromString(retorno)
+            allAcessosList.addAll(acessos)
+        }
+
+    } catch (error: Throwable) {
+        println("Fetch error: $error")
+    }
+
+    return allAcessosList
 }

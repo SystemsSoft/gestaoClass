@@ -2,7 +2,6 @@ package org.gestao.view.acessos
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import gestaoclass.composeapp.generated.resources.Res
 import gestaoclass.composeapp.generated.resources.ic_editar
-import gestaoclass.composeapp.generated.resources.ic_excluir
 import gestaoclass.composeapp.generated.resources.ic_novo
 import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
@@ -53,13 +51,11 @@ import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.model.ClassesList
 import org.gestao.networking.fetchAllClasses
 import org.gestao.viewmodel.acessosDto
-import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
 import org.gestao.viewmodel.classSelected
 import org.gestao.viewmodel.retornoStatusCadastroAcesso
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
-import kotlin.collections.addAll
 
 
 @Composable
@@ -70,7 +66,6 @@ fun cadastroScreen() {
 
     val allClasses = remember { mutableStateListOf<ClassesList>() }
     val errorMessage by remember { mutableStateOf("") }
-    var selectedClass by remember { mutableStateOf<ClassesList?>(null) }
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit){
@@ -168,7 +163,11 @@ fun cadastroScreen() {
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = selectedClass?.className ?: "Selecionar classe",
+                text =  if (classSelected.value.className.trim().isEmpty()) {
+                    "Selecionar classe"
+                } else {
+                    classSelected.value.className
+                },
                 style = TextStyle(
                     fontSize = 12.sp
                 ),
@@ -183,10 +182,9 @@ fun cadastroScreen() {
 
         ) {
             allClasses.forEach { item ->
-                println("item: ${item.codClass}")
                 DropdownMenuItem(
                     onClick = {
-                        selectedClass = item
+                        classSelected.value = item
                         expanded = false
                     }
                 ) {

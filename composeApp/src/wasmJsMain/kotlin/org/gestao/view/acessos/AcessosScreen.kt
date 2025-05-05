@@ -13,36 +13,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.backgroundCard
-import kotlinx.coroutines.flow.MutableStateFlow
-import org.gestao.view.menu.acessosScreen
-
-var abrirCadastro = MutableStateFlow(false)
-var abrirEditar = MutableStateFlow(false)
-var showAlert  = MutableStateFlow (false)
+import org.gestao.view.navigation.abrirCadastroAcesso
+import org.gestao.view.navigation.abrirEditarAcesso
+import org.gestao.view.navigation.cadastroAcessoNavigation
+import org.gestao.view.navigation.editarAcessoNavigation
 
 @Composable
-fun openAcessoScreen() {
-    AnimatedVisibility (
-        visible = acessosScreen.collectAsState().value,
-        enter = slideInHorizontally(
-            initialOffsetX = { it },
-            animationSpec = tween(durationMillis = 1000)
-        ),
-        exit = slideOutHorizontally(
-            targetOffsetX = { it },
-            animationSpec = tween(durationMillis = 1000)
-        )
-    ) {
-        classeScreen()
-    }
-}
-
-@Composable
-fun classeScreen() {
+fun acessoScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
@@ -57,10 +37,11 @@ fun classeScreen() {
                     .width(400.dp)
                     .background(backgroundCard, RoundedCornerShape(topEnd = 8.dp, bottomEnd = 50.dp))
             ){
-                novoCadastroIcon(onClick = { abrirCadastro.value = true })
-                editarCadastroIcon(onClick = { abrirEditar.value = true })
+                novoCadastroIcon(onClick = { abrirCadastroAcesso.value = !abrirCadastroAcesso.value })
+                editarCadastroIcon(onClick = { abrirEditarAcesso.value = !abrirEditarAcesso.value })
             }
-            cadastroScreen()
+            cadastroAcessoNavigation()
+            editarAcessoNavigation()
         }
     }
 }

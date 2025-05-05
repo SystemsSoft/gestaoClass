@@ -9,7 +9,7 @@ import model.AcessosListDto
 import org.bff.erp.model.Usuario
 import org.gestao.model.ClassesList
 import org.gestao.model.ClassesListDto
-import org.gestao.networking.fetchAllClasses
+import org.gestao.networking.fetchAllAcessos
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
 
@@ -25,10 +25,13 @@ var acessosDto = MutableStateFlow(AcessosListDto())
 var classDto = MutableStateFlow(ClassesListDto())
 var classSelected = MutableStateFlow(ClassesList())
 
+var allAcessos = MutableStateFlow<MutableList<Acessos>>(mutableListOf())
 
- var allClasses = MutableStateFlow<MutableList<ClassesList>>(mutableListOf())
-
-
+fun getAllAcessos() {
+    CoroutineScope(Dispatchers.Default).launch {
+        allAcessos.value.addAll(fetchAllAcessos())
+    }
+}
 
 fun validarUsuario(nomeUsuario: String, senhaUsuario: String) {
     if(nomeUsuario == "hml" && senhaUsuario == "01") {
@@ -50,11 +53,10 @@ fun bindCadastroClasse() {
     }
 }
 
-
 fun convertDtoToAcessosList(): Acessos {
     return Acessos().apply {
-        codClass = acessosDto.value.codClass
-        className = acessosDto.value.className
+        codClass = classSelected.value.codClass
+        className = classSelected.value.className
         senha = acessosDto.value.senha
         nome = acessosDto.value.nome
         email = acessosDto.value.email

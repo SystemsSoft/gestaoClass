@@ -38,12 +38,12 @@ fun openClasseScreen() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        acessosScreen()
+        classeScreen()
     }
 }
 
 @Composable
-fun acessosScreen() {
+fun classeScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)

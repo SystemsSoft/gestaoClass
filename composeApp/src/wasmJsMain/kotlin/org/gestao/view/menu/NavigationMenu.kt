@@ -18,15 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import gestaoclass.composeapp.generated.resources.Res
-import gestaoclass.composeapp.generated.resources.logo
 import gestaoweb.bbf.com.util.Menu.iconsMenu
 import gestaoweb.bbf.com.util.Menu.menuListNames
 import gestaoweb.bbf.com.util.Theme
-import gestaoweb.bbf.com.util.Theme.colorIconClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.dashBoardScreen
-import org.jetbrains.compose.resources.painterResource
 
 val itemMenuSelected = MutableStateFlow(0)
 var acessosScreen  = MutableStateFlow (false)
@@ -34,7 +30,7 @@ var classesScreen  = MutableStateFlow (false)
 
 
 @Composable
-fun setupNavigation() {
+fun setupNavigationMenu() {
     itemMenuSelected.collectAsState().value.let {
         when (it) {
             0 -> dashBoardScreen()
