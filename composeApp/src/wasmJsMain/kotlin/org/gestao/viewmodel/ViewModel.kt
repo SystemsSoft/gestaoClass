@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import model.Acessos
+import model.AcessosDto
 import model.AcessosListDto
 import org.bff.erp.model.Usuario
 import org.gestao.model.ClassesList
@@ -25,7 +26,7 @@ var acessosDto = MutableStateFlow(AcessosListDto())
 var classDto = MutableStateFlow(ClassesListDto())
 var classSelected = MutableStateFlow(ClassesList())
 
-var allAcessos = MutableStateFlow<MutableList<Acessos>>(mutableListOf())
+var allAcessos = MutableStateFlow<MutableList<AcessosDto>>(mutableListOf())
 
 fun getAllAcessos() {
     CoroutineScope(Dispatchers.Default).launch {
@@ -54,14 +55,15 @@ fun bindCadastroClasse() {
 }
 
 fun convertDtoToAcessosList(): Acessos {
-    return Acessos().apply {
-        codClass = classSelected.value.codClass
-        className = classSelected.value.className
-        senha = acessosDto.value.senha
-        nome = acessosDto.value.nome
-        email = acessosDto.value.email
-    }
+    return Acessos(
+        codClass = classSelected.value.codClass,
+        className = classSelected.value.className,
+        senha = acessosDto.value.senha,
+        nome = acessosDto.value.nome,
+        email = acessosDto.value.email,
+    )
 }
+
 fun convertDtoToClassesList(): ClassesList {
     return ClassesList().apply {
         codClass = classDto.value.codClass

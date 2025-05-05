@@ -8,13 +8,13 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.Acessos
+import model.AcessosDto
 import org.bff.erp.util.BaseApi.BASE_SERVIDOR
 import org.w3c.xhr.XMLHttpRequest
 
 fun setCadastroAcessos(acessos: Acessos) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
-            println("Sending Acessos: $acessos")
 
             XMLHttpRequest().apply {
                 open("POST", "$BASE_SERVIDOR/acessos")
@@ -40,8 +40,8 @@ fun setCadastroAcessos(acessos: Acessos) {
     }
 }
 
-suspend fun fetchAllAcessos(): MutableList<Acessos> {
-    val allAcessosList = mutableListOf<Acessos>()
+suspend fun fetchAllAcessos(): MutableList<AcessosDto> {
+    val allAcessosList = mutableListOf<AcessosDto>()
 
     try {
         val response = window.fetch("$BASE_SERVIDOR/acessos").then {
@@ -49,7 +49,7 @@ suspend fun fetchAllAcessos(): MutableList<Acessos> {
         }
 
         response.await<JsString>().toString().let { retorno ->
-            val acessos: List<Acessos> = Json.decodeFromString(retorno)
+            val acessos: List<AcessosDto> = Json.decodeFromString(retorno)
             allAcessosList.addAll(acessos)
         }
 

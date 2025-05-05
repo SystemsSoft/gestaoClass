@@ -16,13 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import model.Acessos
+import model.AcessosDto
 import org.gestao.viewmodel.allAcessos
 
 @Composable
 fun editarAcessoScreen() {
-    val getAllAcessos = remember { mutableStateListOf<Acessos>() }
-
-    println("editarAcesso: ${getAllAcessos.size}")
+    val getAllAcessos = remember { mutableStateListOf<AcessosDto>() }
 
     LaunchedEffect(Unit) {
         getAllAcessos.addAll(allAcessos.value)
@@ -36,7 +35,7 @@ fun editarAcessoScreen() {
 }
 
 @Composable
-fun AcessoItem(acesso: Acessos) {
+fun AcessoItem(acesso: AcessosDto) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
