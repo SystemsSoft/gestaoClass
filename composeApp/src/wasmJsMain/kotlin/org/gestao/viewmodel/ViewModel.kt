@@ -9,6 +9,7 @@ import model.AcessosListDto
 import org.bff.erp.model.Usuario
 import org.gestao.model.ClassesList
 import org.gestao.model.ClassesListDto
+import org.gestao.networking.fetchAllClasses
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
 
@@ -22,6 +23,10 @@ var showDialogRetornoCadastro = MutableStateFlow(false)
 
 var acessosDto = MutableStateFlow(AcessosListDto())
 var classDto = MutableStateFlow(ClassesListDto())
+var classSelected = MutableStateFlow(ClassesList())
+
+
+ var allClasses = MutableStateFlow<MutableList<ClassesList>>(mutableListOf())
 
 
 
@@ -39,6 +44,13 @@ fun bindCadastroAcesso() {
     }
 }
 
+fun bindCadastroClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setCadastroClasse(convertDtoToClassesList())
+    }
+}
+
+
 fun convertDtoToAcessosList(): Acessos {
     return Acessos().apply {
         codClass = acessosDto.value.codClass
@@ -49,14 +61,9 @@ fun convertDtoToAcessosList(): Acessos {
     }
 }
 fun convertDtoToClassesList(): ClassesList {
-    return ClassesList("Administração", "ADM").apply {
+    return ClassesList().apply {
         codClass = classDto.value.codClass
         className = classDto.value.className
     }
 }
 
-fun bindCadastroClasse() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setCadastroClasse(convertDtoToClassesList())
-    }
-}

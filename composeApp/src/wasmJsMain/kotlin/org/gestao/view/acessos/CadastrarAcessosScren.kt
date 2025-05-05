@@ -2,6 +2,7 @@ package org.gestao.view.acessos
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,15 +22,22 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -43,25 +51,31 @@ import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.model.ClassesList
+import org.gestao.networking.fetchAllClasses
 import org.gestao.viewmodel.acessosDto
+import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
+import org.gestao.viewmodel.classSelected
 import org.gestao.viewmodel.retornoStatusCadastroAcesso
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
+import kotlin.collections.addAll
 
 
 @Composable
 fun cadastroScreen() {
+    val focusRequesterNome = remember { FocusRequester() }
+    val focusRequesterSenha = remember { FocusRequester() }
+    val focusRequesterEmail = remember { FocusRequester() }
+
+    val allClasses = remember { mutableStateListOf<ClassesList>() }
     val errorMessage by remember { mutableStateOf("") }
     var selectedClass by remember { mutableStateOf<ClassesList?>(null) }
     var expanded by remember { mutableStateOf(false) }
 
-    // ✅ MOCK: Lista de Classes simulada
-    val classesMock = listOf(
-        ClassesList("Administração", "ADM"),
-        ClassesList("Financeiro", "FIN"),
-        ClassesList("TI", "TI")
-    )
+    LaunchedEffect(Unit){
+        allClasses.addAll(fetchAllClasses())
+    }
 
     Column(
         Modifier.fillMaxSize()
@@ -77,7 +91,17 @@ fun cadastroScreen() {
                 label = { Text("Nome", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                modifier = Modifier.height(heightField),
+                modifier = Modifier.height(heightField)
+                    .focusRequester(focusRequesterNome)
+                    .onKeyEvent{ keyEvent ->
+                        when (keyEvent.key) {
+                            Key.Tab -> {
+                                focusRequesterSenha.requestFocus()
+                                true
+                            }
+                            else -> false
+                        }
+                    },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = darkBlueColor,
                     focusedLabelColor = darkBlueColor,
@@ -93,7 +117,17 @@ fun cadastroScreen() {
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
                     .padding(start = 4.dp)
-                    .height(heightField),
+                    .height(heightField)
+                    .focusRequester(focusRequesterSenha)
+                    .onKeyEvent{ keyEvent ->
+                        when (keyEvent.key) {
+                            Key.Tab -> {
+                                focusRequesterEmail.requestFocus()
+                                true
+                            }
+                            else -> false
+                        }
+                    },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = darkBlueColor,
                     focusedLabelColor = darkBlueColor,
@@ -109,7 +143,8 @@ fun cadastroScreen() {
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
                     .padding(start = 4.dp)
-                    .height(heightField),
+                    .height(heightField)
+                    .focusRequester(focusRequesterEmail),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = darkBlueColor,
                     focusedLabelColor = darkBlueColor,
@@ -147,7 +182,8 @@ fun cadastroScreen() {
                 .fillMaxWidth()
 
         ) {
-            classesMock.forEach { item ->
+            allClasses.forEach { item ->
+                println("item: ${item.codClass}")
                 DropdownMenuItem(
                     onClick = {
                         selectedClass = item
@@ -229,30 +265,6 @@ fun editarCadastroIcon(onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun excluirCadastroIcon(onClick: () -> Unit) {
-    Row(
-        modifier =
-            Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_excluir),
-                contentDescription = "EXCLUIR",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "EXCLUIR",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}
 
 @Composable
 private fun observarRetornoStatus() {

@@ -1,7 +1,9 @@
 package org.gestao.networking
 
+import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -35,4 +37,24 @@ fun setCadastroClasse(classes: ClassesList) {
     } catch (e: Exception) {
         println("Error in setCadastroClasse: ${e.message}")
     }
+}
+
+suspend fun fetchAllClasses(): MutableList<ClassesList> {
+    val allClassesList = mutableListOf<ClassesList>()
+
+    try {
+        val response = window.fetch("$BASE_SERVIDOR/classes").then {
+                res -> res.text()
+        }
+
+        response.await<JsString>().toString().let { retorno ->
+            val classes: List<ClassesList> = Json.decodeFromString(retorno)
+            allClassesList.addAll(classes)
+        }
+
+    } catch (error: Throwable) {
+        println("Fetch error: $error")
+    }
+
+    return allClassesList
 }

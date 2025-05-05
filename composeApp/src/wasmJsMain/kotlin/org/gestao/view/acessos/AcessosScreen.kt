@@ -22,7 +22,6 @@ import org.gestao.view.menu.acessosScreen
 
 var abrirCadastro = MutableStateFlow(false)
 var abrirEditar = MutableStateFlow(false)
-var abrirExcluir = MutableStateFlow(false)
 var showAlert  = MutableStateFlow (false)
 
 @Composable
@@ -60,7 +59,6 @@ fun classeScreen() {
             ){
                 novoCadastroIcon(onClick = { abrirCadastro.value = true })
                 editarCadastroIcon(onClick = { abrirEditar.value = true })
-                excluirCadastroIcon(onClick = { abrirExcluir.value = !abrirExcluir.value })
             }
             cadastroScreen()
         }
