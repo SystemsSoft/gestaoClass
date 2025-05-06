@@ -52,6 +52,7 @@ import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.allAcessos
 import org.gestao.viewmodel.bindAtualizarAcesso
 import org.gestao.viewmodel.bindCadastroAcesso
+import org.gestao.viewmodel.bindExcluirAcesso
 import org.gestao.viewmodel.classSelected
 
 @Composable
@@ -136,12 +137,13 @@ fun editarAcessoSelecionado() {
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.height(heightField)
                     .focusRequester(focusRequesterNome)
-                    .onKeyEvent{ keyEvent ->
+                    .onKeyEvent { keyEvent ->
                         when (keyEvent.key) {
                             Key.Tab -> {
                                 focusRequesterSenha.requestFocus()
                                 true
                             }
+
                             else -> false
                         }
                     },
@@ -162,12 +164,13 @@ fun editarAcessoSelecionado() {
                     .padding(start = 4.dp)
                     .height(heightField)
                     .focusRequester(focusRequesterSenha)
-                    .onKeyEvent{ keyEvent ->
+                    .onKeyEvent { keyEvent ->
                         when (keyEvent.key) {
                             Key.Tab -> {
                                 focusRequesterEmail.requestFocus()
                                 true
                             }
+
                             else -> false
                         }
                     },
@@ -211,7 +214,7 @@ fun editarAcessoSelecionado() {
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text =  if (acessosDto.value.className.trim().isEmpty()) {
+                text = if (acessosDto.value.className.trim().isEmpty()) {
                     "Selecionar classe"
                 } else {
                     acessosDto.value.className
@@ -249,14 +252,26 @@ fun editarAcessoSelecionado() {
             }
         }
 
-        Button(
-            onClick = { bindAtualizarAcesso() },
-            modifier = Modifier
-                .padding(40.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text(text = "Atualizar acesso", color = Color.Black)
+        Row {
+            Button(
+                onClick = { bindAtualizarAcesso() },
+                modifier = Modifier
+                    .padding(40.dp)
+                    .align(Alignment.CenterVertically),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(text = "Atualizar acesso", color = Color.Black)
+            }
+
+            Button(
+                onClick = { bindExcluirAcesso() },
+                modifier = Modifier
+                    .padding(40.dp)
+                    .align(Alignment.CenterVertically),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(text = "Excluir Acesso", color = Color.Black)
+            }
         }
     }
 }

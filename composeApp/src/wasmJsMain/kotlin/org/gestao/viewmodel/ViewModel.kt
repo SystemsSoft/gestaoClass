@@ -14,6 +14,7 @@ import org.gestao.networking.fetchAllAcessos
 import org.gestao.networking.setAtualizarAcessos
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
+import org.gestao.networking.setExcluirAcessos
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
@@ -51,6 +52,12 @@ fun bindCadastroAcesso() {
 fun bindAtualizarAcesso() {
     CoroutineScope(Dispatchers.Main).launch {
         setAtualizarAcessos(convertDtoToAcessosDto())
+    }
+}
+
+fun bindExcluirAcesso() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setExcluirAcessos(convertDtoToAcessosDto())
     }
 }
 
