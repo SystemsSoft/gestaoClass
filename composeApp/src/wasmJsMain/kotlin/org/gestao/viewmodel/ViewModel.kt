@@ -11,6 +11,7 @@ import org.bff.erp.model.Usuario
 import org.gestao.model.ClassesList
 import org.gestao.model.ClassesListDto
 import org.gestao.networking.fetchAllAcessos
+import org.gestao.networking.setAtualizarAcessos
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
 
@@ -47,6 +48,11 @@ fun bindCadastroAcesso() {
         setCadastroAcessos(convertDtoToAcessosList())
     }
 }
+fun bindAtualizarAcesso() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setAtualizarAcessos(convertDtoToAcessosDto())
+    }
+}
 
 fun bindCadastroClasse() {
     CoroutineScope(Dispatchers.Main).launch {
@@ -58,6 +64,16 @@ fun convertDtoToAcessosList(): Acessos {
     return Acessos(
         codClass = classSelected.value.codClass,
         className = classSelected.value.className,
+        senha = acessosDto.value.senha,
+        nome = acessosDto.value.nome,
+        email = acessosDto.value.email,
+    )
+}
+fun convertDtoToAcessosDto(): AcessosDto {
+    return AcessosDto(
+        id = acessosDto.value.id.toInt(),
+        codClass = acessosDto.value.codClass,
+        className = acessosDto.value.className,
         senha = acessosDto.value.senha,
         nome = acessosDto.value.nome,
         email = acessosDto.value.email,

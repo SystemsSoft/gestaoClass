@@ -20,6 +20,7 @@ import org.gestao.view.navigation.abrirCadastroAcesso
 import org.gestao.view.navigation.abrirEditarAcesso
 import org.gestao.view.navigation.cadastroAcessoNavigation
 import org.gestao.view.navigation.editarAcessoNavigation
+import org.gestao.view.navigation.editarItemAcessoNavigation
 
 @Composable
 fun acessoScreen() {
@@ -42,6 +43,7 @@ fun acessoScreen() {
             }
             cadastroAcessoNavigation()
             editarAcessoNavigation()
+            editarItemAcessoNavigation()
         }
     }
 }

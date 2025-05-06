@@ -26,6 +26,8 @@ data class AcessosDto(
 
 
 class AcessosListDto {
+    var id by mutableStateOf("")
+
     var className by mutableStateOf("")
 
     var codClass by mutableStateOf("")

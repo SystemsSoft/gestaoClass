@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.acessos.acessoScreen
 import org.gestao.view.acessos.cadastroScreen
 import org.gestao.view.acessos.editarAcessoScreen
+import org.gestao.view.acessos.editarAcessoSelecionado
 import org.gestao.view.menu.acessosScreen
 
 
 var abrirCadastroAcesso = MutableStateFlow(false)
 var abrirEditarAcesso = MutableStateFlow(false)
+var abrirEditarItemAcesso = MutableStateFlow(false)
 
 @Composable
 fun acessoNavigation() {
@@ -50,6 +52,7 @@ fun cadastroAcessoNavigation() {
     ) {
         if(abrirCadastroAcesso.value) {
             abrirEditarAcesso.value = false
+            abrirEditarItemAcesso.value = false
         }
         cadastroScreen()
     }
@@ -70,8 +73,31 @@ fun editarAcessoNavigation() {
     ) {
         if(abrirEditarAcesso.value) {
             abrirCadastroAcesso.value = false
+            abrirEditarItemAcesso.value = false
         }
 
         editarAcessoScreen()
+    }
+}
+
+@Composable
+fun editarItemAcessoNavigation() {
+    AnimatedVisibility (
+        visible = abrirEditarItemAcesso.collectAsState().value,
+        enter = slideInHorizontally(
+            initialOffsetX = { it },
+            animationSpec = tween(durationMillis = 1000)
+        ),
+        exit = slideOutHorizontally(
+            targetOffsetX = { it },
+            animationSpec = tween(durationMillis = 1000)
+        )
+    ) {
+        if(abrirEditarItemAcesso.value) {
+            abrirEditarAcesso.value = false
+            abrirCadastroAcesso.value = false
+        }
+
+        editarAcessoSelecionado()
     }
 }
