@@ -56,6 +56,7 @@ import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
 import org.gestao.viewmodel.className
+import org.gestao.viewmodel.clearAcessoDTO
 import org.gestao.viewmodel.codSelected
 import org.gestao.viewmodel.requestStatus
 import org.gestao.viewmodel.showDialogRetornoCadastro
@@ -71,6 +72,7 @@ fun cadastroScreen() {
     val allClassesList = remember { mutableStateListOf<ClassesDto>() }
     val errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
+    clearAcessoDTO()
 
     LaunchedEffect(Unit){
         allClassesList.addAll(allClasses.value)

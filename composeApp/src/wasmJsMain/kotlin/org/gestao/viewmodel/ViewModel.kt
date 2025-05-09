@@ -40,6 +40,19 @@ var allAcessos = MutableStateFlow<MutableList<AcessosDto>>(mutableListOf())
 
 var allClasses = MutableStateFlow<MutableList<ClassesDto>>(mutableListOf())
 
+
+fun clearAcessoDTO() {
+acessosDto.value.codClass = ""
+acessosDto.value.nome = ""
+acessosDto.value.className = ""
+acessosDto.value.senha = ""
+acessosDto.value.email = ""
+}
+
+fun clearClasseDTO() {
+    classDto.value.className = ""
+    classDto.value.codClass = ""
+}
 fun getAllAcessos() {
     CoroutineScope(Dispatchers.Default).launch {
         allAcessos.value.addAll(fetchAllAcessos())

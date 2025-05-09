@@ -34,6 +34,7 @@ import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.view.isLoadingValidate
 import org.gestao.viewmodel.bindCadastroClasse
 import org.gestao.viewmodel.classDto
+import org.gestao.viewmodel.clearClasseDTO
 import org.gestao.viewmodel.requestStatus
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
@@ -41,6 +42,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun cadastroClasseScreen() {
     val errorMessage by remember { mutableStateOf("") }
+    clearClasseDTO()
 
     Column(
         Modifier

@@ -87,6 +87,7 @@ fun navigationRail() {
                 onClick = {
                     if (index == itemMenuSelected.value ){
                         acessosScreen.value = false
+                        classesScreen.value = false
                         itemMenuSelected.value = 0
                     } else {
                        itemMenuSelected.value = index

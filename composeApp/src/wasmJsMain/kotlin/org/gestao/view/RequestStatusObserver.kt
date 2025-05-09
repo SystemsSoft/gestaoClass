@@ -27,11 +27,21 @@ import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.gradientBackground
 import gestaoweb.bbf.com.util.Theme.transparentColor
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.gestao.loadData
 
 import org.gestao.util.RequestResults.ERROR_MSG
 import org.gestao.util.RequestResults.ERROR_TITLE
 import org.gestao.util.RequestResults.SUCCESS_MSG
 import org.gestao.util.RequestResults.SUCCESS_TITLE
+import org.gestao.view.menu.acessosScreen
+import org.gestao.view.menu.classesScreen
+import org.gestao.view.menu.itemMenuSelected
+import org.gestao.view.navigation.abrirEditarAcesso
+import org.gestao.view.navigation.abrirEditarClasse
+import org.gestao.view.navigation.abrirEditarItemAcesso
+import org.gestao.view.navigation.abrirEditarItemClasse
+import org.gestao.viewmodel.clearAcessoDTO
+import org.gestao.viewmodel.clearClasseDTO
 import org.gestao.viewmodel.requestStatus
 
 var showAlert = MutableStateFlow(false)
@@ -45,6 +55,8 @@ fun observeRequestStatus() {
                  isLoading.value = false
                  showAlert.value = true
                  showMensage(SUCCESS_TITLE,SUCCESS_MSG)
+                 restartView()
+                 loadData()
              }
              0 -> isLoading.value = false
              else -> {
@@ -141,4 +153,27 @@ fun isLoadingValidate() {
 
 fun restartRequest() {
     requestStatus.value = 0
+}
+
+fun restartView() {
+    clearAcessoDTO()
+    clearClasseDTO()
+    closeAcessoScreen()
+    closeClasseScreen()
+
+
+    classesScreen.value = false
+    itemMenuSelected.value = 0
+}
+
+fun closeAcessoScreen() {
+    acessosScreen.value = false
+    abrirEditarAcesso.value = false
+    abrirEditarItemAcesso.value = false
+}
+
+fun closeClasseScreen() {
+    classesScreen.value = false
+    abrirEditarClasse.value = false
+    abrirEditarItemClasse.value = false
 }

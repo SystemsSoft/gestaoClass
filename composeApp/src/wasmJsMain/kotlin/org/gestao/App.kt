@@ -10,6 +10,8 @@ import org.gestao.view.menu.setupNavigationMenu
 import org.gestao.view.navigation.acessoNavigation
 import org.gestao.view.navigation.classeNavigation
 import org.gestao.view.observeRequestStatus
+import org.gestao.viewmodel.allAcessos
+import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.getAllAcessos
 import org.gestao.viewmodel.getAllClasses
 import org.gestao.viewmodel.usuarioValidado
@@ -36,6 +38,8 @@ fun setupNavigation() {
 }
 
 fun loadData() {
+    allAcessos.value.clear()
+    allClasses.value.clear()
     getAllAcessos()
     getAllClasses()
 }
