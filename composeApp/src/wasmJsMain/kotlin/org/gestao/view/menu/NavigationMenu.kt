@@ -50,7 +50,7 @@ fun navigationRail() {
     NavigationRail(
         modifier = Modifier
             .padding(top = 140.dp)
-            .width(180.dp),
+            .width(150.dp),
         backgroundColor = Theme.transparentColor,
         elevation = 0.dp
     ) {

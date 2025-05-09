@@ -30,6 +30,9 @@ fun acessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
+        if(acessosScreen.value) {
+            closeClasseScreen()
+        }
         abrirCadastroAcesso.value = false
         abrirEditarAcesso.value = false
         acessoScreen()

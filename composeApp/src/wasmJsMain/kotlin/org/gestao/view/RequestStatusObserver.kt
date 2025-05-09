@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import gestaoweb.bbf.com.util.Theme.gradientBackground
 import gestaoweb.bbf.com.util.Theme.transparentColor
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.loadData
@@ -40,6 +39,8 @@ import org.gestao.view.navigation.abrirEditarAcesso
 import org.gestao.view.navigation.abrirEditarClasse
 import org.gestao.view.navigation.abrirEditarItemAcesso
 import org.gestao.view.navigation.abrirEditarItemClasse
+import org.gestao.view.navigation.closeAcessoScreen
+import org.gestao.view.navigation.closeClasseScreen
 import org.gestao.viewmodel.clearAcessoDTO
 import org.gestao.viewmodel.clearClasseDTO
 import org.gestao.viewmodel.requestStatus
@@ -161,19 +162,7 @@ fun restartView() {
     closeAcessoScreen()
     closeClasseScreen()
 
-
     classesScreen.value = false
     itemMenuSelected.value = 0
 }
 
-fun closeAcessoScreen() {
-    acessosScreen.value = false
-    abrirEditarAcesso.value = false
-    abrirEditarItemAcesso.value = false
-}
-
-fun closeClasseScreen() {
-    classesScreen.value = false
-    abrirEditarClasse.value = false
-    abrirEditarItemClasse.value = false
-}

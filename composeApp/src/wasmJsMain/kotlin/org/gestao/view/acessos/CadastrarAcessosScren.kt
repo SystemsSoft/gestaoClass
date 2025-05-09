@@ -70,7 +70,6 @@ fun cadastroScreen() {
     val focusRequesterEmail = remember { FocusRequester() }
 
     val allClassesList = remember { mutableStateListOf<ClassesDto>() }
-    val errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     clearAcessoDTO()
 

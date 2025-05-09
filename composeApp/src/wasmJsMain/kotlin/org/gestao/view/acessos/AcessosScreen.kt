@@ -24,8 +24,8 @@ fun acessoScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(800.dp)
-            .padding(start = 200.dp,top = 30.dp,end = 40.dp, bottom = 40.dp)
+            .height(600.dp)
+            .padding(start = 150.dp,top = 50.dp,end = 50.dp, bottom = 50.dp)
     ) {
         Column(
             modifier = Modifier.background(backgroundCard)

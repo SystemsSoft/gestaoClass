@@ -33,6 +33,9 @@ fun classeNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
+        if (classesScreen.value){
+           closeAcessoScreen()
+        }
         abrirCadastroClasse.value = false
         abrirEditarClasse.value = false
         classeScreen()
