@@ -24,7 +24,7 @@ var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
 var usuarioLogado  = MutableStateFlow(Usuario())
 
-var retornoStatusCadastroAcesso = MutableStateFlow(0)
+var requestStatus = MutableStateFlow(0)
 
 var showDialogRetornoCadastro = MutableStateFlow(false)
 

@@ -26,17 +26,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import gestaoclass.composeapp.generated.resources.Res
 import gestaoclass.composeapp.generated.resources.ic_editar
-import gestaoclass.composeapp.generated.resources.ic_excluir
 import gestaoclass.composeapp.generated.resources.ic_novo
 import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import org.gestao.viewmodel.acessosDto
-import org.gestao.viewmodel.bindCadastroAcesso
 import org.gestao.viewmodel.bindCadastroClasse
 import org.gestao.viewmodel.classDto
-import org.gestao.viewmodel.retornoStatusCadastroAcesso
+import org.gestao.viewmodel.requestStatus
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
 
@@ -163,7 +160,7 @@ fun editarCadastroClasseIcon(onClick: () -> Unit){
 
 @Composable
 private fun observarRetornoStatus() {
-    when(retornoStatusCadastroAcesso.collectAsState().value){
+    when(requestStatus.collectAsState().value){
         200 -> showDialogRetornoCadastro.value = true
         400 -> showDialogRetornoCadastro.value = true
     }

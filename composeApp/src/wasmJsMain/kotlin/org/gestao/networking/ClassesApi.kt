@@ -20,7 +20,7 @@ fun setCadastroClasse(classes: ClassesList) {
                 open("POST", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
 
                     } else {
@@ -68,7 +68,7 @@ fun setAtualizarClasses(convertDtoToClasseDto: ClassesDto) {
                 open("PUT", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
                         // handle success...
                     } else {
@@ -95,7 +95,7 @@ fun setExcluirClasses(convertDtoToClasseDto: ClassesDto) {
                 open("DELETE", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
                         // handle success...
                     } else {

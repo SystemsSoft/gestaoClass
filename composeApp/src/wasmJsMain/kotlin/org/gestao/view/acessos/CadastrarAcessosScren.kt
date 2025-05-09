@@ -54,7 +54,7 @@ import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
 import org.gestao.viewmodel.className
 import org.gestao.viewmodel.codSelected
-import org.gestao.viewmodel.retornoStatusCadastroAcesso
+import org.gestao.viewmodel.requestStatus
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
 
@@ -266,7 +266,7 @@ fun editarCadastroIcon(onClick: () -> Unit) {
 
 @Composable
 private fun observarRetornoStatus() {
-    when (retornoStatusCadastroAcesso.collectAsState().value) {
+    when (requestStatus.collectAsState().value) {
         200 -> showDialogRetornoCadastro.value = true
         400 -> showDialogRetornoCadastro.value = true
     }

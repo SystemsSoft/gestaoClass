@@ -21,7 +21,7 @@ fun setCadastroAcessos(acessos: Acessos) {
                 open("POST", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
                         // handle success...
                     } else {
@@ -49,7 +49,7 @@ fun setAtualizarAcessos(acessos: AcessosDto) {
                 open("PUT", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
                         // handle success...
                     } else {
@@ -77,7 +77,7 @@ fun setExcluirAcessos(acessos: AcessosDto) {
                 open("DELETE", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
-                    if (status.toInt() == 201) {
+                    if (status.toInt() == 200) {
                         println("Success: $responseText")
                         // handle success...
                     } else {
