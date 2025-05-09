@@ -49,6 +49,9 @@ import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.model.ClassesDto
+import org.gestao.view.AnimatedLoadingIndicator
+import org.gestao.view.isLoading
+import org.gestao.view.isLoadingValidate
 import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
@@ -201,6 +204,8 @@ fun cadastroScreen() {
                 }
             }
         }
+
+        isLoadingValidate()
 
         Button(
             onClick = { bindCadastroAcesso() },

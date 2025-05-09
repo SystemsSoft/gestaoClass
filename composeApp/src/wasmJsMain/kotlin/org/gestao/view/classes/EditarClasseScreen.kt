@@ -32,6 +32,7 @@ import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.model.ClassesDto
+import org.gestao.view.isLoadingValidate
 import org.gestao.view.navigation.abrirEditarItemClasse
 import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindAtualizarClasse
@@ -168,5 +169,6 @@ fun editarClasseSelecionado() {
                 Text(text = "Excluir Acesso", color = Color.Black)
             }
         }
+        isLoadingValidate()
     }
 }

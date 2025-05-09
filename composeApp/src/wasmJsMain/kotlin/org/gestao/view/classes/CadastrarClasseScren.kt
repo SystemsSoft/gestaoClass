@@ -31,6 +31,7 @@ import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
+import org.gestao.view.isLoadingValidate
 import org.gestao.viewmodel.bindCadastroClasse
 import org.gestao.viewmodel.classDto
 import org.gestao.viewmodel.requestStatus
@@ -107,6 +108,7 @@ fun cadastroClasseScreen() {
         ) {
             Text(text = "Cadastrar", color = Color.Black)
         }
+        isLoadingValidate()
     }
 }
 

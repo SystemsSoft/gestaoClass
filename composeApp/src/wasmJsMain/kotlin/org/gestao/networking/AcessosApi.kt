@@ -9,8 +9,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.Acessos
 import model.AcessosDto
-import model.AcessosListDto
 import org.bff.erp.util.BaseApi.BASE_SERVIDOR
+import org.gestao.viewmodel.requestStatus
 import org.w3c.xhr.XMLHttpRequest
 
 fun setCadastroAcessos(acessos: Acessos) {
@@ -20,18 +20,9 @@ fun setCadastroAcessos(acessos: Acessos) {
             XMLHttpRequest().apply {
                 open("POST", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
-                        // handle success...
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onload = { requestStatus.value = status.toInt() }
 
+                onerror = { requestStatus.value = status.toInt() }
 
                 send(Json.encodeToString(acessos))
             }
@@ -48,17 +39,9 @@ fun setAtualizarAcessos(acessos: AcessosDto) {
             XMLHttpRequest().apply {
                 open("PUT", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
-                        // handle success...
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onload = { requestStatus.value = status.toInt() }
+
+                onerror = { requestStatus.value = status.toInt() }
 
 
                 send(Json.encodeToString(acessos))
@@ -76,17 +59,9 @@ fun setExcluirAcessos(acessos: AcessosDto) {
             XMLHttpRequest().apply {
                 open("DELETE", "$BASE_SERVIDOR/acessos")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
-                        // handle success...
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onload = { requestStatus.value = status.toInt() }
+
+                onerror = { requestStatus.value = status.toInt() }
 
                 send(Json.encodeToString(acessos))
             }

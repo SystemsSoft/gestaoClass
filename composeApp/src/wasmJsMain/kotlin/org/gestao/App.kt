@@ -2,12 +2,14 @@ package org.gestao
 
 import androidx.compose.runtime.*
 import gestaoweb.bbf.com.util.Theme
+import org.gestao.view.AnimatedLoadingIndicator
 import org.gestao.view.fieldLogOut
 import org.gestao.view.loginScreen
 import org.gestao.view.menu.navigationRail
 import org.gestao.view.menu.setupNavigationMenu
 import org.gestao.view.navigation.acessoNavigation
 import org.gestao.view.navigation.classeNavigation
+import org.gestao.view.observeRequestStatus
 import org.gestao.viewmodel.getAllAcessos
 import org.gestao.viewmodel.getAllClasses
 import org.gestao.viewmodel.usuarioValidado
@@ -17,6 +19,7 @@ fun App() {
     Theme.MyAppTheme {
         if (!usuarioValidado.collectAsState().value) {
             loadData()
+            observeRequestStatus()
             setupNavigation()
             setupNavigationMenu()
             navigationRail()

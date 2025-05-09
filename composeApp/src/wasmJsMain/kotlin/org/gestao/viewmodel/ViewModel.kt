@@ -19,6 +19,7 @@ import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
 import org.gestao.networking.setExcluirAcessos
 import org.gestao.networking.setExcluirClasses
+import org.gestao.view.isLoading
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
@@ -62,35 +63,41 @@ fun validarUsuario(nomeUsuario: String, senhaUsuario: String) {
 fun bindCadastroAcesso() {
     CoroutineScope(Dispatchers.Main).launch {
         setCadastroAcessos(convertDtoToAcessosList())
-    }
-}
-fun bindAtualizarAcesso() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setAtualizarAcessos(convertDtoToAcessosDto())
-    }
-}
-
-fun bindAtualizarClasse() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setAtualizarClasses(convertDtoToClasseDto())
-    }
-}
-
-fun bindExcluirAcesso() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setExcluirAcessos(convertDtoToAcessosDto())
-    }
-}
-
-fun bindExcluirClasse() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setExcluirClasses(convertDtoToClasseDto())
+        isLoading.value = true
     }
 }
 
 fun bindCadastroClasse() {
     CoroutineScope(Dispatchers.Main).launch {
         setCadastroClasse(convertDtoToClassesList())
+        isLoading.value = true
+    }
+}
+fun bindAtualizarAcesso() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setAtualizarAcessos(convertDtoToAcessosDto())
+        isLoading.value = true
+    }
+}
+
+fun bindAtualizarClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setAtualizarClasses(convertDtoToClasseDto())
+        isLoading.value = true
+    }
+}
+
+fun bindExcluirAcesso() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setExcluirAcessos(convertDtoToAcessosDto())
+        isLoading.value = true
+    }
+}
+
+fun bindExcluirClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setExcluirClasses(convertDtoToClasseDto())
+        isLoading.value = true
     }
 }
 
@@ -103,6 +110,7 @@ fun convertDtoToAcessosList(): Acessos {
         email = acessosDto.value.email,
     )
 }
+
 fun convertDtoToAcessosDto(): AcessosDto {
     return AcessosDto(
         id = acessosDto.value.id.toInt(),
@@ -120,7 +128,6 @@ fun convertDtoToClasseDto(): ClassesDto {
         className = classDto.value.className,
     )
 }
-
 fun convertDtoToClassesList(): ClassesList {
     return ClassesList().apply {
         codClass = classDto.value.codClass

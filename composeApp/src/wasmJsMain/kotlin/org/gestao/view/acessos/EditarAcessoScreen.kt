@@ -47,6 +47,7 @@ import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import model.AcessosDto
 import org.gestao.model.ClassesDto
+import org.gestao.view.isLoadingValidate
 import org.gestao.view.navigation.abrirEditarItemAcesso
 import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.allAcessos
@@ -277,5 +278,6 @@ fun editarAcessoSelecionado() {
                 Text(text = "Excluir Acesso", color = Color.Black)
             }
         }
+        isLoadingValidate()
     }
 }

@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import org.bff.erp.util.BaseApi.BASE_SERVIDOR
 import org.gestao.model.ClassesDto
 import org.gestao.model.ClassesList
+import org.gestao.viewmodel.requestStatus
 import org.w3c.xhr.XMLHttpRequest
 
 fun setCadastroClasse(classes: ClassesList) {
@@ -19,17 +20,9 @@ fun setCadastroClasse(classes: ClassesList) {
             XMLHttpRequest().apply {
                 open("POST", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
+                onload = { requestStatus.value = status.toInt() }
 
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onerror = { requestStatus.value = status.toInt() }
 
 
                 send(Json.encodeToString(classes))
@@ -67,17 +60,9 @@ fun setAtualizarClasses(convertDtoToClasseDto: ClassesDto) {
             XMLHttpRequest().apply {
                 open("PUT", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
-                        // handle success...
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onload = { requestStatus.value = status.toInt() }
+
+                onerror = { requestStatus.value = status.toInt() }
 
                 send(Json.encodeToString(convertDtoToClasseDto))
             }
@@ -94,17 +79,9 @@ fun setExcluirClasses(convertDtoToClasseDto: ClassesDto) {
             XMLHttpRequest().apply {
                 open("DELETE", "$BASE_SERVIDOR/classes")
                 setRequestHeader("Content-Type", "application/json")
-                onload = {
-                    if (status.toInt() == 200) {
-                        println("Success: $responseText")
-                        // handle success...
-                    } else {
-                        println("Error: $status $statusText")
-                    }
-                }
-                onerror = {
-                    println("Error in request: $status $statusText")
-                }
+                onload = { requestStatus.value = status.toInt() }
+
+                onerror = { requestStatus.value = status.toInt() }
 
                 send(Json.encodeToString(convertDtoToClasseDto))
             }
