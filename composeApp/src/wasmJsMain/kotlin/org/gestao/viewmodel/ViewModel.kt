@@ -8,13 +8,17 @@ import model.Acessos
 import model.AcessosDto
 import model.AcessosListDto
 import org.bff.erp.model.Usuario
+import org.gestao.model.ClassesDto
 import org.gestao.model.ClassesList
 import org.gestao.model.ClassesListDto
 import org.gestao.networking.fetchAllAcessos
+import org.gestao.networking.fetchAllClasses
 import org.gestao.networking.setAtualizarAcessos
+import org.gestao.networking.setAtualizarClasses
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
 import org.gestao.networking.setExcluirAcessos
+import org.gestao.networking.setExcluirClasses
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
@@ -26,13 +30,24 @@ var showDialogRetornoCadastro = MutableStateFlow(false)
 
 var acessosDto = MutableStateFlow(AcessosListDto())
 var classDto = MutableStateFlow(ClassesListDto())
-var classSelected = MutableStateFlow(ClassesList())
+
+val codSelected = MutableStateFlow("")
+
+val className = MutableStateFlow("")
 
 var allAcessos = MutableStateFlow<MutableList<AcessosDto>>(mutableListOf())
+
+var allClasses = MutableStateFlow<MutableList<ClassesDto>>(mutableListOf())
 
 fun getAllAcessos() {
     CoroutineScope(Dispatchers.Default).launch {
         allAcessos.value.addAll(fetchAllAcessos())
+    }
+}
+
+fun getAllClasses() {
+    CoroutineScope(Dispatchers.Default).launch {
+        allClasses.value.addAll(fetchAllClasses())
     }
 }
 
@@ -55,9 +70,21 @@ fun bindAtualizarAcesso() {
     }
 }
 
+fun bindAtualizarClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setAtualizarClasses(convertDtoToClasseDto())
+    }
+}
+
 fun bindExcluirAcesso() {
     CoroutineScope(Dispatchers.Main).launch {
         setExcluirAcessos(convertDtoToAcessosDto())
+    }
+}
+
+fun bindExcluirClasse() {
+    CoroutineScope(Dispatchers.Main).launch {
+        setExcluirClasses(convertDtoToClasseDto())
     }
 }
 
@@ -69,8 +96,8 @@ fun bindCadastroClasse() {
 
 fun convertDtoToAcessosList(): Acessos {
     return Acessos(
-        codClass = classSelected.value.codClass,
-        className = classSelected.value.className,
+        codClass = codSelected.value,
+        className = className.value,
         senha = acessosDto.value.senha,
         nome = acessosDto.value.nome,
         email = acessosDto.value.email,
@@ -84,6 +111,13 @@ fun convertDtoToAcessosDto(): AcessosDto {
         senha = acessosDto.value.senha,
         nome = acessosDto.value.nome,
         email = acessosDto.value.email,
+    )
+}
+fun convertDtoToClasseDto(): ClassesDto {
+    return ClassesDto(
+        id = classDto.value.id.toInt(),
+        codClass = classDto.value.codClass,
+        className = classDto.value.className,
     )
 }
 

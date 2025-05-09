@@ -46,15 +46,13 @@ import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import model.AcessosDto
-import org.gestao.model.ClassesList
-import org.gestao.networking.fetchAllClasses
+import org.gestao.model.ClassesDto
 import org.gestao.view.navigation.abrirEditarItemAcesso
 import org.gestao.viewmodel.acessosDto
 import org.gestao.viewmodel.allAcessos
+import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindAtualizarAcesso
-import org.gestao.viewmodel.bindCadastroAcesso
 import org.gestao.viewmodel.bindExcluirAcesso
-import org.gestao.viewmodel.classSelected
 
 @Composable
 fun editarAcessoScreen() {
@@ -114,12 +112,12 @@ fun editarAcessoSelecionado() {
     val focusRequesterSenha = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
 
-    val allClasses = remember { mutableStateListOf<ClassesList>() }
+    val allClassesList = remember { mutableStateListOf<ClassesDto>() }
     val errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit){
-        allClasses.addAll(fetchAllClasses())
+        allClassesList.addAll(allClasses.value)
     }
 
     Column(
@@ -233,7 +231,7 @@ fun editarAcessoSelecionado() {
                 .fillMaxWidth()
 
         ) {
-            allClasses.forEach { item ->
+            allClassesList.forEach { item ->
                 DropdownMenuItem(
                     onClick = {
                         acessosDto.value.className = item.className

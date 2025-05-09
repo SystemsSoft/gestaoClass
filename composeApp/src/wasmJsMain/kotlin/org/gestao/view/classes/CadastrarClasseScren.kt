@@ -114,7 +114,7 @@ fun cadastroClasseScreen() {
 }
 
 @Composable
-fun novoCadastroClasseIcon(onClick: () -> Unit){
+fun novoCadastroClasseIcon(onClick: () -> Unit) {
     Row(modifier =
         Modifier.padding(8.dp)
     ) {
@@ -152,30 +152,6 @@ fun editarCadastroClasseIcon(onClick: () -> Unit){
 
         Text(
             text = "EDITAR",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}
-
-@Composable
-fun excluirCadastroClasseIcon(onClick: () -> Unit){
-    Row(modifier =
-        Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_excluir),
-                contentDescription = "EXCLUIR",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "EXCLUIR",
             color = Color.Black,
             modifier = Modifier.padding(
                 top = 20.dp

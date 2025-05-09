@@ -48,11 +48,12 @@ import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import org.gestao.model.ClassesList
-import org.gestao.networking.fetchAllClasses
+import org.gestao.model.ClassesDto
 import org.gestao.viewmodel.acessosDto
+import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindCadastroAcesso
-import org.gestao.viewmodel.classSelected
+import org.gestao.viewmodel.className
+import org.gestao.viewmodel.codSelected
 import org.gestao.viewmodel.retornoStatusCadastroAcesso
 import org.gestao.viewmodel.showDialogRetornoCadastro
 import org.jetbrains.compose.resources.painterResource
@@ -64,12 +65,12 @@ fun cadastroScreen() {
     val focusRequesterSenha = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
 
-    val allClasses = remember { mutableStateListOf<ClassesList>() }
+    val allClassesList = remember { mutableStateListOf<ClassesDto>() }
     val errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit){
-        allClasses.addAll(fetchAllClasses())
+        allClassesList.addAll(allClasses.value)
     }
 
     Column(
@@ -163,10 +164,10 @@ fun cadastroScreen() {
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text =  if (classSelected.value.className.trim().isEmpty()) {
+                text =  if (className.value.trim().isEmpty()) {
                     "Selecionar classe"
                 } else {
-                    classSelected.value.className
+                    className.value
                 },
                 style = TextStyle(
                     fontSize = 12.sp
@@ -181,10 +182,11 @@ fun cadastroScreen() {
                 .fillMaxWidth()
 
         ) {
-            allClasses.forEach { item ->
+            allClassesList.forEach { item ->
                 DropdownMenuItem(
                     onClick = {
-                        classSelected.value = item
+                        className.value = item.className
+                        codSelected.value = item.codClass
                         expanded = false
                     }
                 ) {
@@ -211,7 +213,6 @@ fun cadastroScreen() {
         }
     }
 }
-
 
 @Composable
 fun novoCadastroIcon(onClick: () -> Unit) {
@@ -262,7 +263,6 @@ fun editarCadastroIcon(onClick: () -> Unit) {
         )
     }
 }
-
 
 @Composable
 private fun observarRetornoStatus() {
