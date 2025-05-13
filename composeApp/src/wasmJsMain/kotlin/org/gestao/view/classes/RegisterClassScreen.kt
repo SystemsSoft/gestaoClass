@@ -8,13 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,23 +21,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import gestaoclass.composeapp.generated.resources.Res
-import gestaoclass.composeapp.generated.resources.ic_editar
-import gestaoclass.composeapp.generated.resources.ic_novo
-import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import org.gestao.view.isLoadingValidate
-import org.gestao.viewmodel.bindCadastroClasse
-import org.gestao.viewmodel.classDto
-import org.gestao.viewmodel.clearClasseDTO
-import org.gestao.viewmodel.requestStatus
-import org.gestao.viewmodel.showDialogRetornoCadastro
-import org.jetbrains.compose.resources.painterResource
+import org.gestao.viewmodel.bindClassRegistration
+import org.gestao.viewmodel.classListDto
 
 @Composable
-fun cadastroClasseScreen() {
+fun classRegistrationScreen() {
     val errorMessage by remember { mutableStateOf("") }
 
     Column(
@@ -53,8 +42,8 @@ fun cadastroClasseScreen() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = classDto.value.className,
-                onValueChange = { classDto.value.className = it },
+                value = classListDto.value.className,
+                onValueChange = { classListDto.value.className = it },
 
                 label = {
                     Text(
@@ -77,8 +66,8 @@ fun cadastroClasseScreen() {
             )
 
             OutlinedTextField(
-                value = classDto.value.codClass,
-                onValueChange = { classDto.value.codClass = it },
+                value = classListDto.value.classCode,
+                onValueChange = { classListDto.value.classCode = it },
                 label = {
                     Text(
                         "Código da classe",
@@ -100,7 +89,7 @@ fun cadastroClasseScreen() {
 
         Button(
             onClick = {
-                bindCadastroClasse()
+                bindClassRegistration()
             },
             modifier = Modifier
                 .padding(40.dp)
@@ -113,58 +102,3 @@ fun cadastroClasseScreen() {
     }
 }
 
-@Composable
-fun novoCadastroClasseIcon(onClick: () -> Unit) {
-    Row(modifier =
-        Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_novo),
-                contentDescription = "NOVO",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "NOVO",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}
-
-@Composable
-fun editarCadastroClasseIcon(onClick: () -> Unit){
-    Row(modifier =
-        Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_editar),
-                contentDescription = "EDITAR",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "EDITAR",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}
-
-@Composable
-private fun observarRetornoStatus() {
-    when(requestStatus.collectAsState().value){
-        200 -> showDialogRetornoCadastro.value = true
-        400 -> showDialogRetornoCadastro.value = true
-    }
-}

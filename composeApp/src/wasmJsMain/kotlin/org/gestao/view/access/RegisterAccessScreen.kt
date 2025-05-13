@@ -1,4 +1,4 @@
-package org.gestao.view.acessos
+package org.gestao.view.access
 
 
 import androidx.compose.foundation.layout.Column
@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -29,29 +27,24 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import gestaoclass.composeapp.generated.resources.Res
-import gestaoclass.composeapp.generated.resources.ic_editar
-import gestaoclass.composeapp.generated.resources.ic_novo
-import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import org.gestao.model.ClassesDto
+import org.gestao.model.ClassDto
 import org.gestao.view.classSelector
 import org.gestao.view.isLoadingValidate
-import org.gestao.viewmodel.acessosDto
+import org.gestao.viewmodel.accessListDto
 import org.gestao.viewmodel.allClasses
-import org.gestao.viewmodel.bindCadastroAcesso
-import org.jetbrains.compose.resources.painterResource
+import org.gestao.viewmodel.bindAccessRegistration
 
 
 @Composable
-fun cadastroScreen() {
+fun registrationScreen() {
     val focusRequesterNome = remember { FocusRequester() }
     val focusRequesterSenha = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
 
-    val allClassesList = remember { mutableStateListOf<ClassesDto>() }
+    val allClassesList = remember { mutableStateListOf<ClassDto>() }
 
     LaunchedEffect(Unit){
         allClassesList.addAll(allClasses.value)
@@ -66,8 +59,8 @@ fun cadastroScreen() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = acessosDto.value.nome,
-                onValueChange = { acessosDto.value.nome = it },
+                value = accessListDto.value.name,
+                onValueChange = { accessListDto.value.name = it },
                 label = { Text("Nome", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
@@ -91,8 +84,8 @@ fun cadastroScreen() {
             )
 
             OutlinedTextField(
-                value = acessosDto.value.senha,
-                onValueChange = { acessosDto.value.senha = it },
+                value = accessListDto.value.password,
+                onValueChange = { accessListDto.value.password = it },
                 label = { Text("Senha", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
@@ -117,8 +110,8 @@ fun cadastroScreen() {
             )
 
             OutlinedTextField(
-                value = acessosDto.value.email,
-                onValueChange = { acessosDto.value.email = it },
+                value = accessListDto.value.email,
+                onValueChange = { accessListDto.value.email = it },
                 label = { Text("Email", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
@@ -137,7 +130,7 @@ fun cadastroScreen() {
         isLoadingValidate()
 
         Button(
-            onClick = { bindCadastroAcesso() },
+            onClick = { bindAccessRegistration() },
             modifier = Modifier
                 .padding(40.dp)
                 .align(Alignment.CenterHorizontally),
@@ -148,52 +141,3 @@ fun cadastroScreen() {
     }
 }
 
-@Composable
-fun novoCadastroIcon(onClick: () -> Unit) {
-    Row(
-        modifier =
-            Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_novo),
-                contentDescription = "NOVO",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "NOVO",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}
-
-@Composable
-fun editarCadastroIcon(onClick: () -> Unit) {
-    Row(
-        modifier =
-            Modifier.padding(8.dp)
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                painterResource(Res.drawable.ic_editar),
-                contentDescription = "EDITAR",
-                tint = colorIconClient,
-            )
-        }
-
-        Text(
-            text = "EDITAR",
-            color = Color.Black,
-            modifier = Modifier.padding(
-                top = 20.dp
-            ),
-            style = TextStyle(fontSize = fontDefault)
-        )
-    }
-}

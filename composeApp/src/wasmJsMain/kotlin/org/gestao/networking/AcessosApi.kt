@@ -7,86 +7,86 @@ import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import model.Acessos
-import model.AcessosDto
-import org.bff.erp.util.BaseApi.BASE_SERVIDOR
+import model.Access
+import model.AccessDto
+import org.gestao.util.BaseApi.BASE_SERVER
 import org.gestao.viewmodel.requestStatus
 import org.w3c.xhr.XMLHttpRequest
 
-fun setCadastroAcessos(acessos: Acessos) {
+fun registerAccess(access: Access) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("POST", "$BASE_SERVIDOR/acessos")
+                open("POST", "$BASE_SERVER/accesses")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
                 onerror = { requestStatus.value = status.toInt() }
 
-                send(Json.encodeToString(acessos))
+                send(Json.encodeToString(access))
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroAcessos: ${e.message}")
+        println("Error in registerAccess: ${e.message}")
     }
 }
 
-fun setAtualizarAcessos(acessos: AcessosDto) {
+fun updateAccess(access: AccessDto) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("PUT", "$BASE_SERVIDOR/acessos")
+                open("PUT", "$BASE_SERVER/accesses")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
                 onerror = { requestStatus.value = status.toInt() }
 
 
-                send(Json.encodeToString(acessos))
+                send(Json.encodeToString(access))
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroAcessos: ${e.message}")
+        println("Error in updateAccess: ${e.message}")
     }
 }
 
-fun setExcluirAcessos(acessos: AcessosDto) {
+fun deleteAccess(access: AccessDto) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("DELETE", "$BASE_SERVIDOR/acessos")
+                open("DELETE", "$BASE_SERVER/accesses")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
                 onerror = { requestStatus.value = status.toInt() }
 
-                send(Json.encodeToString(acessos))
+                send(Json.encodeToString(access))
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroAcessos: ${e.message}")
+        println("Error in deleteAccess: ${e.message}")
     }
 }
 
-suspend fun fetchAllAcessos(): MutableList<AcessosDto> {
-    val allAcessosList = mutableListOf<AcessosDto>()
+suspend fun fetchAllAccesses(): MutableList<AccessDto> {
+    val allAccessList = mutableListOf<AccessDto>()
 
     try {
-        val response = window.fetch("$BASE_SERVIDOR/acessos").then {
+        val response = window.fetch("$BASE_SERVER/accesses").then {
                 res -> res.text()
         }
 
         response.await<JsString>().toString().let { retorno ->
-            val acessos: List<AcessosDto> = Json.decodeFromString(retorno)
-            allAcessosList.addAll(acessos)
+            val accesses: List<AccessDto> = Json.decodeFromString(retorno)
+            allAccessList.addAll(accesses)
         }
 
     } catch (error: Throwable) {
         println("Fetch error: $error")
     }
 
-    return allAcessosList
+    return allAccessList
 }

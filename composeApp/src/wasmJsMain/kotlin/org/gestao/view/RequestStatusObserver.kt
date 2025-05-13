@@ -32,18 +32,13 @@ import org.gestao.util.RequestResults.ERROR_MSG
 import org.gestao.util.RequestResults.ERROR_TITLE
 import org.gestao.util.RequestResults.SUCCESS_MSG
 import org.gestao.util.RequestResults.SUCCESS_TITLE
-import org.gestao.view.menu.acessosScreen
 import org.gestao.view.menu.classesScreen
-import org.gestao.view.menu.itemMenuSelected
-import org.gestao.view.navigation.abrirEditarAcesso
-import org.gestao.view.navigation.abrirEditarClasse
-import org.gestao.view.navigation.abrirEditarItemAcesso
-import org.gestao.view.navigation.abrirEditarItemClasse
-import org.gestao.view.navigation.closeAcessoScreen
-import org.gestao.view.navigation.closeClasseScreen
-import org.gestao.viewmodel.clearAcessoDTO
-import org.gestao.viewmodel.clearClasseDTO
-import org.gestao.viewmodel.clearUploadsDTO
+import org.gestao.view.menu.selectedMenuItem
+import org.gestao.view.navigation.closeAccessScreen
+import org.gestao.view.navigation.closeClassScreen
+import org.gestao.viewmodel.clearAccessDto
+import org.gestao.viewmodel.clearClassDto
+import org.gestao.viewmodel.clearUploadDto
 import org.gestao.viewmodel.requestStatus
 
 var showAlert = MutableStateFlow(false)
@@ -158,13 +153,13 @@ fun restartRequest() {
 }
 
 fun restartView() {
-    clearAcessoDTO()
-    clearClasseDTO()
-    clearUploadsDTO()
-    closeAcessoScreen()
-    closeClasseScreen()
+    clearAccessDto()
+    clearClassDto()
+    clearUploadDto()
+    closeAccessScreen()
+    closeClassScreen()
 
     classesScreen.value = false
-    itemMenuSelected.value = 0
+    selectedMenuItem.value = 0
 }
 

@@ -7,18 +7,18 @@ import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.bff.erp.util.BaseApi.BASE_SERVIDOR
-import org.gestao.model.ClassesDto
-import org.gestao.model.ClassesList
+import org.gestao.util.BaseApi.BASE_SERVER
+import org.gestao.model.ClassDto
+import org.gestao.model.ClassList
 import org.gestao.viewmodel.requestStatus
 import org.w3c.xhr.XMLHttpRequest
 
-fun setCadastroClasse(classes: ClassesList) {
+fun registerClass(classes: ClassList) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("POST", "$BASE_SERVIDOR/classes")
+                open("POST", "$BASE_SERVER/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
@@ -29,20 +29,20 @@ fun setCadastroClasse(classes: ClassesList) {
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroClasse: ${e.message}")
+        println("Error in registerClass: ${e.message}")
     }
 }
 
-suspend fun fetchAllClasses(): MutableList<ClassesDto> {
-    val allClassesList = mutableListOf<ClassesDto>()
+suspend fun fetchAllClasses(): MutableList<ClassDto> {
+    val allClassesList = mutableListOf<ClassDto>()
 
     try {
-        val response = window.fetch("$BASE_SERVIDOR/classes").then {
+        val response = window.fetch("$BASE_SERVER/classes").then {
                 res -> res.text()
         }
 
         response.await<JsString>().toString().let { retorno ->
-            val classes: List<ClassesDto> = Json.decodeFromString(retorno)
+            val classes: List<ClassDto> = Json.decodeFromString(retorno)
             allClassesList.addAll(classes)
         }
 
@@ -53,37 +53,37 @@ suspend fun fetchAllClasses(): MutableList<ClassesDto> {
     return allClassesList
 }
 
-fun setAtualizarClasses(convertDtoToClasseDto: ClassesDto) {
+fun updateClasses(classDto: ClassDto) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("PUT", "$BASE_SERVIDOR/classes")
+                open("PUT", "$BASE_SERVER/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
                 onerror = { requestStatus.value = status.toInt() }
 
-                send(Json.encodeToString(convertDtoToClasseDto))
+                send(Json.encodeToString(classDto))
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroAcessos: ${e.message}")
+        println("Error in updateClasses: ${e.message}")
     }
 }
 
-fun setExcluirClasses(convertDtoToClasseDto: ClassesDto) {
+fun deleteClasses(classDto: ClassDto) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("DELETE", "$BASE_SERVIDOR/classes")
+                open("DELETE", "$BASE_SERVER/classes")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
                 onerror = { requestStatus.value = status.toInt() }
 
-                send(Json.encodeToString(convertDtoToClasseDto))
+                send(Json.encodeToString(classDto))
             }
         }
     } catch (e: Exception) {

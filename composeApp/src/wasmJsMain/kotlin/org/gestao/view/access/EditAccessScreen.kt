@@ -1,4 +1,4 @@
-package org.gestao.view.acessos
+package org.gestao.view.access
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,62 +45,62 @@ import androidx.compose.ui.unit.sp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import model.AcessosDto
-import org.gestao.model.ClassesDto
+import model.AccessDto
+import org.gestao.model.ClassDto
 import org.gestao.view.isLoadingValidate
-import org.gestao.view.navigation.abrirEditarItemAcesso
-import org.gestao.viewmodel.acessosDto
-import org.gestao.viewmodel.allAcessos
+import org.gestao.view.navigation.openEditItemAccess
+import org.gestao.viewmodel.accessListDto
+import org.gestao.viewmodel.allAccesses
 import org.gestao.viewmodel.allClasses
-import org.gestao.viewmodel.bindAtualizarAcesso
-import org.gestao.viewmodel.bindExcluirAcesso
+import org.gestao.viewmodel.bindUpdateAccess
+import org.gestao.viewmodel.bindDeleteAccess
 
 @Composable
-fun editarAcessoScreen() {
-    val getAllAcessos = remember { mutableStateListOf<AcessosDto>() }
+fun editAccessScreen() {
+    val getAllAccesses = remember { mutableStateListOf<AccessDto>() }
 
     LaunchedEffect(Unit) {
-        getAllAcessos.addAll(allAcessos.value)
+        getAllAccesses.addAll(allAccesses.value)
     }
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(getAllAcessos) { acesso ->
-            AcessoItem(
-                acesso = acesso,
+        items(getAllAccesses) { acesso ->
+            AccessItem(
+                access = acesso,
                 onClick = {
                 selected ->
-                acessosDto.value.id = selected.id.toString()
-                acessosDto.value.className = selected.className
-                acessosDto.value.codClass = selected.codClass
-                acessosDto.value.email = selected.email
-                acessosDto.value.nome = selected.nome
-                acessosDto.value.senha = selected.senha
+                accessListDto.value.id = selected.id.toString()
+                accessListDto.value.className = selected.className
+                accessListDto.value.classCode = selected.classCode
+                accessListDto.value.email = selected.email
+                accessListDto.value.name = selected.name
+                accessListDto.value.password = selected.password
             })
         }
     }
 }
 
 @Composable
-fun AcessoItem(acesso: AcessosDto, onClick: (AcessosDto) -> Unit) {
+fun AccessItem(access: AccessDto, onClick: (AccessDto) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                onClick(acesso)
-                abrirEditarItemAcesso.value = true
+                onClick(access)
+                openEditItemAccess.value = true
             }
             .padding(8.dp)
     ) {
         Text(
-            text = "Nome: ${acesso.nome}",
+            text = "Nome: ${access.name}",
             fontSize = 10.sp
         )
         Text(
-            text = "Email: ${acesso.email}",
+            text = "Email: ${access.email}",
             fontSize = 10.sp
         )
         Text(
-            text = "Classe: ${acesso.className}",
+            text = "Classe: ${access.className}",
             fontSize = 10.sp
         )
         Divider(modifier = Modifier.padding(vertical = 4.dp))
@@ -108,12 +108,12 @@ fun AcessoItem(acesso: AcessosDto, onClick: (AcessosDto) -> Unit) {
 }
 
 @Composable
-fun editarAcessoSelecionado() {
+fun editSelectedAccess() {
     val focusRequesterNome = remember { FocusRequester() }
     val focusRequesterSenha = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
 
-    val allClassesList = remember { mutableStateListOf<ClassesDto>() }
+    val allClassesList = remember { mutableStateListOf<ClassDto>() }
     val errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
@@ -130,8 +130,8 @@ fun editarAcessoSelecionado() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = acessosDto.value.nome,
-                onValueChange = { acessosDto.value.nome = it },
+                value = accessListDto.value.name,
+                onValueChange = { accessListDto.value.name = it },
                 label = { Text("Nome", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
@@ -156,8 +156,8 @@ fun editarAcessoSelecionado() {
             )
 
             OutlinedTextField(
-                value = acessosDto.value.senha,
-                onValueChange = { acessosDto.value.senha = it },
+                value = accessListDto.value.password,
+                onValueChange = { accessListDto.value.password = it },
                 label = { Text("Senha", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
@@ -183,8 +183,8 @@ fun editarAcessoSelecionado() {
             )
 
             OutlinedTextField(
-                value = acessosDto.value.email,
-                onValueChange = { acessosDto.value.email = it },
+                value = accessListDto.value.email,
+                onValueChange = { accessListDto.value.email = it },
                 label = { Text("Email", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier
@@ -214,10 +214,10 @@ fun editarAcessoSelecionado() {
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = if (acessosDto.value.className.trim().isEmpty()) {
+                text = if (accessListDto.value.className.trim().isEmpty()) {
                     "Selecionar classe"
                 } else {
-                    acessosDto.value.className
+                    accessListDto.value.className
                 },
                 style = TextStyle(
                     fontSize = 12.sp
@@ -235,8 +235,8 @@ fun editarAcessoSelecionado() {
             allClassesList.forEach { item ->
                 DropdownMenuItem(
                     onClick = {
-                        acessosDto.value.className = item.className
-                        acessosDto.value.codClass = item.codClass
+                        accessListDto.value.className = item.className
+                        accessListDto.value.classCode = item.classCode
                         expanded = false
                     }
                 ) {
@@ -245,7 +245,7 @@ fun editarAcessoSelecionado() {
                         modifier = Modifier.padding(8.dp)
                     )
                     Text(
-                        text = "Classe Codigo: ${item.codClass}",
+                        text = "Classe Codigo: ${item.classCode}",
                         modifier = Modifier.padding(8.dp)
                     )
                 }
@@ -259,7 +259,7 @@ fun editarAcessoSelecionado() {
             horizontalArrangement = Arrangement.Center
         ){
             Button(
-                onClick = { bindAtualizarAcesso() },
+                onClick = { bindUpdateAccess() },
                 modifier = Modifier
                     .padding(40.dp)
                     .align(Alignment.CenterVertically),
@@ -269,7 +269,7 @@ fun editarAcessoSelecionado() {
             }
 
             Button(
-                onClick = { bindExcluirAcesso() },
+                onClick = { bindDeleteAccess() },
                 modifier = Modifier
                     .padding(40.dp)
                     .align(Alignment.CenterVertically),

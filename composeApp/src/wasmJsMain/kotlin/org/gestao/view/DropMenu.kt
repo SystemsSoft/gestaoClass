@@ -27,19 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.gestao.model.ClassesDto
+import org.gestao.model.ClassDto
 import org.gestao.util.DefaultFileTypes.typeFiles
 import org.gestao.viewmodel.allClasses
-import org.gestao.viewmodel.classNameSelected
-import org.gestao.viewmodel.codSelected
-import org.gestao.viewmodel.uploadDto
+import org.gestao.viewmodel.selectedClassName
+import org.gestao.viewmodel.selectedCode
+import org.gestao.viewmodel.uploadListDto
 
 @Composable
 fun classSelector() {
-    val allClassesList = remember { mutableStateListOf<ClassesDto>() }
+    val allClassesList = remember { mutableStateListOf<ClassDto>() }
     var expanded by remember { mutableStateOf(false) }
 
-    classNameSelected.collectAsState().value.let { className ->
+    selectedClassName.collectAsState().value.let { className ->
     LaunchedEffect(Unit){
         allClassesList.addAll(allClasses.value)
     }
@@ -84,8 +84,8 @@ fun classSelector() {
                 allClassesList.forEach { item ->
                     DropdownMenuItem(
                         onClick = {
-                            classNameSelected.value = item.className
-                            codSelected.value = item.codClass
+                            selectedClassName.value = item.className
+                            selectedCode.value = item.classCode
                             expanded = false
                         }
                     ) {
@@ -94,7 +94,7 @@ fun classSelector() {
                             modifier = Modifier.padding(8.dp)
                         )
                         Text(
-                            text = "Classe Codigo: ${item.codClass}",
+                            text = "Classe Codigo: ${item.classCode}",
                             modifier = Modifier.padding(8.dp)
                         )
                     }
@@ -107,7 +107,7 @@ fun classSelector() {
 @Composable
 fun fileTypesSelector() {
     var expanded by remember { mutableStateOf(false) }
-    uploadDto.collectAsState().value.tipoFile.let {  fileType ->
+    uploadListDto.collectAsState().value.fileType.let { fileType ->
 
         Row(
             modifier = Modifier
@@ -151,7 +151,7 @@ fun fileTypesSelector() {
                 typeFiles.forEach { item ->
                     DropdownMenuItem(
                         onClick = {
-                            uploadDto.value.tipoFile = item
+                            uploadListDto.value.fileType = item
                             expanded = false
                         }
                     ) {

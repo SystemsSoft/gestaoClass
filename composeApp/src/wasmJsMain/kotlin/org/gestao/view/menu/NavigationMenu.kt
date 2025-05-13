@@ -24,8 +24,8 @@ import gestaoweb.bbf.com.util.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.dashBoardScreen
 
-val itemMenuSelected = MutableStateFlow(0)
-var acessosScreen  = MutableStateFlow (false)
+val selectedMenuItem = MutableStateFlow(0)
+var accessScreen  = MutableStateFlow (false)
 var classesScreen  = MutableStateFlow (false)
 
 var uploadScreen  = MutableStateFlow (false)
@@ -33,11 +33,11 @@ var uploadScreen  = MutableStateFlow (false)
 
 @Composable
 fun setupNavigationMenu() {
-    itemMenuSelected.collectAsState().value.let {
+    selectedMenuItem.collectAsState().value.let {
         when (it) {
             0 -> dashBoardScreen()
             1 -> uploadScreen.value = !uploadScreen.value
-            2 -> acessosScreen.value = !acessosScreen.value
+            2 -> accessScreen.value = !accessScreen.value
             3 -> classesScreen.value = !classesScreen.value
 
             else -> {}
@@ -47,7 +47,7 @@ fun setupNavigationMenu() {
 
 @Composable
 fun navigationRail() {
-    val itemSelected by itemMenuSelected.collectAsState()
+    val itemSelected by selectedMenuItem.collectAsState()
 
     NavigationRail(
         modifier = Modifier
@@ -87,13 +87,13 @@ fun navigationRail() {
                 },
                 selected = isSelected,
                 onClick = {
-                    if (index == itemMenuSelected.value ){
-                        acessosScreen.value = false
+                    if (index == selectedMenuItem.value ){
+                        accessScreen.value = false
                         classesScreen.value = false
                         uploadScreen.value = false
-                        itemMenuSelected.value = 0
+                        selectedMenuItem.value = 0
                     } else {
-                       itemMenuSelected.value = index
+                       selectedMenuItem.value = index
                     }
                 },
             )

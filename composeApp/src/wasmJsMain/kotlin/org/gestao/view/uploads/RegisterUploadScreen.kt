@@ -23,11 +23,11 @@ import org.gestao.util.selectFile
 import org.gestao.view.isLoadingValidate
 import org.gestao.view.classSelector
 import org.gestao.view.fileTypesSelector
-import org.gestao.viewmodel.bindCadastroUpload
-import org.gestao.viewmodel.uploadDto
+import org.gestao.viewmodel.bindUploadRegistration
+import org.gestao.viewmodel.uploadListDto
 
 @Composable
-fun cadastroUploadScreen() {
+fun uploadRegistrationScreen() {
 
     Column(
         Modifier.fillMaxSize()
@@ -38,8 +38,8 @@ fun cadastroUploadScreen() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = uploadDto.value.fileName,
-                onValueChange = { uploadDto.value.fileName = it },
+                value = uploadListDto.value.fileName,
+                onValueChange = { uploadListDto.value.fileName = it },
                 label = { Text("Nome", style = TextStyle(fontSize = fontDefault)) },
                 textStyle = TextStyle(fontSize = fontDefault),
                 modifier = Modifier.height(heightField),
@@ -68,7 +68,7 @@ fun cadastroUploadScreen() {
         }
 
         Button(
-            onClick = { bindCadastroUpload() },
+            onClick = { bindUploadRegistration() },
             modifier = Modifier
                 .padding(40.dp)
                 .align(Alignment.CenterHorizontally),

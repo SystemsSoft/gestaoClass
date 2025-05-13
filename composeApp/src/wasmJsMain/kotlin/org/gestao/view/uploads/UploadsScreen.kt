@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.backgroundCard
-import org.gestao.view.acessos.editarCadastroIcon
-import org.gestao.view.acessos.novoCadastroIcon
-import org.gestao.view.navigation.abrirCadastroUpload
-import org.gestao.view.navigation.abrirEditarUpload
-import org.gestao.view.navigation.cadastroUploadNavigation
-import org.gestao.view.navigation.editarItemUploadNavigation
-import org.gestao.view.navigation.editarUploadNavigation
+import org.gestao.view.editRegistrationIcon
+import org.gestao.view.navigation.openUploadRegistration
+import org.gestao.view.navigation.openEditUpload
+import org.gestao.view.navigation.uploadRegistrationNavigation
+import org.gestao.view.navigation.editItemUploadNavigation
+import org.gestao.view.navigation.editUploadNavigation
+import org.gestao.view.newRegistrationIcon
 
 @Composable
 fun uploadFilesScreen() {
@@ -36,12 +36,12 @@ fun uploadFilesScreen() {
                     .width(400.dp)
                     .background(backgroundCard, RoundedCornerShape(topEnd = 8.dp, bottomEnd = 50.dp))
             ){
-                novoCadastroIcon(onClick = { abrirCadastroUpload.value = !abrirCadastroUpload.value })
-                editarCadastroIcon(onClick = { abrirEditarUpload.value = !abrirEditarUpload.value })
+                newRegistrationIcon(onClick = { openUploadRegistration.value = !openUploadRegistration.value })
+                editRegistrationIcon(onClick = { openEditUpload.value = !openEditUpload.value })
             }
-            cadastroUploadNavigation()
-            editarUploadNavigation()
-            editarItemUploadNavigation()
+            uploadRegistrationNavigation()
+            editUploadNavigation()
+            editItemUploadNavigation()
         }
     }
 }

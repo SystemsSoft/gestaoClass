@@ -8,24 +8,24 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UploadList(
     val fileName: String,
-    val codFile: String,
-    val codClass: String,
-    val tipoFile: String,
+    val fileCode: String,
+    val classCode: String,
+    val fileType: String,
 )
 
 @Serializable
 data class UploadDto(
     val id: Int?,
     val fileName: String,
-    val codFile: String,
-    val codClass: String,
-    val tipoFile: String,
+    val fileCode: String,
+    val classCode: String,
+    val fileType: String,
 )
 
 class UploadsListDto {
     var id by mutableStateOf("")
     var fileName by mutableStateOf("")
-    var codFile by mutableStateOf("")
-    var codClass by mutableStateOf("")
-    var tipoFile by mutableStateOf("")
+    var fileCode by mutableStateOf("")
+    var classCode by mutableStateOf("")
+    var fileType by mutableStateOf("")
 }

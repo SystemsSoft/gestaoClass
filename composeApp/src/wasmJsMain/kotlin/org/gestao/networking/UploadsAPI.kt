@@ -5,19 +5,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.bff.erp.util.BaseApi.BASE_S3
-import org.bff.erp.util.BaseApi.BASE_SERVIDOR
+import org.gestao.util.BaseApi.BASE_S3
+import org.gestao.util.BaseApi.BASE_SERVER
 import org.gestao.model.UploadList
 import org.gestao.util.fileSelected
 import org.gestao.viewmodel.requestStatus
 import org.w3c.xhr.XMLHttpRequest
 
-fun setCadastroUpload(uploadItem: UploadList) {
+fun registerUpload(uploadItem: UploadList) {
     try {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("POST", "$BASE_SERVIDOR/upload")
+                open("POST", "$BASE_SERVER/upload")
                 setRequestHeader("Content-Type", "application/json")
                 onload = {
                     requestStatus.value = status.toInt()
@@ -30,7 +30,7 @@ fun setCadastroUpload(uploadItem: UploadList) {
             }
         }
     } catch (e: Exception) {
-        println("Error in setCadastroUploads: ${e.message}")
+        println("Error in registerUpload: ${e.message}")
     }
 }
 
@@ -41,7 +41,7 @@ private fun uploadFile(returnStatus: Int, item: UploadList) {
             XMLHttpRequest().apply {
                 open(
                     "PUT",
-                    "https://uploads-q1w2e3r4-s3.$BASE_S3/uploads/${item.codClass}/${item.codFile}"
+                    "https://uploads-q1w2e3r4-s3.$BASE_S3/uploads/${item.classCode}/${item.fileCode}"
                 )
 
                 onload = { requestStatus.value = status.toInt() }
@@ -52,7 +52,7 @@ private fun uploadFile(returnStatus: Int, item: UploadList) {
                 fileSelected.value = null
             }
         } catch (e: Exception) {
-            println("Erro: ${e.message}")
+            println("Error: ${e.message}")
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.gestao.view.classes
+package org.gestao.view.access
 
 
 import androidx.compose.foundation.background
@@ -13,19 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.backgroundCard
-import org.gestao.view.navigation.abrirCadastroClasse
-import org.gestao.view.navigation.abrirEditarClasse
-import org.gestao.view.navigation.cadastroClasseNavigation
-import org.gestao.view.navigation.editarClasseNavigation
-import org.gestao.view.navigation.editarItemClasseNavigation
+import org.gestao.view.editRegistrationIcon
+import org.gestao.view.navigation.openAccessRegistration
+import org.gestao.view.navigation.openEditAccess
+import org.gestao.view.navigation.accessRegistrationNavigation
+import org.gestao.view.navigation.editAccessNavigation
+import org.gestao.view.navigation.editItemAccessNavigation
+import org.gestao.view.newRegistrationIcon
 
 @Composable
-fun classeScreen() {
+fun accessScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(800.dp)
-            .padding(start = 200.dp,top = 30.dp,end = 40.dp, bottom = 40.dp)
+            .height(600.dp)
+            .padding(start = 150.dp,top = 50.dp,end = 50.dp, bottom = 50.dp)
     ) {
         Column(
             modifier = Modifier.background(backgroundCard)
@@ -35,12 +37,12 @@ fun classeScreen() {
                     .width(400.dp)
                     .background(backgroundCard, RoundedCornerShape(topEnd = 8.dp, bottomEnd = 50.dp))
             ){
-                novoCadastroClasseIcon(onClick = { abrirCadastroClasse.value = !abrirCadastroClasse.value })
-                editarCadastroClasseIcon(onClick = { abrirEditarClasse.value = !abrirEditarClasse.value })
+                newRegistrationIcon(onClick = { openAccessRegistration.value = !openAccessRegistration.value })
+                editRegistrationIcon(onClick = { openEditAccess.value = !openEditAccess.value })
             }
-            cadastroClasseNavigation()
-            editarClasseNavigation()
-            editarItemClasseNavigation()
+            accessRegistrationNavigation()
+            editAccessNavigation()
+            editItemAccessNavigation()
         }
     }
 }

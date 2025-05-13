@@ -1,4 +1,4 @@
-package org.gestao.view.acessos
+package org.gestao.view.classes
 
 
 import androidx.compose.foundation.background
@@ -13,19 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.backgroundCard
-import org.gestao.view.navigation.abrirCadastroAcesso
-import org.gestao.view.navigation.abrirEditarAcesso
-import org.gestao.view.navigation.cadastroAcessoNavigation
-import org.gestao.view.navigation.editarAcessoNavigation
-import org.gestao.view.navigation.editarItemAcessoNavigation
+import org.gestao.view.editRegistrationIcon
+import org.gestao.view.navigation.openClassRegistration
+import org.gestao.view.navigation.openEditClass
+import org.gestao.view.navigation.classRegistrationNavigation
+import org.gestao.view.navigation.editClassNavigation
+import org.gestao.view.navigation.editClassItemNavigation
+import org.gestao.view.newRegistrationIcon
 
 @Composable
-fun acessoScreen() {
+fun classScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(600.dp)
-            .padding(start = 150.dp,top = 50.dp,end = 50.dp, bottom = 50.dp)
+            .height(800.dp)
+            .padding(start = 200.dp,top = 30.dp,end = 40.dp, bottom = 40.dp)
     ) {
         Column(
             modifier = Modifier.background(backgroundCard)
@@ -35,12 +37,13 @@ fun acessoScreen() {
                     .width(400.dp)
                     .background(backgroundCard, RoundedCornerShape(topEnd = 8.dp, bottomEnd = 50.dp))
             ){
-                novoCadastroIcon(onClick = { abrirCadastroAcesso.value = !abrirCadastroAcesso.value })
-                editarCadastroIcon(onClick = { abrirEditarAcesso.value = !abrirEditarAcesso.value })
+                newRegistrationIcon(onClick = { openClassRegistration.value = !openClassRegistration.value })
+                editRegistrationIcon(onClick = { openEditClass.value = !openEditClass.value })
             }
-            cadastroAcessoNavigation()
-            editarAcessoNavigation()
-            editarItemAcessoNavigation()
+
+            classRegistrationNavigation()
+            editClassNavigation()
+            editClassItemNavigation()
         }
     }
 }

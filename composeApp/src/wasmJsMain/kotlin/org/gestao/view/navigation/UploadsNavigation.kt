@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.menu.uploadScreen
-import org.gestao.view.uploads.cadastroUploadScreen
-import org.gestao.view.uploads.editarUploadScreen
-import org.gestao.view.uploads.editarUploadSelecionado
+import org.gestao.view.uploads.uploadRegistrationScreen
+import org.gestao.view.uploads.editUploadScreen
+import org.gestao.view.uploads.editSelectedUpload
 import org.gestao.view.uploads.uploadFilesScreen
 
-var abrirCadastroUpload = MutableStateFlow(false)
-var abrirEditarUpload = MutableStateFlow(false)
+var openUploadRegistration = MutableStateFlow(false)
+var openEditUpload = MutableStateFlow(false)
 var abrirEditarItemUpload = MutableStateFlow(false)
 
 
@@ -32,19 +32,19 @@ fun uploadNavigation() {
         )
     ) {
         if (uploadScreen.value){
-            closeAcessoScreen()
-            closeClasseScreen()
+            closeAccessScreen()
+            closeClassScreen()
         }
-        abrirCadastroUpload.value = false
-        abrirEditarUpload.value = false
+        openUploadRegistration.value = false
+        openEditUpload.value = false
         uploadFilesScreen()
     }
 }
 
 @Composable
-fun cadastroUploadNavigation() {
+fun uploadRegistrationNavigation() {
     AnimatedVisibility (
-        visible = abrirCadastroUpload.collectAsState().value,
+        visible = openUploadRegistration.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -54,19 +54,19 @@ fun cadastroUploadNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirCadastroUpload.value) {
+        if(openUploadRegistration.value) {
             abrirEditarItemUpload.value = false
-            abrirEditarUpload.value = false
+            openEditUpload.value = false
         }
-        cadastroUploadScreen()
+        uploadRegistrationScreen()
     }
 }
 
 
 @Composable
-fun editarUploadNavigation() {
+fun editUploadNavigation() {
     AnimatedVisibility (
-        visible = abrirEditarUpload.collectAsState().value,
+        visible = openEditUpload.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -76,16 +76,16 @@ fun editarUploadNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirEditarUpload.value) {
-            abrirCadastroUpload.value = false
+        if(openEditUpload.value) {
+            openUploadRegistration.value = false
             abrirEditarItemUpload.value = false
         }
 
-        editarUploadScreen()
+        editUploadScreen()
     }
 }
 @Composable
-fun editarItemUploadNavigation() {
+fun editItemUploadNavigation() {
     AnimatedVisibility (
         visible = abrirEditarItemUpload.collectAsState().value,
         enter = slideInHorizontally(
@@ -98,9 +98,9 @@ fun editarItemUploadNavigation() {
         )
     ) {
         if(abrirEditarItemUpload.value) {
-            abrirEditarUpload.value = false
-            abrirCadastroUpload.value = false
+            openEditUpload.value = false
+            openUploadRegistration.value = false
         }
-        editarUploadSelecionado()
+        editSelectedUpload()
     }
 }

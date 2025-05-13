@@ -1,7 +1,6 @@
 package org.gestao.view
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import gestaoclass.composeapp.generated.resources.Res
 import gestaoclass.composeapp.generated.resources.ic_user
 import gestaoclass.composeapp.generated.resources.lock
-import gestaoclass.composeapp.generated.resources.logo
 import gestaoclass.composeapp.generated.resources.person
 import gestaoclass.composeapp.generated.resources.visibility
 import gestaoclass.composeapp.generated.resources.visibility_off
@@ -52,9 +50,9 @@ import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.gradientBackground
 import kotlinx.browser.window
-import org.gestao.viewmodel.falhaAutenticacao
-import org.gestao.viewmodel.usuarioLogado
-import org.gestao.viewmodel.validarUsuario
+import org.gestao.viewmodel.authenticationFailed
+import org.gestao.viewmodel.loggedInUser
+import org.gestao.viewmodel.validateUser
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -66,8 +64,8 @@ fun loginScreen() {
 
 @Composable
 fun authenticationFields() {
-    var usuario by remember { mutableStateOf("") }
-    var senha by remember { mutableStateOf("") }
+    var user by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     val focusRequesterUsuario = remember { FocusRequester() }
@@ -93,9 +91,9 @@ fun authenticationFields() {
                 ) {
 
                     OutlinedTextField(
-                        value = usuario,
+                        value = user,
                         singleLine = true,
-                        onValueChange = { usuario = it },
+                        onValueChange = { user = it },
                         label = { Text("Usuário") },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -133,8 +131,8 @@ fun authenticationFields() {
                     )
 
                     OutlinedTextField(
-                        value = senha,
-                        onValueChange = { senha = it },
+                        value = password,
+                        onValueChange = { password = it },
                         label = { Text("Senha") },
                         singleLine = true,
                         modifier = Modifier
@@ -181,7 +179,7 @@ fun authenticationFields() {
 
                     Button(
                         onClick = {
-                            validarUsuario(usuario, senha)
+                            validateUser(user, password)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -198,14 +196,14 @@ fun authenticationFields() {
 
 @Composable
 fun showUpLoginError() {
-    if (falhaAutenticacao.collectAsState().value) {
+    if (authenticationFailed.collectAsState().value) {
         AlertDialog(
-            onDismissRequest = { falhaAutenticacao.value = false },
+            onDismissRequest = { authenticationFailed.value = false },
             title = { Text("Erro de Autenticação") },
             text = { Text("Usuário ou senha estão incorretos.") },
             confirmButton = {
                 TextButton(onClick = {
-                    falhaAutenticacao.value = false
+                    authenticationFailed.value = false
                 }) {
                     Text(
                         text = "OK",
@@ -255,7 +253,7 @@ fun fieldLogOut() {
             modifier = Modifier
                 .padding(end = 40.dp, top = 15.dp)
                 .align(Alignment.TopEnd),
-            text = usuarioLogado.collectAsState().value.nome,
+            text = loggedInUser.collectAsState().value.name,
             color = Color.White,
             style = TextStyle(fontSize = fontDefault)
         )

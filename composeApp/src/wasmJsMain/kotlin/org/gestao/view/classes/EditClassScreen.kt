@@ -31,17 +31,17 @@ import androidx.compose.ui.unit.sp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import org.gestao.model.ClassesDto
+import org.gestao.model.ClassDto
 import org.gestao.view.isLoadingValidate
-import org.gestao.view.navigation.abrirEditarItemClasse
+import org.gestao.view.navigation.openEditClassItem
 import org.gestao.viewmodel.allClasses
-import org.gestao.viewmodel.bindAtualizarClasse
-import org.gestao.viewmodel.bindExcluirClasse
-import org.gestao.viewmodel.classDto
+import org.gestao.viewmodel.bindUpdateClass
+import org.gestao.viewmodel.bindDeleteClass
+import org.gestao.viewmodel.classListDto
 
 @Composable
 fun editarClassesScreen() {
-    val getAllClasses = remember { mutableStateListOf<ClassesDto>() }
+    val getAllClasses = remember { mutableStateListOf<ClassDto>() }
 
     LaunchedEffect(Unit) {
         getAllClasses.addAll(allClasses.value)
@@ -49,13 +49,13 @@ fun editarClassesScreen() {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(getAllClasses) { classe ->
-            ClasseItem(
+            classeItem(
                 classe = classe,
                 onClick = {
                         selected ->
-                    classDto.value.id = selected.id.toString()
-                    classDto.value.className = selected.className
-                    classDto.value.codClass = selected.codClass
+                    classListDto.value.id = selected.id.toString()
+                    classListDto.value.className = selected.className
+                    classListDto.value.classCode = selected.classCode
                 }
             )
         }
@@ -63,18 +63,18 @@ fun editarClassesScreen() {
 }
 
 @Composable
-fun ClasseItem(classe: ClassesDto, onClick: (ClassesDto) -> Unit) {
+fun classeItem(classe: ClassDto, onClick: (ClassDto) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 onClick(classe)
-                abrirEditarItemClasse.value = true
+                openEditClassItem.value = true
             }
             .padding(8.dp)
     ) {
         Text(
-            text = "Classe Cod: ${classe.codClass}",
+            text = "Classe Cod: ${classe.classCode}",
             fontSize = 10.sp
         )
         Text(
@@ -86,7 +86,7 @@ fun ClasseItem(classe: ClassesDto, onClick: (ClassesDto) -> Unit) {
 }
 
 @Composable
-fun editarClasseSelecionado() {
+fun editSelectedClass() {
     Column(
         Modifier
             .fillMaxSize()
@@ -97,8 +97,8 @@ fun editarClasseSelecionado() {
                 .align(Alignment.CenterHorizontally)
         ) {
             OutlinedTextField(
-                value = classDto.value.className,
-                onValueChange = { classDto.value.className = it },
+                value = classListDto.value.className,
+                onValueChange = { classListDto.value.className = it },
 
                 label = {
                     Text(
@@ -121,8 +121,8 @@ fun editarClasseSelecionado() {
             )
 
             OutlinedTextField(
-                value = classDto.value.codClass,
-                onValueChange = { classDto.value.codClass = it },
+                value = classListDto.value.classCode,
+                onValueChange = { classListDto.value.classCode = it },
                 label = {
                     Text(
                         "Código da classe",
@@ -150,7 +150,7 @@ fun editarClasseSelecionado() {
             horizontalArrangement = Arrangement.Center
         ){
             Button(
-                onClick = { bindAtualizarClasse() },
+                onClick = { bindUpdateClass() },
                 modifier = Modifier
                     .padding(40.dp)
                     .align(Alignment.CenterVertically),
@@ -160,7 +160,7 @@ fun editarClasseSelecionado() {
             }
 
             Button(
-                onClick = { bindExcluirClasse() },
+                onClick = { bindDeleteClass() },
                 modifier = Modifier
                     .padding(40.dp)
                     .align(Alignment.CenterVertically),

@@ -7,20 +7,20 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.gestao.view.acessos.acessoScreen
-import org.gestao.view.acessos.cadastroScreen
-import org.gestao.view.acessos.editarAcessoScreen
-import org.gestao.view.acessos.editarAcessoSelecionado
-import org.gestao.view.menu.acessosScreen
+import org.gestao.view.classes.classRegistrationScreen
+import org.gestao.view.classes.classScreen
+import org.gestao.view.classes.editSelectedClass
+import org.gestao.view.classes.editarClassesScreen
+import org.gestao.view.menu.classesScreen
 
-var abrirCadastroAcesso = MutableStateFlow(false)
-var abrirEditarAcesso = MutableStateFlow(false)
-var abrirEditarItemAcesso = MutableStateFlow(false)
+var openClassRegistration = MutableStateFlow(false)
+var openEditClass = MutableStateFlow(false)
+var openEditClassItem = MutableStateFlow(false)
 
 @Composable
-fun acessoNavigation() {
+fun classNavigation() {
     AnimatedVisibility (
-        visible = acessosScreen.collectAsState().value,
+        visible = classesScreen.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -30,21 +30,19 @@ fun acessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(acessosScreen.value) {
-            closeClasseScreen()
-            closeUploadScreen()
+        if (classesScreen.value){
+           closeAccessScreen()
         }
-
-        abrirCadastroAcesso.value = false
-        abrirEditarAcesso.value = false
-        acessoScreen()
+        openClassRegistration.value = false
+        openEditClass.value = false
+        classScreen()
     }
 }
 
 @Composable
-fun cadastroAcessoNavigation() {
+fun classRegistrationNavigation() {
     AnimatedVisibility (
-        visible = abrirCadastroAcesso.collectAsState().value,
+        visible = openClassRegistration.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -54,18 +52,18 @@ fun cadastroAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirCadastroAcesso.value) {
-            abrirEditarAcesso.value = false
-            abrirEditarItemAcesso.value = false
+        if(openClassRegistration.value) {
+            openEditClassItem.value = false
+            openEditClass.value = false
         }
-        cadastroScreen()
+        classRegistrationScreen()
     }
 }
 
 @Composable
-fun editarAcessoNavigation() {
+fun editClassNavigation() {
     AnimatedVisibility (
-        visible = abrirEditarAcesso.collectAsState().value,
+        visible = openEditClass.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -75,19 +73,20 @@ fun editarAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirEditarAcesso.value) {
-            abrirCadastroAcesso.value = false
-            abrirEditarItemAcesso.value = false
+        if(openEditClass.value) {
+            openClassRegistration.value = false
+            openEditClassItem.value = false
         }
 
-        editarAcessoScreen()
+        editarClassesScreen()
     }
 }
 
+
 @Composable
-fun editarItemAcessoNavigation() {
+fun editClassItemNavigation() {
     AnimatedVisibility (
-        visible = abrirEditarItemAcesso.collectAsState().value,
+        visible = openEditClassItem.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -97,11 +96,10 @@ fun editarItemAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirEditarItemAcesso.value) {
-            abrirEditarAcesso.value = false
-            abrirCadastroAcesso.value = false
+        if(openEditClassItem.value) {
+            openEditClass.value = false
+            openClassRegistration.value = false
         }
-
-        editarAcessoSelecionado()
+        editSelectedClass()
     }
 }

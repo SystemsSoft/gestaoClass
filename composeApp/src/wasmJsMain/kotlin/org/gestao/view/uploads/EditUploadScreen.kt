@@ -3,11 +3,11 @@ package org.gestao.view.uploads
 import androidx.compose.runtime.Composable
 
 @Composable
-fun editarUploadScreen() {
+fun editUploadScreen() {
 
 }
 
 @Composable
-fun editarUploadSelecionado() {
+fun editSelectedUpload() {
 
 }

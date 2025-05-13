@@ -4,70 +4,70 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import model.Acessos
-import model.AcessosDto
-import model.AcessosListDto
-import org.bff.erp.model.Usuario
-import org.gestao.model.ClassesDto
-import org.gestao.model.ClassesList
-import org.gestao.model.ClassesListDto
+import model.Access
+import model.AccessDto
+import model.AccessListDto
+import org.gestao.model.User
+import org.gestao.model.ClassDto
+import org.gestao.model.ClassList
+import org.gestao.model.ClassListDto
 import org.gestao.model.UploadList
 import org.gestao.model.UploadsListDto
-import org.gestao.networking.fetchAllAcessos
+import org.gestao.networking.fetchAllAccesses
 import org.gestao.networking.fetchAllClasses
-import org.gestao.networking.setAtualizarAcessos
-import org.gestao.networking.setAtualizarClasses
-import org.gestao.networking.setCadastroAcessos
-import org.gestao.networking.setCadastroClasse
-import org.gestao.networking.setCadastroUpload
-import org.gestao.networking.setExcluirAcessos
-import org.gestao.networking.setExcluirClasses
+import org.gestao.networking.updateAccess
+import org.gestao.networking.updateClasses
+import org.gestao.networking.registerAccess
+import org.gestao.networking.registerClass
+import org.gestao.networking.registerUpload
+import org.gestao.networking.deleteAccess
+import org.gestao.networking.deleteClasses
 import org.gestao.view.isLoading
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-var usuarioValidado = MutableStateFlow(false)
-var falhaAutenticacao = MutableStateFlow(false)
-var usuarioLogado  = MutableStateFlow(Usuario())
+var isUserValidated = MutableStateFlow(false)
+var authenticationFailed = MutableStateFlow(false)
+var loggedInUser  = MutableStateFlow(User())
 
 var requestStatus = MutableStateFlow(0)
 
-var showDialogRetornoCadastro = MutableStateFlow(false)
+var showRegistrationResponseDialog = MutableStateFlow(false)
 
-var acessosDto = MutableStateFlow(AcessosListDto())
-var classDto = MutableStateFlow(ClassesListDto())
+var accessListDto = MutableStateFlow(AccessListDto())
+var classListDto = MutableStateFlow(ClassListDto())
 
-var uploadDto = MutableStateFlow(UploadsListDto())
+var uploadListDto = MutableStateFlow(UploadsListDto())
 
-val codSelected = MutableStateFlow("")
+val selectedCode = MutableStateFlow("")
 
-val classNameSelected = MutableStateFlow("")
+val selectedClassName = MutableStateFlow("")
 
-var allAcessos = MutableStateFlow<MutableList<AcessosDto>>(mutableListOf())
+var allAccesses = MutableStateFlow<MutableList<AccessDto>>(mutableListOf())
 
-var allClasses = MutableStateFlow<MutableList<ClassesDto>>(mutableListOf())
+var allClasses = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
 
 
-fun clearAcessoDTO() {
-acessosDto.value.codClass = ""
-acessosDto.value.nome = ""
-acessosDto.value.className = ""
-acessosDto.value.senha = ""
-acessosDto.value.email = ""
+fun clearAccessDto() {
+accessListDto.value.classCode = ""
+accessListDto.value.name = ""
+accessListDto.value.className = ""
+accessListDto.value.password = ""
+accessListDto.value.email = ""
 }
 
-fun clearClasseDTO() {
-    classDto.value.className = ""
-    classDto.value.codClass = ""
+fun clearClassDto() {
+    classListDto.value.className = ""
+    classListDto.value.classCode = ""
 }
 
-fun clearUploadsDTO() {
-    uploadDto.value.fileName = ""
-    uploadDto.value.codClass = ""
+fun clearUploadDto() {
+    uploadListDto.value.fileName = ""
+    uploadListDto.value.classCode = ""
 }
-fun getAllAcessos() {
+fun getAllAccesses() {
     CoroutineScope(Dispatchers.Default).launch {
-        allAcessos.value.addAll(fetchAllAcessos())
+        allAccesses.value.addAll(fetchAllAccesses())
     }
 }
 
@@ -77,102 +77,102 @@ fun getAllClasses() {
     }
 }
 
-fun validarUsuario(nomeUsuario: String, senhaUsuario: String) {
-    if(nomeUsuario == "hml" && senhaUsuario == "01") {
-        usuarioValidado.value = true
+fun validateUser(username: String, password: String) {
+    if(username == "hml" && password == "01") {
+        isUserValidated.value = true
     } else {
-        falhaAutenticacao.value = true
+        authenticationFailed.value = true
     }
 }
 
-fun bindCadastroUpload() {
+fun bindUploadRegistration() {
     CoroutineScope(Dispatchers.Default).launch {
-        setCadastroUpload(convertUploadListDtoToUploadList())
+        registerUpload(convertUploadListDtoToUploadList())
     }
 }
 
-fun bindCadastroAcesso() {
+fun bindAccessRegistration() {
     CoroutineScope(Dispatchers.Main).launch {
-        setCadastroAcessos(convertDtoToAcessosList())
+        registerAccess(convertDtoToAccessList())
         isLoading.value = true
     }
 }
 
-fun bindCadastroClasse() {
+fun bindClassRegistration() {
     CoroutineScope(Dispatchers.Main).launch {
-        setCadastroClasse(convertDtoToClassesList())
+        registerClass(convertDtoToClassesList())
         isLoading.value = true
     }
 }
-fun bindAtualizarAcesso() {
+fun bindUpdateAccess() {
     CoroutineScope(Dispatchers.Main).launch {
-        setAtualizarAcessos(convertDtoToAcessosDto())
-        isLoading.value = true
-    }
-}
-
-fun bindAtualizarClasse() {
-    CoroutineScope(Dispatchers.Main).launch {
-        setAtualizarClasses(convertDtoToClasseDto())
+        updateAccess(convertDtoToAccessDto())
         isLoading.value = true
     }
 }
 
-fun bindExcluirAcesso() {
+fun bindUpdateClass() {
     CoroutineScope(Dispatchers.Main).launch {
-        setExcluirAcessos(convertDtoToAcessosDto())
+        updateClasses(convertDtoToClassDto())
         isLoading.value = true
     }
 }
 
-fun bindExcluirClasse() {
+fun bindDeleteAccess() {
     CoroutineScope(Dispatchers.Main).launch {
-        setExcluirClasses(convertDtoToClasseDto())
+        deleteAccess(convertDtoToAccessDto())
         isLoading.value = true
     }
 }
 
-fun convertDtoToAcessosList(): Acessos {
-    return Acessos(
-        codClass = codSelected.value,
-        className = classNameSelected.value,
-        senha = acessosDto.value.senha,
-        nome = acessosDto.value.nome,
-        email = acessosDto.value.email,
+fun bindDeleteClass() {
+    CoroutineScope(Dispatchers.Main).launch {
+        deleteClasses(convertDtoToClassDto())
+        isLoading.value = true
+    }
+}
+
+fun convertDtoToAccessList(): Access {
+    return Access(
+        classCode = selectedCode.value,
+        className = selectedClassName.value,
+        password = accessListDto.value.password,
+        name = accessListDto.value.name,
+        email = accessListDto.value.email,
     )
 }
 
 @OptIn(ExperimentalUuidApi::class)
 fun convertUploadListDtoToUploadList(): UploadList {
     return UploadList(
-        fileName = uploadDto.value.fileName,
-        codFile = Uuid.random().toString(),
-        codClass = codSelected.value,
-        tipoFile = uploadDto.value.tipoFile
+        fileName = uploadListDto.value.fileName,
+        fileCode = Uuid.random().toString(),
+        classCode = selectedCode.value,
+        fileType = uploadListDto.value.fileType
     )
 }
 
-fun convertDtoToAcessosDto(): AcessosDto {
-    return AcessosDto(
-        id = acessosDto.value.id.toInt(),
-        codClass = acessosDto.value.codClass,
-        className = acessosDto.value.className,
-        senha = acessosDto.value.senha,
-        nome = acessosDto.value.nome,
-        email = acessosDto.value.email,
+fun convertDtoToAccessDto(): AccessDto {
+    return AccessDto(
+        id = accessListDto.value.id.toInt(),
+        classCode = accessListDto.value.classCode,
+        className = accessListDto.value.className,
+        password = accessListDto.value.password,
+        name = accessListDto.value.name,
+        email = accessListDto.value.email,
     )
 }
-fun convertDtoToClasseDto(): ClassesDto {
-    return ClassesDto(
-        id = classDto.value.id.toInt(),
-        codClass = classDto.value.codClass,
-        className = classDto.value.className,
+fun convertDtoToClassDto(): ClassDto {
+    return ClassDto(
+        id = classListDto.value.id.toInt(),
+        classCode = classListDto.value.classCode,
+        className = classListDto.value.className,
     )
 }
-fun convertDtoToClassesList(): ClassesList {
-    return ClassesList().apply {
-        codClass = classDto.value.codClass
-        className = classDto.value.className
+fun convertDtoToClassesList(): ClassList {
+    return ClassList().apply {
+        classCode = classListDto.value.classCode
+        className = classListDto.value.className
     }
 }
 
