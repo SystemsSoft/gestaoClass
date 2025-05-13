@@ -9,6 +9,7 @@ import org.gestao.view.menu.navigationRail
 import org.gestao.view.menu.setupNavigationMenu
 import org.gestao.view.navigation.acessoNavigation
 import org.gestao.view.navigation.classeNavigation
+import org.gestao.view.navigation.uploadNavigation
 import org.gestao.view.observeRequestStatus
 import org.gestao.viewmodel.allAcessos
 import org.gestao.viewmodel.allClasses
@@ -35,6 +36,7 @@ fun App() {
 fun setupNavigation() {
     acessoNavigation()
     classeNavigation()
+    uploadNavigation()
 }
 
 fun loadData() {

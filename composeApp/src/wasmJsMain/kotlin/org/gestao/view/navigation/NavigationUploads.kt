@@ -7,20 +7,21 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.gestao.view.acessos.acessoScreen
-import org.gestao.view.acessos.cadastroScreen
-import org.gestao.view.acessos.editarAcessoScreen
-import org.gestao.view.acessos.editarAcessoSelecionado
-import org.gestao.view.menu.acessosScreen
+import org.gestao.view.menu.uploadScreen
+import org.gestao.view.uploads.cadastroUploadScreen
+import org.gestao.view.uploads.editarUploadScreen
+import org.gestao.view.uploads.editarUploadSelecionado
+import org.gestao.view.uploads.uploadFilesScreen
 
-var abrirCadastroAcesso = MutableStateFlow(false)
-var abrirEditarAcesso = MutableStateFlow(false)
-var abrirEditarItemAcesso = MutableStateFlow(false)
+var abrirCadastroUpload = MutableStateFlow(false)
+var abrirEditarUpload = MutableStateFlow(false)
+var abrirEditarItemUpload = MutableStateFlow(false)
+
 
 @Composable
-fun acessoNavigation() {
+fun uploadNavigation() {
     AnimatedVisibility (
-        visible = acessosScreen.collectAsState().value,
+        visible = uploadScreen.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -30,21 +31,20 @@ fun acessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(acessosScreen.value) {
+        if (uploadScreen.value){
+            closeAcessoScreen()
             closeClasseScreen()
-            closeUploadScreen()
         }
-
-        abrirCadastroAcesso.value = false
-        abrirEditarAcesso.value = false
-        acessoScreen()
+        abrirCadastroUpload.value = false
+        abrirEditarUpload.value = false
+        uploadFilesScreen()
     }
 }
 
 @Composable
-fun cadastroAcessoNavigation() {
+fun cadastroUploadNavigation() {
     AnimatedVisibility (
-        visible = abrirCadastroAcesso.collectAsState().value,
+        visible = abrirCadastroUpload.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -54,18 +54,19 @@ fun cadastroAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirCadastroAcesso.value) {
-            abrirEditarAcesso.value = false
-            abrirEditarItemAcesso.value = false
+        if(abrirCadastroUpload.value) {
+            abrirEditarItemUpload.value = false
+            abrirEditarUpload.value = false
         }
-        cadastroScreen()
+        cadastroUploadScreen()
     }
 }
 
+
 @Composable
-fun editarAcessoNavigation() {
+fun editarUploadNavigation() {
     AnimatedVisibility (
-        visible = abrirEditarAcesso.collectAsState().value,
+        visible = abrirEditarUpload.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -75,19 +76,18 @@ fun editarAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirEditarAcesso.value) {
-            abrirCadastroAcesso.value = false
-            abrirEditarItemAcesso.value = false
+        if(abrirEditarUpload.value) {
+            abrirCadastroUpload.value = false
+            abrirEditarItemUpload.value = false
         }
 
-        editarAcessoScreen()
+        editarUploadScreen()
     }
 }
-
 @Composable
-fun editarItemAcessoNavigation() {
+fun editarItemUploadNavigation() {
     AnimatedVisibility (
-        visible = abrirEditarItemAcesso.collectAsState().value,
+        visible = abrirEditarItemUpload.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -97,11 +97,10 @@ fun editarItemAcessoNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(abrirEditarItemAcesso.value) {
-            abrirEditarAcesso.value = false
-            abrirCadastroAcesso.value = false
+        if(abrirEditarItemUpload.value) {
+            abrirEditarUpload.value = false
+            abrirCadastroUpload.value = false
         }
-
-        editarAcessoSelecionado()
+        editarUploadSelecionado()
     }
 }

@@ -28,13 +28,15 @@ val itemMenuSelected = MutableStateFlow(0)
 var acessosScreen  = MutableStateFlow (false)
 var classesScreen  = MutableStateFlow (false)
 
+var uploadScreen  = MutableStateFlow (false)
+
 
 @Composable
 fun setupNavigationMenu() {
     itemMenuSelected.collectAsState().value.let {
         when (it) {
             0 -> dashBoardScreen()
-            1 -> "Uploads"
+            1 -> uploadScreen.value = !uploadScreen.value
             2 -> acessosScreen.value = !acessosScreen.value
             3 -> classesScreen.value = !classesScreen.value
 
@@ -88,6 +90,7 @@ fun navigationRail() {
                     if (index == itemMenuSelected.value ){
                         acessosScreen.value = false
                         classesScreen.value = false
+                        uploadScreen.value = false
                         itemMenuSelected.value = 0
                     } else {
                        itemMenuSelected.value = index

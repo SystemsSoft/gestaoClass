@@ -42,7 +42,6 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun cadastroClasseScreen() {
     val errorMessage by remember { mutableStateOf("") }
-    clearClasseDTO()
 
     Column(
         Modifier

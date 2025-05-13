@@ -43,6 +43,7 @@ import org.gestao.view.navigation.closeAcessoScreen
 import org.gestao.view.navigation.closeClasseScreen
 import org.gestao.viewmodel.clearAcessoDTO
 import org.gestao.viewmodel.clearClasseDTO
+import org.gestao.viewmodel.clearUploadsDTO
 import org.gestao.viewmodel.requestStatus
 
 var showAlert = MutableStateFlow(false)
@@ -159,6 +160,7 @@ fun restartRequest() {
 fun restartView() {
     clearAcessoDTO()
     clearClasseDTO()
+    clearUploadsDTO()
     closeAcessoScreen()
     closeClasseScreen()
 

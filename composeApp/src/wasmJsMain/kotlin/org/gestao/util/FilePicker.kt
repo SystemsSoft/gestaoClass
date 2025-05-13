@@ -1,4 +1,4 @@
-package gestaoweb.bbf.com.util
+package org.gestao.util
 
 import kotlinx.browser.document
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,9 +7,9 @@ import org.w3c.files.File
 import org.w3c.files.get
 
 
-val imagemSelecionada = MutableStateFlow<File?>(null)
+val fileSelected = MutableStateFlow<File?>(null)
 
-fun selecionarImage() {
+fun selectFile() {
     val input = document.createElement("input") as HTMLInputElement
     input.type = "file"
 
@@ -18,7 +18,7 @@ fun selecionarImage() {
         if (fileList != null && fileList.length > 0) {
             val file = fileList[0]
             if (file != null) {
-                imagemSelecionada.value = file
+                fileSelected.value = file
             }
         }
     }

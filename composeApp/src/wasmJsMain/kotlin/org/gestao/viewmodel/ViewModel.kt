@@ -11,15 +11,20 @@ import org.bff.erp.model.Usuario
 import org.gestao.model.ClassesDto
 import org.gestao.model.ClassesList
 import org.gestao.model.ClassesListDto
+import org.gestao.model.UploadList
+import org.gestao.model.UploadsListDto
 import org.gestao.networking.fetchAllAcessos
 import org.gestao.networking.fetchAllClasses
 import org.gestao.networking.setAtualizarAcessos
 import org.gestao.networking.setAtualizarClasses
 import org.gestao.networking.setCadastroAcessos
 import org.gestao.networking.setCadastroClasse
+import org.gestao.networking.setCadastroUpload
 import org.gestao.networking.setExcluirAcessos
 import org.gestao.networking.setExcluirClasses
 import org.gestao.view.isLoading
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 var usuarioValidado = MutableStateFlow(false)
 var falhaAutenticacao = MutableStateFlow(false)
@@ -32,9 +37,11 @@ var showDialogRetornoCadastro = MutableStateFlow(false)
 var acessosDto = MutableStateFlow(AcessosListDto())
 var classDto = MutableStateFlow(ClassesListDto())
 
+var uploadDto = MutableStateFlow(UploadsListDto())
+
 val codSelected = MutableStateFlow("")
 
-val className = MutableStateFlow("")
+val classNameSelected = MutableStateFlow("")
 
 var allAcessos = MutableStateFlow<MutableList<AcessosDto>>(mutableListOf())
 
@@ -53,6 +60,11 @@ fun clearClasseDTO() {
     classDto.value.className = ""
     classDto.value.codClass = ""
 }
+
+fun clearUploadsDTO() {
+    uploadDto.value.fileName = ""
+    uploadDto.value.codClass = ""
+}
 fun getAllAcessos() {
     CoroutineScope(Dispatchers.Default).launch {
         allAcessos.value.addAll(fetchAllAcessos())
@@ -70,6 +82,12 @@ fun validarUsuario(nomeUsuario: String, senhaUsuario: String) {
         usuarioValidado.value = true
     } else {
         falhaAutenticacao.value = true
+    }
+}
+
+fun bindCadastroUpload() {
+    CoroutineScope(Dispatchers.Default).launch {
+        setCadastroUpload(convertUploadListDtoToUploadList())
     }
 }
 
@@ -117,10 +135,20 @@ fun bindExcluirClasse() {
 fun convertDtoToAcessosList(): Acessos {
     return Acessos(
         codClass = codSelected.value,
-        className = className.value,
+        className = classNameSelected.value,
         senha = acessosDto.value.senha,
         nome = acessosDto.value.nome,
         email = acessosDto.value.email,
+    )
+}
+
+@OptIn(ExperimentalUuidApi::class)
+fun convertUploadListDtoToUploadList(): UploadList {
+    return UploadList(
+        fileName = uploadDto.value.fileName,
+        codFile = Uuid.random().toString(),
+        codClass = codSelected.value,
+        tipoFile = uploadDto.value.tipoFile
     )
 }
 
@@ -147,4 +175,5 @@ fun convertDtoToClassesList(): ClassesList {
         className = classDto.value.className
     }
 }
+
 
