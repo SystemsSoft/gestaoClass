@@ -18,7 +18,7 @@ fun registerAccess(access: Access) {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("POST", "$BASE_SERVER/accesses")
+                open("POST", "$BASE_SERVER/access")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
@@ -37,7 +37,7 @@ fun updateAccess(access: AccessDto) {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("PUT", "$BASE_SERVER/accesses")
+                open("PUT", "$BASE_SERVER/access")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
@@ -57,7 +57,7 @@ fun deleteAccess(access: AccessDto) {
         CoroutineScope(Dispatchers.Main).launch {
 
             XMLHttpRequest().apply {
-                open("DELETE", "$BASE_SERVER/accesses")
+                open("DELETE", "$BASE_SERVER/access")
                 setRequestHeader("Content-Type", "application/json")
                 onload = { requestStatus.value = status.toInt() }
 
@@ -75,7 +75,7 @@ suspend fun fetchAllAccesses(): MutableList<AccessDto> {
     val allAccessList = mutableListOf<AccessDto>()
 
     try {
-        val response = window.fetch("$BASE_SERVER/accesses").then {
+        val response = window.fetch("$BASE_SERVER/access").then {
                 res -> res.text()
         }
 

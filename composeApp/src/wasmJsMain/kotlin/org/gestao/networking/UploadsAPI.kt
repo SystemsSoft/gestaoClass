@@ -37,7 +37,6 @@ fun registerUpload(uploadItem: UploadList) {
 private fun uploadFile(returnStatus: Int, item: UploadList) {
     if (returnStatus == 200) {
         try {
-
             XMLHttpRequest().apply {
                 open(
                     "PUT",
