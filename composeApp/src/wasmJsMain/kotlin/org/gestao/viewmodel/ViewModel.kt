@@ -11,6 +11,7 @@ import org.gestao.model.User
 import org.gestao.model.ClassDto
 import org.gestao.model.ClassList
 import org.gestao.model.ClassListDto
+import org.gestao.model.UploadDto
 import org.gestao.model.UploadList
 import org.gestao.model.UploadsListDto
 import org.gestao.networking.fetchAllAccesses
@@ -22,6 +23,9 @@ import org.gestao.networking.registerClass
 import org.gestao.networking.registerUpload
 import org.gestao.networking.deleteAccess
 import org.gestao.networking.deleteClasses
+import org.gestao.networking.deleteFile
+import org.gestao.networking.fetchAllUploads
+import org.gestao.networking.updateFile
 import org.gestao.view.isLoading
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -46,6 +50,7 @@ val selectedClassName = MutableStateFlow("")
 var allAccesses = MutableStateFlow<MutableList<AccessDto>>(mutableListOf())
 
 var allClasses = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
+var allUploads = MutableStateFlow<MutableList<UploadDto>>(mutableListOf())
 
 
 fun clearAccessDto() {
@@ -74,6 +79,12 @@ fun getAllAccesses() {
 fun getAllClasses() {
     CoroutineScope(Dispatchers.Default).launch {
         allClasses.value.addAll(fetchAllClasses())
+    }
+}
+
+fun getAllUploads() {
+    CoroutineScope(Dispatchers.Default).launch {
+        allUploads.value.addAll(fetchAllUploads())
     }
 }
 
@@ -118,6 +129,20 @@ fun bindUpdateClass() {
     }
 }
 
+fun bindUpdateFile() {
+    CoroutineScope(Dispatchers.Main).launch {
+        updateFile(convertUploadToUploadDTO())
+        isLoading.value = true
+    }
+}
+
+fun bindDeleteFile() {
+    CoroutineScope(Dispatchers.Main).launch {
+        deleteFile(convertUploadToUploadDTO())
+        isLoading.value = true
+    }
+}
+
 fun bindDeleteAccess() {
     CoroutineScope(Dispatchers.Main).launch {
         deleteAccess(convertDtoToAccessDto())
@@ -148,6 +173,17 @@ fun convertUploadListDtoToUploadList(): UploadList {
         fileName = uploadListDto.value.fileName,
         fileCode = Uuid.random().toString(),
         classCode = selectedCode.value,
+        fileType = uploadListDto.value.fileType
+    )
+}
+
+@OptIn(ExperimentalUuidApi::class)
+fun convertUploadToUploadDTO(): UploadDto {
+    return UploadDto(
+        id = uploadListDto.value.id,
+        fileName = uploadListDto.value.fileName,
+        fileCode = uploadListDto.value.fileCode,
+        classCode = uploadListDto.value.classCode,
         fileType = uploadListDto.value.fileType
     )
 }

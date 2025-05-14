@@ -23,7 +23,7 @@ data class UploadDto(
 )
 
 class UploadsListDto {
-    var id by mutableStateOf("")
+    var id by mutableStateOf(0)
     var fileName by mutableStateOf("")
     var fileCode by mutableStateOf("")
     var classCode by mutableStateOf("")

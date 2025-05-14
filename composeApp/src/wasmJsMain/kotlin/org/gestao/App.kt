@@ -12,8 +12,10 @@ import org.gestao.view.navigation.uploadNavigation
 import org.gestao.view.observeRequestStatus
 import org.gestao.viewmodel.allAccesses
 import org.gestao.viewmodel.allClasses
+import org.gestao.viewmodel.allUploads
 import org.gestao.viewmodel.getAllAccesses
 import org.gestao.viewmodel.getAllClasses
+import org.gestao.viewmodel.getAllUploads
 import org.gestao.viewmodel.isUserValidated
 
 @Composable
@@ -41,6 +43,8 @@ fun setupNavigation() {
 fun loadData() {
     allAccesses.value.clear()
     allClasses.value.clear()
+    allUploads.value.clear()
     getAllAccesses()
     getAllClasses()
+    getAllUploads()
 }
