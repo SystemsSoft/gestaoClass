@@ -4,7 +4,6 @@ package org.gestao.view.access
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +26,6 @@ fun accessScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(500.dp)
             .padding(start = 150.dp,top = 100.dp,end = 100.dp, bottom = 50.dp)
     ) {
         Column(

@@ -17,6 +17,7 @@ object Theme {
 
     val transparentColor = Color(0x00000000)
     val backgroundCard = Color(0xffe0e0e0)
+
     val  darkBlueColorTransparent = Color(0x340a1f44)
     val  colorIconClient = Color(0xfffc7900)
     val  darkBlueColor = Color(0xbb0a1f44)

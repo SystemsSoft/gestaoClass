@@ -60,10 +60,6 @@ accessListDto.value.password = ""
 accessListDto.value.email = ""
 }
 
-fun setFilterItem(id: Int?) {
-allClassesDto.value = allClasses.value.filter { id  == it.id}.toMutableList()
-}
-
 fun clearClassDto() {
     classListDto.value.className = ""
     classListDto.value.classCode = ""
@@ -75,19 +71,19 @@ fun clearUploadDto() {
 }
 fun getAllAccesses() {
     CoroutineScope(Dispatchers.Default).launch {
-        allAccesses.value.addAll(fetchAllAccesses())
+        allAccesses.value = fetchAllAccesses()
     }
 }
 
 fun getAllClasses() {
     CoroutineScope(Dispatchers.Default).launch {
-        allClasses.value.addAll(fetchAllClasses())
+        allClasses.value = fetchAllClasses()
     }
 }
 
 fun getAllUploads() {
     CoroutineScope(Dispatchers.Default).launch {
-        allUploads.value.addAll(fetchAllUploads())
+        allUploads.value = fetchAllUploads()
     }
 }
 

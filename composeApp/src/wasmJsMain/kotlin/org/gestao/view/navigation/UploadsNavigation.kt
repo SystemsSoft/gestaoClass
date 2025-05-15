@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.classFilterIcon
 import org.gestao.view.closeAccessScreen
 import org.gestao.view.closeClassScreen
+import org.gestao.view.closeDashScreen
 import org.gestao.view.menu.uploadScreen
 import org.gestao.view.uploads.cleanUploadsFields
 import org.gestao.view.uploads.uploadRegistrationScreen
@@ -38,6 +39,7 @@ fun uploadNavigation() {
         if (uploadScreen.value){
             closeAccessScreen()
             closeClassScreen()
+            closeDashScreen()
         }
         openUploadRegistration.value = false
         openEditUpload.value = false

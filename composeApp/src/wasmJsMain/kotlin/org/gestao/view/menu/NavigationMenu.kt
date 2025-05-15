@@ -22,20 +22,20 @@ import gestaoweb.bbf.com.util.Menu.iconsMenu
 import gestaoweb.bbf.com.util.Menu.menuListNames
 import gestaoweb.bbf.com.util.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.gestao.view.dashBoardScreen
 
 val selectedMenuItem = MutableStateFlow(0)
 var accessScreen  = MutableStateFlow (false)
 var classesScreen  = MutableStateFlow (false)
 
 var uploadScreen  = MutableStateFlow (false)
+var dashScreen  = MutableStateFlow (false)
 
 
 @Composable
 fun setupNavigationMenu() {
     selectedMenuItem.collectAsState().value.let {
         when (it) {
-            0 -> dashBoardScreen()
+            0 -> dashScreen.value = !dashScreen.value
             1 -> uploadScreen.value = !uploadScreen.value
             2 -> accessScreen.value = !accessScreen.value
             3 -> classesScreen.value = !classesScreen.value
