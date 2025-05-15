@@ -7,7 +7,11 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.gestao.view.classFilterIcon
+import org.gestao.view.closeAccessScreen
+import org.gestao.view.closeClassScreen
 import org.gestao.view.menu.uploadScreen
+import org.gestao.view.uploads.cleanUploadsFields
 import org.gestao.view.uploads.uploadRegistrationScreen
 import org.gestao.view.uploads.editUploadScreen
 import org.gestao.view.uploads.editSelectedUpload
@@ -57,7 +61,9 @@ fun uploadRegistrationNavigation() {
         if(openUploadRegistration.value) {
             abrirEditarItemUpload.value = false
             openEditUpload.value = false
+            classFilterIcon.value = false
         }
+        cleanUploadsFields()
         uploadRegistrationScreen()
     }
 }
@@ -79,6 +85,7 @@ fun editUploadNavigation() {
         if(openEditUpload.value) {
             openUploadRegistration.value = false
             abrirEditarItemUpload.value = false
+            classFilterIcon.value = true
         }
 
         editUploadScreen()
@@ -100,6 +107,7 @@ fun editItemUploadNavigation() {
         if(abrirEditarItemUpload.value) {
             openEditUpload.value = false
             openUploadRegistration.value = false
+            classFilterIcon.value = false
         }
         editSelectedUpload()
     }

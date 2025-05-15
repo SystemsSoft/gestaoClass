@@ -8,14 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.gestao.view.access.accessScreen
+import org.gestao.view.access.cleanAccessFields
 import org.gestao.view.access.registrationScreen
 import org.gestao.view.access.editAccessScreen
 import org.gestao.view.access.editSelectedAccess
 import org.gestao.view.menu.accessScreen
+import org.gestao.view.classFilterIcon
+import org.gestao.view.closeClassScreen
+import org.gestao.view.closeUploadScreen
 
 var openAccessRegistration = MutableStateFlow(false)
 var openEditAccess = MutableStateFlow(false)
 var openEditItemAccess = MutableStateFlow(false)
+
 
 @Composable
 fun accessNavigation() {
@@ -57,7 +62,9 @@ fun accessRegistrationNavigation() {
         if(openAccessRegistration.value) {
             openEditAccess.value = false
             openEditItemAccess.value = false
+            classFilterIcon.value = false
         }
+        cleanAccessFields()
         registrationScreen()
     }
 }
@@ -78,6 +85,7 @@ fun editAccessNavigation() {
         if(openEditAccess.value) {
             openAccessRegistration.value = false
             openEditItemAccess.value = false
+            classFilterIcon.value = true
         }
 
         editAccessScreen()
@@ -100,6 +108,7 @@ fun editItemAccessNavigation() {
         if(openEditItemAccess.value) {
             openEditAccess.value = false
             openAccessRegistration.value = false
+            classFilterIcon.value = false
         }
 
         editSelectedAccess()

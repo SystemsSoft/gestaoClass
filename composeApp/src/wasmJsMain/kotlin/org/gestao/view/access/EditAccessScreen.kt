@@ -47,6 +47,7 @@ import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import model.AccessDto
 import org.gestao.model.ClassDto
+import org.gestao.view.dialogClassFilter
 import org.gestao.view.isLoadingValidate
 import org.gestao.view.navigation.openEditItemAccess
 import org.gestao.viewmodel.accessListDto
@@ -58,13 +59,20 @@ import org.gestao.viewmodel.bindDeleteAccess
 @Composable
 fun editAccessScreen() {
     val getAllAccesses = remember { mutableStateListOf<AccessDto>() }
+    val selectedClassCode = remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         getAllAccesses.addAll(allAccesses.value)
     }
 
+    val filteredAccesses = if (selectedClassCode.value != null) {
+        getAllAccesses.filter { it.classCode == selectedClassCode.value }
+    } else {
+        getAllAccesses
+    }
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(getAllAccesses) { acesso ->
+        items(filteredAccesses) { acesso ->
             AccessItem(
                 access = acesso,
                 onClick = {
@@ -78,6 +86,12 @@ fun editAccessScreen() {
             })
         }
     }
+    dialogClassFilter(
+        getAllAccesses,
+        getItemName = { it.className },
+        getItemCode = { it.classCode },
+        selectedClassCode
+    )
 }
 
 @Composable

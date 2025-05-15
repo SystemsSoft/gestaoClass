@@ -19,11 +19,14 @@ import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
+import org.gestao.model.ClassListDto
+import org.gestao.model.UploadsListDto
 import org.gestao.util.selectFile
 import org.gestao.view.isLoadingValidate
 import org.gestao.view.classSelector
 import org.gestao.view.fileTypesSelector
 import org.gestao.viewmodel.bindUploadRegistration
+import org.gestao.viewmodel.classListDto
 import org.gestao.viewmodel.uploadListDto
 
 @Composable
@@ -76,5 +79,11 @@ fun uploadRegistrationScreen() {
         ) {
             Text(text = "Cadastrar", color = Color.Black)
         }
+    }
+}
+
+fun cleanUploadsFields() {
+    if (uploadListDto.value.fileName.isNotBlank()) {
+        uploadListDto.value = UploadsListDto()
     }
 }

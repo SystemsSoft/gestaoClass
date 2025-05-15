@@ -20,13 +20,14 @@ import org.gestao.view.navigation.accessRegistrationNavigation
 import org.gestao.view.navigation.editAccessNavigation
 import org.gestao.view.navigation.editItemAccessNavigation
 import org.gestao.view.newRegistrationIcon
+import org.gestao.view.showFilterIcon
 
 @Composable
 fun accessScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(600.dp)
+            .height(500.dp)
             .padding(start = 150.dp,top = 50.dp,end = 50.dp, bottom = 50.dp)
     ) {
         Column(
@@ -39,6 +40,7 @@ fun accessScreen() {
             ){
                 newRegistrationIcon(onClick = { openAccessRegistration.value = !openAccessRegistration.value })
                 editRegistrationIcon(onClick = { openEditAccess.value = !openEditAccess.value })
+                showFilterIcon()
             }
             accessRegistrationNavigation()
             editAccessNavigation()

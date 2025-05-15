@@ -34,8 +34,6 @@ import org.gestao.util.RequestResults.SUCCESS_MSG
 import org.gestao.util.RequestResults.SUCCESS_TITLE
 import org.gestao.view.menu.classesScreen
 import org.gestao.view.menu.selectedMenuItem
-import org.gestao.view.navigation.closeAccessScreen
-import org.gestao.view.navigation.closeClassScreen
 import org.gestao.viewmodel.clearAccessDto
 import org.gestao.viewmodel.clearClassDto
 import org.gestao.viewmodel.clearUploadDto

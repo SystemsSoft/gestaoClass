@@ -19,13 +19,14 @@ import org.gestao.view.navigation.uploadRegistrationNavigation
 import org.gestao.view.navigation.editItemUploadNavigation
 import org.gestao.view.navigation.editUploadNavigation
 import org.gestao.view.newRegistrationIcon
+import org.gestao.view.showFilterIcon
 
 @Composable
 fun uploadFilesScreen() {
     Card(
         modifier = Modifier
             .width(1200.dp)
-            .height(600.dp)
+            .height(500.dp)
             .padding(start = 150.dp,top = 50.dp,end = 50.dp, bottom = 50.dp)
     ) {
         Column(
@@ -38,6 +39,7 @@ fun uploadFilesScreen() {
             ){
                 newRegistrationIcon(onClick = { openUploadRegistration.value = !openUploadRegistration.value })
                 editRegistrationIcon(onClick = { openEditUpload.value = !openEditUpload.value })
+                showFilterIcon()
             }
             uploadRegistrationNavigation()
             editUploadNavigation()

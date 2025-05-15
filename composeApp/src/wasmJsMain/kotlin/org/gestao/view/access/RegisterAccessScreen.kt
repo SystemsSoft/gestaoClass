@@ -13,8 +13,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,11 +28,10 @@ import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
-import org.gestao.model.ClassDto
+import model.AccessListDto
 import org.gestao.view.classSelector
 import org.gestao.view.isLoadingValidate
 import org.gestao.viewmodel.accessListDto
-import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.bindAccessRegistration
 
 
@@ -43,12 +40,6 @@ fun registrationScreen() {
     val focusRequesterNome = remember { FocusRequester() }
     val focusRequesterSenha = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
-
-    val allClassesList = remember { mutableStateListOf<ClassDto>() }
-
-    LaunchedEffect(Unit){
-        allClassesList.addAll(allClasses.value)
-    }
 
     Column(
         Modifier.fillMaxSize()
@@ -138,6 +129,12 @@ fun registrationScreen() {
         ) {
             Text(text = "Cadastrar", color = Color.Black)
         }
+    }
+}
+
+ fun cleanAccessFields() {
+    if (accessListDto.value.name.isNotBlank()) {
+      accessListDto.value = AccessListDto()
     }
 }
 

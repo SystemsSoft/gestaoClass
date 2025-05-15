@@ -24,14 +24,14 @@ import androidx.compose.ui.unit.dp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
+import org.gestao.model.ClassDto
+import org.gestao.model.ClassListDto
 import org.gestao.view.isLoadingValidate
 import org.gestao.viewmodel.bindClassRegistration
 import org.gestao.viewmodel.classListDto
 
 @Composable
 fun classRegistrationScreen() {
-    val errorMessage by remember { mutableStateOf("") }
-
     Column(
         Modifier
             .fillMaxSize()
@@ -99,6 +99,12 @@ fun classRegistrationScreen() {
             Text(text = "Cadastrar", color = Color.Black)
         }
         isLoadingValidate()
+    }
+}
+
+ fun cleanClassFields() {
+    if (classListDto.value.className.isNotBlank()) {
+       classListDto.value = ClassListDto()
     }
 }
 

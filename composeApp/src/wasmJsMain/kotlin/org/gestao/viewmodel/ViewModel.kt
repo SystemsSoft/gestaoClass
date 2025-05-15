@@ -1,5 +1,7 @@
 package org.gestao.viewmodel
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,14 +44,11 @@ var accessListDto = MutableStateFlow(AccessListDto())
 var classListDto = MutableStateFlow(ClassListDto())
 
 var uploadListDto = MutableStateFlow(UploadsListDto())
-
 val selectedCode = MutableStateFlow("")
-
 val selectedClassName = MutableStateFlow("")
-
 var allAccesses = MutableStateFlow<MutableList<AccessDto>>(mutableListOf())
-
 var allClasses = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
+var allClassesDto = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
 var allUploads = MutableStateFlow<MutableList<UploadDto>>(mutableListOf())
 
 
@@ -59,6 +58,10 @@ accessListDto.value.name = ""
 accessListDto.value.className = ""
 accessListDto.value.password = ""
 accessListDto.value.email = ""
+}
+
+fun setFilterItem(id: Int?) {
+allClassesDto.value = allClasses.value.filter { id  == it.id}.toMutableList()
 }
 
 fun clearClassDto() {

@@ -7,10 +7,14 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.gestao.view.classFilterIcon
 import org.gestao.view.classes.classRegistrationScreen
 import org.gestao.view.classes.classScreen
+import org.gestao.view.classes.cleanClassFields
 import org.gestao.view.classes.editSelectedClass
 import org.gestao.view.classes.editarClassesScreen
+import org.gestao.view.closeAccessScreen
+import org.gestao.view.closeUploadScreen
 import org.gestao.view.menu.classesScreen
 
 var openClassRegistration = MutableStateFlow(false)
@@ -31,7 +35,8 @@ fun classNavigation() {
         )
     ) {
         if (classesScreen.value){
-           closeAccessScreen()
+            closeAccessScreen()
+            closeUploadScreen()
         }
         openClassRegistration.value = false
         openEditClass.value = false
@@ -55,7 +60,9 @@ fun classRegistrationNavigation() {
         if(openClassRegistration.value) {
             openEditClassItem.value = false
             openEditClass.value = false
+            classFilterIcon.value = false
         }
+        cleanClassFields()
         classRegistrationScreen()
     }
 }
@@ -76,12 +83,12 @@ fun editClassNavigation() {
         if(openEditClass.value) {
             openClassRegistration.value = false
             openEditClassItem.value = false
+            classFilterIcon.value = true
         }
 
         editarClassesScreen()
     }
 }
-
 
 @Composable
 fun editClassItemNavigation() {
@@ -99,6 +106,7 @@ fun editClassItemNavigation() {
         if(openEditClassItem.value) {
             openEditClass.value = false
             openClassRegistration.value = false
+            classFilterIcon.value = false
         }
         editSelectedClass()
     }
