@@ -13,11 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import gestaoweb.bbf.com.util.Theme.backgroundCard
-import model.AccessDto
-import org.gestao.model.ClassDto
 import org.gestao.viewmodel.allAccesses
 import org.gestao.viewmodel.allClasses
 
@@ -52,7 +47,6 @@ fun dashBoardScreen() {
         Row {
             accessCard()
             classCard()
-            billingScreen()
         }
     }
 }
@@ -130,46 +124,6 @@ fun classCard() {
                         .padding(top = 10.dp)
                         .align(Alignment.CenterHorizontally),
                     text = getAllClasses.size.toString(),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        color = Color.Black,
-                    )
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun billingScreen() {
-    Card(
-        modifier = Modifier
-            .width(200.dp)
-            .height(100.dp)
-            .padding(start = 10.dp)
-            .offset(x = 180.dp, y = 50.dp)
-            .zIndex(1f),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .background(backgroundCard)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column {
-                Text(
-                    text = "Faturamento",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        color = Color.Black,
-                    )
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-                        .align(Alignment.CenterHorizontally),
-                    text = "",
                     style = TextStyle(
                         fontSize = 12.sp,
                         color = Color.Black,

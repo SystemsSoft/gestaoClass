@@ -18,13 +18,11 @@ import org.gestao.viewmodel.getAllAccesses
 import org.gestao.viewmodel.getAllClasses
 import org.gestao.viewmodel.getAllUploads
 import org.gestao.viewmodel.isUserValidated
-import org.gestao.viewmodel.validateUser
 
 @Composable
 fun App() {
     loadData()
     setupAppUI()
-
 }
 
 @Composable
