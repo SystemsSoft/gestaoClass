@@ -35,11 +35,7 @@ import kotlin.uuid.Uuid
 var isUserValidated = MutableStateFlow(false)
 var authenticationFailed = MutableStateFlow(false)
 var loggedInUser  = MutableStateFlow(User())
-
 var requestStatus = MutableStateFlow(0)
-
-var showRegistrationResponseDialog = MutableStateFlow(false)
-
 var accessListDto = MutableStateFlow(AccessListDto())
 var classListDto = MutableStateFlow(ClassListDto())
 
@@ -48,7 +44,6 @@ val selectedCode = MutableStateFlow("")
 val selectedClassName = MutableStateFlow("")
 var allAccesses = MutableStateFlow<MutableList<AccessDto>>(mutableListOf())
 var allClasses = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
-var allClassesDto = MutableStateFlow<MutableList<ClassDto>>(mutableListOf())
 var allUploads = MutableStateFlow<MutableList<UploadDto>>(mutableListOf())
 
 
@@ -176,7 +171,6 @@ fun convertUploadListDtoToUploadList(): UploadList {
     )
 }
 
-@OptIn(ExperimentalUuidApi::class)
 fun convertUploadToUploadDTO(): UploadDto {
     return UploadDto(
         id = uploadListDto.value.id,
@@ -204,9 +198,10 @@ fun convertDtoToClassDto(): ClassDto {
         className = classListDto.value.className,
     )
 }
+@OptIn(ExperimentalUuidApi::class)
 fun convertDtoToClassesList(): ClassList {
     return ClassList().apply {
-        classCode = classListDto.value.classCode
+        classCode = Uuid.random().toString()
         className = classListDto.value.className
     }
 }

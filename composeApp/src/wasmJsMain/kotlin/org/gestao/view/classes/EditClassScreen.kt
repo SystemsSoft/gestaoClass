@@ -19,6 +19,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,12 +45,8 @@ import org.gestao.viewmodel.classListDto
 
 @Composable
 fun editarClassesScreen() {
-    val getAllClasses = remember { mutableStateListOf<ClassDto>() }
+    val getAllClasses by allClasses.collectAsState()
     val selectedClassCode = remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(Unit) {
-        getAllClasses.addAll(allClasses.value)
-    }
 
     val filteredClasses = if (selectedClassCode.value != null) {
         getAllClasses.filter { it.classCode == selectedClassCode.value }
@@ -90,7 +88,7 @@ fun classeItem(classe: ClassDto, onClick: (ClassDto) -> Unit) {
     ) {
         Text(
             text = "Classe Cod: ${classe.classCode}",
-            fontSize = 10.sp
+            fontSize = 10.sp,
         )
         Text(
             text = "Classe Nome: ${classe.className}",
@@ -123,6 +121,7 @@ fun editSelectedClass() {
                         )
                     )
                 },
+                enabled = false,
                 textStyle = TextStyle(fontSize = fontDefault),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.height(heightField),

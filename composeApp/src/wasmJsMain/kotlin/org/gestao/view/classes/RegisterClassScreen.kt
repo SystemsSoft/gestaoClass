@@ -64,27 +64,6 @@ fun classRegistrationScreen() {
                     textColor = Color.Black
                 ),
             )
-
-            OutlinedTextField(
-                value = classListDto.value.classCode,
-                onValueChange = { classListDto.value.classCode = it },
-                label = {
-                    Text(
-                        "Código da classe",
-                        style = TextStyle(fontSize = fontDefault)
-                    )
-                },
-                textStyle = TextStyle(fontSize = fontDefault),
-                modifier = Modifier
-                    .padding(start = 4.dp)
-                    .height(heightField),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = darkBlueColor,
-                    focusedLabelColor = darkBlueColor,
-                    cursorColor = Color.Black,
-                    textColor = Color.Black
-                )
-            )
         }
 
         Button(

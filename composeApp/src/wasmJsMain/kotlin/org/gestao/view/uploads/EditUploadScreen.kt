@@ -19,6 +19,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,10 +34,12 @@ import androidx.compose.ui.unit.sp
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
+import org.gestao.model.ClassDto
 import org.gestao.model.UploadDto
 import org.gestao.view.dialogClassFilter
 import org.gestao.view.isLoadingValidate
 import org.gestao.view.navigation.abrirEditarItemUpload
+import org.gestao.viewmodel.allClasses
 import org.gestao.viewmodel.allUploads
 import org.gestao.viewmodel.bindDeleteFile
 import org.gestao.viewmodel.bindUpdateFile
@@ -43,18 +47,14 @@ import org.gestao.viewmodel.uploadListDto
 
 @Composable
 fun editUploadScreen() {
-    val getAllUploads = remember { mutableStateListOf<UploadDto>() }
+    val allUploads by allUploads.collectAsState()
+    val allClasses by allClasses.collectAsState()
+
     val selectedClassCode = remember { mutableStateOf<String?>(null) }
-
-
-    LaunchedEffect(Unit) {
-        getAllUploads.addAll(allUploads.value)
-    }
-
     val filteredUploadss = if (selectedClassCode.value != null) {
-        getAllUploads.filter { it.classCode == selectedClassCode.value }
+        allUploads.filter { it.classCode == selectedClassCode.value }
     } else {
-        getAllUploads
+        allUploads
     }
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -71,13 +71,13 @@ fun editUploadScreen() {
             )
         }
     }
+
     dialogClassFilter(
-        getAllUploads,
-        getItemName = { "" },
+        allClasses,
+        getItemName = { it.className },
         getItemCode = { it.classCode },
         selectedClassCode
     )
-
 }
 
 @Composable

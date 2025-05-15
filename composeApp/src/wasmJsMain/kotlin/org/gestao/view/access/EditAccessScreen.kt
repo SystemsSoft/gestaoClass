@@ -24,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -58,12 +59,9 @@ import org.gestao.viewmodel.bindDeleteAccess
 
 @Composable
 fun editAccessScreen() {
-    val getAllAccesses = remember { mutableStateListOf<AccessDto>() }
+    val getAllAccesses by allAccesses.collectAsState()
     val selectedClassCode = remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(Unit) {
-        getAllAccesses.addAll(allAccesses.value)
-    }
 
     val filteredAccesses = if (selectedClassCode.value != null) {
         getAllAccesses.filter { it.classCode == selectedClassCode.value }
