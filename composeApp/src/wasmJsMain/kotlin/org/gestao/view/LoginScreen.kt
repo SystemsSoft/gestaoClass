@@ -1,6 +1,5 @@
 package org.gestao.view
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,11 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -51,7 +48,6 @@ import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.gradientBackground
 import kotlinx.browser.window
 import org.gestao.viewmodel.authenticationFailed
-import org.gestao.viewmodel.loggedInUser
 import org.gestao.viewmodel.validateUser
 import org.jetbrains.compose.resources.painterResource
 
@@ -80,8 +76,8 @@ fun authenticationFields() {
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(end = 50.dp)
-                    .size(width = 400.dp, height = 420.dp),
-                shape = RoundedCornerShape(32.dp)
+                    .size(width = 400.dp, height = 400.dp),
+                shape = RoundedCornerShape(28.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -89,7 +85,6 @@ fun authenticationFields() {
                         .padding(16.dp),
                     verticalArrangement = Arrangement.Center,
                 ) {
-
                     OutlinedTextField(
                         value = user,
                         singleLine = true,
@@ -163,7 +158,7 @@ fun authenticationFields() {
                             cursorColor = Color.White,
                             textColor = Color.White
                         ),
-                        shape = RoundedCornerShape(16.dp),
+                        shape = RoundedCornerShape(12.dp),
                         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
@@ -177,14 +172,13 @@ fun authenticationFields() {
                         }
                     )
 
-                    Button(
-                        onClick = {
-                            validateUser(user, password)
-                        },
+                    Button(onClick = { validateUser(user, password) },
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(start = 35.dp, end = 35.dp)
                             .focusRequester(focusRequesterLogin),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = darkBlueColor)
+
+                        shape = RoundedCornerShape(12.dp),
                     ) {
                         Text(text = "Entrar", color = Color.White)
                     }
@@ -200,7 +194,7 @@ fun showUpLoginError() {
         AlertDialog(
             onDismissRequest = { authenticationFailed.value = false },
             title = { Text("Erro de Autenticação") },
-            text = { Text("Usuário ou senha estão incorretos.") },
+            text = { Text(" Verifique usuário/senha ou se possui licença ativa.") },
             confirmButton = {
                 TextButton(onClick = {
                     authenticationFailed.value = false
@@ -216,19 +210,6 @@ fun showUpLoginError() {
             contentColor = Color.White,
             backgroundColor = darkBlueColor,
         )
-    }
-}
-
-@Composable
-fun ShowLogo() {
-    AnimatedVisibility(true) {
-        Column(
-            Modifier
-                .padding(100.dp)
-                .width(350.dp),
-            horizontalAlignment = Alignment.End) {
-           // Image(painterResource(Res.drawable.logo), null)
-        }
     }
 }
 
@@ -253,7 +234,7 @@ fun fieldLogOut() {
             modifier = Modifier
                 .padding(end = 40.dp, top = 15.dp)
                 .align(Alignment.TopEnd),
-            text = loggedInUser.collectAsState().value.name,
+            text = "",
             color = Color.White,
             style = TextStyle(fontSize = fontDefault)
         )

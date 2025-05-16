@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
- class User {
-    var id = 0
-    var name = ""
-    var company = ""
-    var password  = ""
- }
+data class User(
+    var name: String,
+    var password: String
+)
+
+

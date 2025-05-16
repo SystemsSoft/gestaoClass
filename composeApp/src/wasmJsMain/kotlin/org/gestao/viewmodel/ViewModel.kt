@@ -1,7 +1,5 @@
 package org.gestao.viewmodel
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,13 +7,13 @@ import kotlinx.coroutines.launch
 import model.Access
 import model.AccessDto
 import model.AccessListDto
-import org.gestao.model.User
 import org.gestao.model.ClassDto
 import org.gestao.model.ClassList
 import org.gestao.model.ClassListDto
 import org.gestao.model.UploadDto
 import org.gestao.model.UploadList
 import org.gestao.model.UploadsListDto
+import org.gestao.model.User
 import org.gestao.networking.fetchAllAccesses
 import org.gestao.networking.fetchAllClasses
 import org.gestao.networking.updateAccess
@@ -27,6 +25,7 @@ import org.gestao.networking.deleteAccess
 import org.gestao.networking.deleteClasses
 import org.gestao.networking.deleteFile
 import org.gestao.networking.fetchAllUploads
+import org.gestao.networking.setUserValidate
 import org.gestao.networking.updateFile
 import org.gestao.view.isLoading
 import kotlin.uuid.ExperimentalUuidApi
@@ -34,7 +33,6 @@ import kotlin.uuid.Uuid
 
 var isUserValidated = MutableStateFlow(false)
 var authenticationFailed = MutableStateFlow(false)
-var loggedInUser  = MutableStateFlow(User())
 var requestStatus = MutableStateFlow(0)
 var accessListDto = MutableStateFlow(AccessListDto())
 var classListDto = MutableStateFlow(ClassListDto())
@@ -83,11 +81,7 @@ fun getAllUploads() {
 }
 
 fun validateUser(username: String, password: String) {
-    if(username == "hml" && password == "01") {
-        isUserValidated.value = true
-    } else {
-        authenticationFailed.value = true
-    }
+    setUserValidate(User(username, password))
 }
 
 fun bindUploadRegistration() {

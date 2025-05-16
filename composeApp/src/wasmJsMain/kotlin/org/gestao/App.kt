@@ -28,7 +28,7 @@ fun App() {
 @Composable
 fun setupAppUI() {
     Theme.MyAppTheme {
-        if (!isUserValidated.collectAsState().value) {
+        if (isUserValidated.collectAsState().value) {
             observeRequestStatus()
             setupNavigation()
             setupNavigationMenu()
