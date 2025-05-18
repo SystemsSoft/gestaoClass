@@ -38,6 +38,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import gestaoclass.composeapp.generated.resources.Res
+import gestaoclass.composeapp.generated.resources.ic_logout
 import gestaoclass.composeapp.generated.resources.ic_user
 import gestaoclass.composeapp.generated.resources.lock
 import gestaoclass.composeapp.generated.resources.person
@@ -225,7 +226,7 @@ fun fieldLogOut() {
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Icon(
-                painterResource(Res.drawable.ic_user),
+                painterResource(Res.drawable.ic_logout),
                 contentDescription = "Sair",
                 tint = Color.White
             )
