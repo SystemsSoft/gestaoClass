@@ -8,15 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import org.gestao.view.closeAccessScreen
 import org.gestao.view.closeClassScreen
-import org.gestao.view.closeLiveScreen
+import org.gestao.view.closeDashScreen
 import org.gestao.view.closeUploadScreen
-import org.gestao.view.dashBoardScreen
-import org.gestao.view.menu.dashScreen
+import org.gestao.view.live.liveClassScreen
+import org.gestao.view.menu.liveScreen
 
 @Composable
-fun dashNavigation() {
+fun liveNavigation() {
     AnimatedVisibility (
-        visible = dashScreen.collectAsState().value,
+        visible = liveScreen.collectAsState().value,
         enter = slideInHorizontally(
             initialOffsetX = { it },
             animationSpec = tween(durationMillis = 1000)
@@ -26,12 +26,12 @@ fun dashNavigation() {
             animationSpec = tween(durationMillis = 1000)
         )
     ) {
-        if(dashScreen.value) {
-            closeClassScreen()
-            closeUploadScreen()
+        if (liveScreen.value) {
             closeAccessScreen()
-            closeLiveScreen()
+            closeUploadScreen()
+            closeDashScreen()
+            closeClassScreen()
         }
-        dashBoardScreen()
+        liveClassScreen()
     }
 }

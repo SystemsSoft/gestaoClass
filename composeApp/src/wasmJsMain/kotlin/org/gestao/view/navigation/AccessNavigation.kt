@@ -16,6 +16,7 @@ import org.gestao.view.menu.accessScreen
 import org.gestao.view.classFilterIcon
 import org.gestao.view.closeClassScreen
 import org.gestao.view.closeDashScreen
+import org.gestao.view.closeLiveScreen
 import org.gestao.view.closeUploadScreen
 
 var openAccessRegistration = MutableStateFlow(false)
@@ -40,6 +41,7 @@ fun accessNavigation() {
             closeClassScreen()
             closeUploadScreen()
             closeDashScreen()
+            closeLiveScreen()
         }
 
         openAccessRegistration.value = false

@@ -15,6 +15,7 @@ import org.gestao.view.classes.editSelectedClass
 import org.gestao.view.classes.editarClassesScreen
 import org.gestao.view.closeAccessScreen
 import org.gestao.view.closeDashScreen
+import org.gestao.view.closeLiveScreen
 import org.gestao.view.closeUploadScreen
 import org.gestao.view.menu.classesScreen
 
@@ -39,6 +40,7 @@ fun classNavigation() {
             closeAccessScreen()
             closeUploadScreen()
             closeDashScreen()
+            closeLiveScreen()
         }
         openClassRegistration.value = false
         openEditClass.value = false

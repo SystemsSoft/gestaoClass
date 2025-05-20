@@ -9,6 +9,7 @@ import org.gestao.view.menu.setupNavigationMenu
 import org.gestao.view.navigation.accessNavigation
 import org.gestao.view.navigation.classNavigation
 import org.gestao.view.navigation.dashNavigation
+import org.gestao.view.navigation.liveNavigation
 import org.gestao.view.navigation.uploadNavigation
 import org.gestao.view.observeRequestStatus
 import org.gestao.viewmodel.allAccesses
@@ -28,7 +29,7 @@ fun App() {
 @Composable
 fun setupAppUI() {
     Theme.MyAppTheme {
-        if (isUserValidated.collectAsState().value) {
+      /*  if (isUserValidated.collectAsState().value) {
             observeRequestStatus()
             setupNavigation()
             setupNavigationMenu()
@@ -36,7 +37,12 @@ fun setupAppUI() {
             fieldLogOut()
         } else {
             loginScreen()
-        }
+        }*/
+        observeRequestStatus()
+        setupNavigation()
+        setupNavigationMenu()
+        navigationRail()
+        fieldLogOut()
     }
 }
 
@@ -46,6 +52,7 @@ fun setupNavigation() {
     accessNavigation()
     classNavigation()
     uploadNavigation()
+    liveNavigation()
 }
 
 fun loadData() {

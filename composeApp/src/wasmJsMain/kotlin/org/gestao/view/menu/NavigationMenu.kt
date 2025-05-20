@@ -30,6 +30,8 @@ var classesScreen  = MutableStateFlow (false)
 var uploadScreen  = MutableStateFlow (false)
 var dashScreen  = MutableStateFlow (false)
 
+var liveScreen  = MutableStateFlow (false)
+
 
 @Composable
 fun setupNavigationMenu() {
@@ -39,6 +41,7 @@ fun setupNavigationMenu() {
             1 -> uploadScreen.value = !uploadScreen.value
             2 -> accessScreen.value = !accessScreen.value
             3 -> classesScreen.value = !classesScreen.value
+            4 -> liveScreen.value = !liveScreen.value
 
             else -> {}
         }
@@ -91,6 +94,7 @@ fun navigationRail() {
                         accessScreen.value = false
                         classesScreen.value = false
                         uploadScreen.value = false
+                        liveScreen.value = false
                         selectedMenuItem.value = 0
                     } else {
                        selectedMenuItem.value = index

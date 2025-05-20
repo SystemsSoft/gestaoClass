@@ -3,6 +3,7 @@ package org.gestao.view
 import org.gestao.view.menu.accessScreen
 import org.gestao.view.menu.classesScreen
 import org.gestao.view.menu.dashScreen
+import org.gestao.view.menu.liveScreen
 import org.gestao.view.menu.uploadScreen
 import org.gestao.view.navigation.abrirEditarItemUpload
 import org.gestao.view.navigation.openEditAccess
@@ -34,4 +35,8 @@ fun closeUploadScreen() {
 
 fun closeDashScreen() {
     dashScreen.value = false
+}
+
+fun closeLiveScreen() {
+    liveScreen.value = false
 }
