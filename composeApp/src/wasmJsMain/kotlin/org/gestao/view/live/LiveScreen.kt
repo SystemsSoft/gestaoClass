@@ -1,5 +1,6 @@
 package org.gestao.view.live
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -141,6 +142,9 @@ fun ControlButtons() {
 fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit) {
     var isHovered by remember { mutableStateOf(false) }
 
+    // Tamanhos animados para expansão
+    val size by animateDpAsState(if (isHovered) 60.dp else 50.dp)
+
     Box(
         modifier = Modifier
             .offset(y = (-40).dp)
@@ -170,16 +174,13 @@ fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit
 
         Surface(
             modifier = Modifier
-                .height(50.dp)
-                .width(50.dp)
+                .size(size)
                 .clickable { onClick() },
             color = color,
             shape = RoundedCornerShape(25.dp),
             elevation = 6.dp
         ) {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
+            Box(contentAlignment = Alignment.Center) {
                 Icon(
                     icon,
                     contentDescription = tooltip,
