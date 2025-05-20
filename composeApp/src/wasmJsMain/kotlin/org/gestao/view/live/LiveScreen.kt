@@ -17,7 +17,9 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import gestaoclass.composeapp.generated.resources.Res
 import gestaoclass.composeapp.generated.resources.ic_call_end
+import gestaoclass.composeapp.generated.resources.ic_cam_on
 import gestaoclass.composeapp.generated.resources.ic_groups
+import gestaoclass.composeapp.generated.resources.ic_mic_on
 import gestaoclass.composeapp.generated.resources.ic_play
 import gestaoclass.composeapp.generated.resources.ic_share
 import gestaoweb.bbf.com.util.Theme.transparentColor
@@ -31,21 +33,31 @@ fun liveClassScreen() {
     Surface(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .widthIn(500.dp)
             .fillMaxSize()
             .padding(15.dp),
         color = Color(0xFF202124)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 100.dp),
-                verticalArrangement = Arrangement.Top
-            ) {
-                VideoGrid(participants = fakeParticipants)
-            }
+            Row(modifier = Modifier.fillMaxSize().padding(start = 5.dp, top = 5.dp, bottom = 80.dp)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .background(Color.DarkGray, RoundedCornerShape(12.dp))
+                ) {
+                    Text(
+                        "Tela Compartilhada",
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(start = 5.dp, top = 5.dp)
+                            .align(Alignment.Center),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
 
+                ParticipantColumn(participants = fakeParticipants)
+            }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -58,50 +70,50 @@ fun liveClassScreen() {
 }
 
 @Composable
-fun VideoGrid(participants: List<String>) {
+fun ParticipantColumn(participants: List<String>) {
     val rows = participants.chunked(2)
 
-    Row(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 40.dp, top = 20.dp, end = 5.dp),
-        horizontalArrangement = Arrangement.End
+            .width(300.dp)
+            .fillMaxHeight()
+            .padding(start = 5.dp, top = 5.dp, bottom = 5.dp, end = 5.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxHeight()
-        ) {
-            rows.forEach { row ->
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    row.forEach { participant ->
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(16 / 9f)
-                                .background(Color.DarkGray, RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                participant,
-                                color = Color.White,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
+        rows.forEach { row ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16 / 9f),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                row.forEach { participant ->
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .background(Color.Gray, RoundedCornerShape(8.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = participant,
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
                     }
-                    repeat(3 - row.size) {
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
+                }
+
+                // Preenche espaço se a linha tiver só 1 item
+                if (row.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun ControlButtons() {
@@ -110,12 +122,16 @@ fun ControlButtons() {
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
+        MeetButton(painterResource(Res.drawable.ic_mic_on), "Áudio", transparentColor) { /* ação */ }
+        Spacer(Modifier.width(15.dp))
+        MeetButton(painterResource(Res.drawable.ic_cam_on), "Video", transparentColor) { /* ação */ }
+        Spacer(Modifier.width(15.dp))
         MeetButton(painterResource(Res.drawable.ic_play), "Iniciar Aula", transparentColor) { /* ação */ }
-        Spacer(Modifier.width(20.dp))
+        Spacer(Modifier.width(15.dp))
         MeetButton(painterResource(Res.drawable.ic_groups), "Selecionar Classe", transparentColor) { /* ação */ }
-        Spacer(Modifier.width(20.dp))
+        Spacer(Modifier.width(15.dp))
         MeetButton(painterResource(Res.drawable.ic_share), "Compartilhar", transparentColor) { /* ação */ }
-        Spacer(Modifier.width(20.dp))
+        Spacer(Modifier.width(15.dp))
         MeetButton(painterResource(Res.drawable.ic_call_end), "Encerrar", transparentColor) { /* ação */ }
     }
 }
