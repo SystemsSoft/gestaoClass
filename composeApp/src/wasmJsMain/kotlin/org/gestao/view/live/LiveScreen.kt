@@ -11,6 +11,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
+import gestaoclass.composeapp.generated.resources.Res
+import gestaoclass.composeapp.generated.resources.ic_call_end
+import gestaoclass.composeapp.generated.resources.ic_groups
+import gestaoclass.composeapp.generated.resources.ic_play
+import gestaoclass.composeapp.generated.resources.ic_share
+import gestaoweb.bbf.com.util.Theme.transparentColor
+import org.jetbrains.compose.resources.painterResource
+
 
 @Composable
 fun liveClassScreen() {
@@ -19,16 +31,26 @@ fun liveClassScreen() {
     Surface(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
+            .widthIn(500.dp)
             .fillMaxSize()
             .padding(15.dp),
         color = Color(0xFF202124)
     ) {
-        Box {
+        Box(modifier = Modifier.fillMaxSize()) {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 100.dp),
+                verticalArrangement = Arrangement.Top
             ) {
                 VideoGrid(participants = fakeParticipants)
+            }
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .background(Color(0xFF202124))
+            ) {
                 ControlButtons()
             }
         }
@@ -37,81 +59,117 @@ fun liveClassScreen() {
 
 @Composable
 fun VideoGrid(participants: List<String>) {
-    val rows = participants.chunked(3)
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(bottom = 80.dp) // Espaço pros botões
+    val rows = participants.chunked(2)
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 40.dp, top = 20.dp, end = 5.dp),
+        horizontalArrangement = Arrangement.End
     ) {
-        rows.forEach { row ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                row.forEach { participant ->
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp, vertical = 10.dp)
-                            .weight(1f)
-                            .aspectRatio(16 / 9f)
-                            .background(Color.DarkGray, RoundedCornerShape(12.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            participant,
-                            color = Color.White,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
+            rows.forEach { row ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    row.forEach { participant ->
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(16 / 9f)
+                                .background(Color.DarkGray, RoundedCornerShape(12.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                participant,
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
-                }
-                repeat(3 - row.size) {
-                    Spacer(modifier = Modifier.weight(1f))
+                    repeat(3 - row.size) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun ControlButtons() {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        MeetButton("Iniciar Aula", Color(0xFF34A853)) { /* ação */ }
+        MeetButton(painterResource(Res.drawable.ic_play), "Iniciar Aula", transparentColor) { /* ação */ }
         Spacer(Modifier.width(20.dp))
-        MeetButton("Selecionar Classe", Color(0xFF4285F4)) { /* ação */ }
+        MeetButton(painterResource(Res.drawable.ic_groups), "Selecionar Classe", transparentColor) { /* ação */ }
         Spacer(Modifier.width(20.dp))
-        MeetButton("Compartilhar", Color(0xFFF9AB00)) { /* ação */ }
+        MeetButton(painterResource(Res.drawable.ic_share), "Compartilhar", transparentColor) { /* ação */ }
         Spacer(Modifier.width(20.dp))
-        MeetButton("Encerrar", Color(0xFFEA4335)) { /* ação */ }
+        MeetButton(painterResource(Res.drawable.ic_call_end), "Encerrar", transparentColor) { /* ação */ }
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MeetButton(text: String, color: Color, onClick: () -> Unit) {
-    Surface(
+fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit) {
+    var isHovered by remember { mutableStateOf(false) }
+
+    Box(
         modifier = Modifier
-            .height(50.dp)
-            .clickable { onClick() },
-        color = color,
-        shape = RoundedCornerShape(25.dp),
-        elevation = 6.dp
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxHeight(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text,
-                color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
+            .offset(y = (-40).dp)
+            .background(
+                color = Color.Black,
+                shape = RoundedCornerShape(18.dp)
             )
+            .padding(4.dp)
+            .onPointerEvent(PointerEventType.Enter) { isHovered = true }
+            .onPointerEvent(PointerEventType.Exit) { isHovered = false },
+        contentAlignment = Alignment.Center
+    ) {
+        if (isHovered) {
+            Box(
+                modifier = Modifier
+                    .offset(y = (-60).dp)
+                    .background(transparentColor)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = tooltip,
+                    color = Color.White,
+                    fontSize = 12.sp
+                )
+            }
+        }
+
+        Surface(
+            modifier = Modifier
+                .height(50.dp)
+                .width(50.dp)
+                .clickable { onClick() },
+            color = color,
+            shape = RoundedCornerShape(25.dp),
+            elevation = 6.dp
+        ) {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = tooltip,
+                    tint = Color.White
+                )
+            }
         }
     }
 }
