@@ -1,5 +1,6 @@
 package org.gestao.view.live
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
@@ -137,13 +139,17 @@ fun ControlButtons() {
     }
 }
 
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit) {
     var isHovered by remember { mutableStateOf(false) }
 
-    // Tamanhos animados para expansão
     val size by animateDpAsState(if (isHovered) 60.dp else 50.dp)
+
+    val backgroundColor by animateColorAsState(
+        if (isHovered) lerp(color, Color.LightGray, 0.5f) else color
+    )
 
     Box(
         modifier = Modifier
@@ -176,7 +182,7 @@ fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit
             modifier = Modifier
                 .size(size)
                 .clickable { onClick() },
-            color = color,
+            color = backgroundColor,
             shape = RoundedCornerShape(25.dp),
             elevation = 6.dp
         ) {
