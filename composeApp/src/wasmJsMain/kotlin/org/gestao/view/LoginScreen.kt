@@ -163,9 +163,10 @@ fun authenticationFields() {
                         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                                val visibilityIcon = if (isPasswordVisible) Res.drawable.visibility else Res.drawable.visibility_off
+                                val visibilityIcon =
+                                    if (isPasswordVisible) Res.drawable.visibility else Res.drawable.visibility_off
                                 Icon(
-                                    painter = painterResource( visibilityIcon),
+                                    painter = painterResource(visibilityIcon),
                                     contentDescription = if (isPasswordVisible) "Ocultar senha" else "Mostrar senha",
                                     tint = Color.White
                                 )
@@ -173,7 +174,8 @@ fun authenticationFields() {
                         }
                     )
 
-                    Button(onClick = { validateUser(user, password) },
+                    Button(
+                        onClick = { validateUser(user, password) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 35.dp, end = 35.dp)

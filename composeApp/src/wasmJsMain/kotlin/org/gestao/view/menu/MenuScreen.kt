@@ -26,12 +26,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 val selectedMenuItem = MutableStateFlow(0)
 var accessScreen  = MutableStateFlow (false)
 var classesScreen  = MutableStateFlow (false)
-
 var uploadScreen  = MutableStateFlow (false)
 var dashScreen  = MutableStateFlow (false)
-
 var liveScreen  = MutableStateFlow (false)
-
+var menuScreen = MutableStateFlow (true)
 
 @Composable
 fun setupNavigationMenu() {

@@ -26,6 +26,10 @@ import gestaoclass.composeapp.generated.resources.ic_mic_on
 import gestaoclass.composeapp.generated.resources.ic_play
 import gestaoclass.composeapp.generated.resources.ic_share
 import gestaoweb.bbf.com.util.Theme.transparentColor
+import org.gestao.viewmodel.finishCall
+import org.gestao.viewmodel.setupAudio
+import org.gestao.viewmodel.setupCam
+import org.gestao.viewmodel.startCall
 import org.jetbrains.compose.resources.painterResource
 
 
@@ -59,21 +63,21 @@ fun liveClassScreen() {
                     )
                 }
 
-                ParticipantColumn(participants = fakeParticipants)
+                participantColumn(participants = fakeParticipants)
             }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .background(Color(0xFF202124))
             ) {
-                ControlButtons()
+                controlButtons()
             }
         }
     }
 }
 
 @Composable
-fun ParticipantColumn(participants: List<String>) {
+fun participantColumn(participants: List<String>) {
     val rows = participants.chunked(2)
 
     Column(
@@ -109,7 +113,6 @@ fun ParticipantColumn(participants: List<String>) {
                     }
                 }
 
-                // Preenche espaço se a linha tiver só 1 item
                 if (row.size == 1) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -119,30 +122,29 @@ fun ParticipantColumn(participants: List<String>) {
 }
 
 @Composable
-fun ControlButtons() {
+fun controlButtons() {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        MeetButton(painterResource(Res.drawable.ic_mic_on), "Áudio", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_mic_on), "Áudio", transparentColor) { setupAudio() }
         Spacer(Modifier.width(15.dp))
-        MeetButton(painterResource(Res.drawable.ic_cam_on), "Video", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_cam_on), "Video", transparentColor) { setupCam() }
         Spacer(Modifier.width(15.dp))
-        MeetButton(painterResource(Res.drawable.ic_play), "Iniciar Aula", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_play), "Iniciar Aula", transparentColor) { startCall() }
         Spacer(Modifier.width(15.dp))
-        MeetButton(painterResource(Res.drawable.ic_groups), "Selecionar Classe", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_groups), "Selecionar Classe", transparentColor) { }
         Spacer(Modifier.width(15.dp))
-        MeetButton(painterResource(Res.drawable.ic_share), "Compartilhar", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_share), "Compartilhar", transparentColor) { /* ação */ }
         Spacer(Modifier.width(15.dp))
-        MeetButton(painterResource(Res.drawable.ic_call_end), "Encerrar", transparentColor) { /* ação */ }
+        meetButton(painterResource(Res.drawable.ic_call_end), "Encerrar", transparentColor) { finishCall()}
     }
 }
 
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MeetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit) {
+fun meetButton(icon: Painter, tooltip: String, color: Color, onClick: () -> Unit) {
     var isHovered by remember { mutableStateOf(false) }
 
     val size by animateDpAsState(if (isHovered) 60.dp else 50.dp)

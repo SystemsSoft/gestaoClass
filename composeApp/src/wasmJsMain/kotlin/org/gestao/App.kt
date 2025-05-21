@@ -10,6 +10,7 @@ import org.gestao.view.navigation.accessNavigation
 import org.gestao.view.navigation.classNavigation
 import org.gestao.view.navigation.dashNavigation
 import org.gestao.view.navigation.liveNavigation
+import org.gestao.view.navigation.menuNavigation
 import org.gestao.view.navigation.uploadNavigation
 import org.gestao.view.observeRequestStatus
 import org.gestao.viewmodel.allAccesses
@@ -18,7 +19,6 @@ import org.gestao.viewmodel.allUploads
 import org.gestao.viewmodel.getAllAccesses
 import org.gestao.viewmodel.getAllClasses
 import org.gestao.viewmodel.getAllUploads
-import org.gestao.viewmodel.isUserValidated
 
 @Composable
 fun App() {
@@ -41,13 +41,13 @@ fun setupAppUI() {
         observeRequestStatus()
         setupNavigation()
         setupNavigationMenu()
-        navigationRail()
         fieldLogOut()
     }
 }
 
 @Composable
 fun setupNavigation() {
+    menuNavigation()
     dashNavigation()
     accessNavigation()
     classNavigation()

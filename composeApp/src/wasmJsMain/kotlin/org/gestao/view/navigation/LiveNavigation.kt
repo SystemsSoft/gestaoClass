@@ -12,6 +12,7 @@ import org.gestao.view.closeDashScreen
 import org.gestao.view.closeUploadScreen
 import org.gestao.view.live.liveClassScreen
 import org.gestao.view.menu.liveScreen
+import org.gestao.view.menu.menuScreen
 
 @Composable
 fun liveNavigation() {
@@ -31,6 +32,7 @@ fun liveNavigation() {
             closeUploadScreen()
             closeDashScreen()
             closeClassScreen()
+            menuScreen.value = false
         }
         liveClassScreen()
     }
