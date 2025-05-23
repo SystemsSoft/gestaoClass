@@ -26,6 +26,7 @@ import gestaoclass.composeapp.generated.resources.ic_mic_on
 import gestaoclass.composeapp.generated.resources.ic_play
 import gestaoclass.composeapp.generated.resources.ic_share
 import gestaoweb.bbf.com.util.Theme.transparentColor
+import kotlinx.browser.window
 import org.gestao.viewmodel.finishCall
 import org.gestao.viewmodel.setupAudio
 import org.gestao.viewmodel.setupCam
@@ -52,15 +53,7 @@ fun liveClassScreen() {
                         .fillMaxHeight()
                         .background(Color.DarkGray, RoundedCornerShape(12.dp))
                 ) {
-                    Text(
-                        "Tela Compartilhada",
-                        color = Color.White,
-                        modifier = Modifier
-                            .padding(start = 5.dp, top = 5.dp)
-                            .align(Alignment.Center),
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    window.open("videochat.html", "_blank")
                 }
 
                 participantColumn(participants = fakeParticipants)

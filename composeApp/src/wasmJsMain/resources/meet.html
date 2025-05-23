@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sala de Aula</title>
+  <style>
+    /* Reset e básicos */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background-color: #202124;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+    }
+
+    /* Container geral, arredondado e fundo */
+    #app {
+      flex: 1;
+      display: flex;
+      border-radius: 16px;
+      background-color: #202124;
+      overflow: hidden;
+      gap: 5px;
+    }
+
+    /* Área do vídeo principal */
+    #video-area {
+      flex: 1;
+      background-color: #2f2f2f;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      min-width: 0; /* para funcionar no flexbox com overflow */
+    }
+
+    /* Aqui você pode colocar o iframe ou vídeo local */
+    #video-area iframe, #video-area video {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: black;
+      object-fit: cover;
+    }
+
+    /* Coluna dos participantes */
+    #participants-column {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 5px;
+      overflow-y: auto;
+    }
+
+    /* Cada linha com 2 participantes */
+    .participant-row {
+      display: flex;
+      gap: 8px;
+      aspect-ratio: 16 / 9;
+    }
+
+    .participant-box {
+      flex: 1;
+      background-color: gray;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 500;
+      font-size: 14px;
+      color: white;
+      user-select: none;
+    }
+
+    /* Se só um participante na linha, a outra caixa é um spacer flexível */
+    .participant-row.single .participant-box.spacer {
+      flex: 1;
+      background: none;
+      pointer-events: none;
+    }
+
+    /* Barra inferior dos controles */
+    #control-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #202124;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      gap: 15px;
+      z-index: 10;
+    }
+
+    /* Botões principais */
+    .control-button {
+      position: relative;
+      background-color: black;
+      border-radius: 25px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s, width 0.3s, height 0.3s;
+    }
+    .control-button:hover {
+      background-color: #444444;
+      width: 60px;
+      height: 60px;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      bottom: 60px;
+      background-color: rgba(255 255 255 / 0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      user-select: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      color: white;
+    }
+
+    .control-button:hover .tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Ícones simples via SVG inline */
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Conferência WebRTC</h2>
+
+<div id="app">
+  <div id="video-area">
+    <!-- Você pode trocar para iframe src="meet.html" ou vídeo local aqui -->
+    <video id="localVideo" autoplay muted playsinline style="width:100%; height:100%; border-radius:12px; background:black;"></video>
+  </div>
+
+  <div id="participants-column">
+    <!-- Participantes serão preenchidos pelo JS -->
+  </div>
+</div>
+
+<div id="control-bar">
+  <div class="control-button" id="btnAudio" title="Áudio">
+    <div class="tooltip">Áudio</div>
+    <!-- Ícone microfone -->
+    <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zM19 11v1a7 7 0 0 1-14 0v-1H3v1a9 9 0 0 0 18 0v-1h-2z"/></svg>
+  </div>
+
+  <div class="control-button" id="btnVideo" title="Vídeo">
+    <div class="tooltip">Vídeo</div>
+    <!-- Ícone câmera -->
+    <svg viewBox="0 0 24 24"><path d="M17 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4.5l4 4v-11l-4 4z"/></svg>
+  </div>
+
+  <div class="control-button" id="btnStart" title="Iniciar Aula">
+    <div class="tooltip">Iniciar Aula</div>
+    <!-- Ícone play -->
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </div>
+
+  <div class="control-button" id="btnSelectClass" title="Selecionar Classe">
+    <div class="tooltip">Selecionar Classe</div>
+    <!-- Ícone grupos -->
+    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zM8 11c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zM16 13c-.29 0-.62.02-.97.05a5.978 5.978 0 0 1 1.97 1.95V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+  </div>
+
+  <div class="control-button" id="btnShare" title="Compartilhar">
+    <div class="tooltip">Compartilhar</div>
+    <!-- Ícone compartilhar -->
+    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a3.12 3.12 0 0 0 0-1.39L16.04 7.1c.53.48 1.23.79 2 .79a3 3 0 1 0-2.82-4.05"/></svg>
+  </div>
+
+  <div class="control-button" id="btnEndCall" title="Encerrar">
+    <div class="tooltip">Encerrar</div>
+    <!-- Ícone encerrar (telefone) -->
+    <svg viewBox="0 0 24 24"><path d="M21 15.46l-5.27-2.61a1 1 0 0 0-1.07.27L11.7 15.87a16.8 16.8 0 0 1-7.56-7.56l2.75-2.95a1 1 0 0 0 .27-1.07L8.54 3H4a1 1 0 0 0-1 1v3.46a17.1 17.1 0 0 0 17 17V15.46z"/></svg>
+  </div>
+</div>
+
+<div id="participants-hidden" style="display:none;">
+  <!-- Dados mock participantes -->
+  <div>Usuário 1</div>
+  <div>Usuário 2</div>
+  <div>Usuário 3</div>
+  <div>Usuário 4</div>
+  <div>Usuário 5</div>
+  <div>Usuário 6</div>
+</div>
+
+<script>
+  // Mock participantes (poderia vir de backend ou WS)
+  const participants = ["Usuário 1", "Usuário 2", "Usuário 3", "Usuário 4", "Usuário 5", "Usuário 6"];
+
+  const participantsColumn = document.getElementById("participants-column");
+
+  // Função para renderizar os participantes em linhas de 2
+  function renderParticipants() {
+    participantsColumn.innerHTML = "";
+
+    for (let i = 0; i < participants.length; i += 2) {
+      const row = document.createElement("div");
+      row.className = "participant-row";
+
+      const p1 = document.createElement("div");
+      p1.className = "participant-box";
+      p1.textContent = participants[i];
+      row.appendChild(p1);
+
+      if (i + 1 < participants.length) {
+        const p2 = document.createElement("div");
+        p2.className = "participant-box";
+        p2.textContent = participants[i + 1];
+        row.appendChild(p2);
+      } else {
+        // Se for ímpar, adiciona spacer para alinhar
+        row.classList.add("single");
+        const spacer = document.createElement("div");
+        spacer.className = "participant-box spacer";
+        row.appendChild(spacer);
+      }
+
+      participantsColumn.appendChild(row);
+    }
+  }
+
+  renderParticipants();
+
+  // Variáveis para WebRTC e WebSocket
+  let localStream = null;
+  let peers = {};
+  let ws = null;
+  let myId = Math.random().toString(36).substr(2, 9);
+  let room = null;
+
+  const localVideo = document.getElementById("localVideo");
+
+  // Função para capturar áudio e vídeo local
+  async function startLocalStream() {
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localVideo.srcObject = localStream;
+    } catch (err) {
+      alert("Não foi possível acessar a câmera e o microfone.");
+      throw err;
+    }
+  }
+
+  // Função para enviar mensagem pelo WebSocket
+  function send(msg) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(msg));
+    }
+  }
+
+  // Função para criar peer connection e setar eventos (simplificado)
+  function createPeer(peerId, isInitiator) {
+    const pc = new RTCPeerConnection();
+
+    // Adiciona tracks locais
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+    pc.onicecandidate = event => {
+      if (event.candidate) {
+        send({
+          type: "signal",
+          to: peerId,
+          from: myId,
+          sala: room,
+          payload: {
+            type: "candidate",
+            candidate: event.candidate,
+          }
+        });
+      }
+    };
+
+    // Receber stream remoto
+    pc.ontrack = event => {
+      addRemoteVideo(peerId, event.streams[0]);
+    };
+
+    if (isInitiator) {
+      pc.createOffer().then(offer => {
+        pc.setLocalDescription(offer);
+        send({
+          type: "signal",
+          to: peerId,
+          from: myId,
+          sala: room,
+          payload: offer
+        });
+      });
+    }
+
+    peers[peerId] = pc;
+    return pc;
+  }
+
+  // Adicionar vídeo remoto no DOM
+  function addRemoteVideo(peerId, stream) {
+    let video = document.getElementById("remoteVideo-" + peerId);
+    if (!video) {
+      video = document.createElement("video");
+      video.id = "remoteVideo-" + peerId;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.style.width = "100%";
+      video.style.height = "100%";
+      video.style.borderRadius = "12px";
+
+      // Criar container para o vídeo
+      const videoArea = document.getElementById("video-area");
+      videoArea.appendChild(video);
+    }
+    video.srcObject = stream;
+  }
+
+  // Remover vídeo remoto
+  function removeRemoteVideo(peerId) {
+    const video = document.getElementById("remoteVideo-" + peerId);
+    if (video) {
+      video.srcObject = null;
+      video.remove();
+    }
+  }
+
+  // Função que inicia a transmissão (captura + WebSocket + signaling)
+  async function startTransmission() {
+    room = "sala-de-aula"; // pode ser obtido via input
+
+    try {
+      await startLocalStream();
+    } catch {
+      return; // aborta se falhar no getUserMedia
+    }
+
+    ws = new WebSocket(`ws://${location.host}/signal`);
+
+    ws.onerror = event => {
+      alert("Erro na conexão WebSocket. Verifique o servidor.");
+      console.error("WebSocket error:", event);
+    };
+
+    ws.onopen = () => {
+      console.log("WebSocket conectado");
+      send({ type: "join", id: myId, sala: room });
+    };
+
+    ws.onclose = () => {
+      alert("Conexão WebSocket fechada.");
+      console.warn("WebSocket fechado");
+    };
+
+    ws.onmessage = async (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+
+        if (msg.type === "peers") {
+          msg.peers.forEach(peerId => {
+            createPeer(peerId, true);
+          });
+        } else if (msg.type === "new-peer") {
+          const peerId = msg.id;
+          createPeer(peerId, false);
+        } else if (msg.type === "signal") {
+          const peerId = msg.from;
+          let pc = peers[peerId];
+          if (!pc) {
+            pc = createPeer(peerId, false);
+          }
+          const payload = msg.payload;
+
+          if (payload.type === "offer") {
+            await pc.setRemoteDescription(new RTCSessionDescription(payload));
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+            send({
+              type: "signal",
+              to: peerId,
+              from: myId,
+              sala: room,
+              payload: answer
+            });
+          } else if (payload.type === "answer") {
+            await pc.setRemoteDescription(new RTCSessionDescription(payload));
+          } else if (payload.type === "candidate") {
+            if (payload.candidate) {
+              await pc.addIceCandidate(new RTCIceCandidate(payload.candidate));
+            }
+          }
+        } else if (msg.type === "peer-left") {
+          const peerId = msg.id;
+          if (peers[peerId]) {
+            peers[peerId].close();
+            delete peers[peerId];
+          }
+          removeRemoteVideo(peerId);
+        }
+      } catch (err) {
+        alert("Erro ao processar mensagem do servidor: " + err.message);
+        console.error("Erro onmessage:", err, event.data);
+      }
+    };
+  }
+
+  // Agora o botão "Iniciar Aula" chama a função que inicia tudo
+  document.getElementById("btnStart").addEventListener("click", async () => {
+    await startTransmission();
+  });
+
+  // Você pode adicionar aqui os eventos dos botões de áudio e vídeo também
+  // Por exemplo:
+  const btnAudio = document.getElementById("btnAudio");
+  btnAudio.addEventListener("click", () => {
+    if (localStream) {
+      localStream.getAudioTracks().forEach(track => track.enabled = !track.enabled);
+      btnAudio.style.backgroundColor = localStream.getAudioTracks()[0].enabled ? "black" : "#700";
+    }
+  });
+
+  const btnVideo = document.getElementById("btnVideo");
+  btnVideo.addEventListener("click", () => {
+    if (localStream) {
+      localStream.getVideoTracks().forEach(track => track.enabled = !track.enabled);
+      btnVideo.style.backgroundColor = localStream.getVideoTracks()[0].enabled ? "black" : "#700";
+    }
+  });
+
+</script>
+
+</body>
+</html>
