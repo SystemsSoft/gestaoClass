@@ -201,6 +201,10 @@ fun convertDtoToClassesList(): ClassList {
     }
 }
 
+val totalRevenue = MutableStateFlow(15000.00) // Exemplo: 15.000,00
+val totalExpenses = MutableStateFlow(8500.50) // Exemplo: 8.500,50
+
+// NOVO: Saldo calculado a partir do faturamento e despesas
 
 
 

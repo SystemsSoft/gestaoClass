@@ -11,7 +11,6 @@ import org.gestao.view.classFilterIcon
 import org.gestao.view.closeAccessScreen
 import org.gestao.view.closeClassScreen
 import org.gestao.view.closeDashScreen
-import org.gestao.view.closeLiveScreen
 import org.gestao.view.menu.uploadScreen
 import org.gestao.view.uploads.cleanUploadsFields
 import org.gestao.view.uploads.uploadRegistrationScreen
@@ -41,7 +40,6 @@ fun uploadNavigation() {
             closeAccessScreen()
             closeClassScreen()
             closeDashScreen()
-            closeLiveScreen()
         }
         openUploadRegistration.value = false
         openEditUpload.value = false

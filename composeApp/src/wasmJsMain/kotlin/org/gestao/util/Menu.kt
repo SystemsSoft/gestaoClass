@@ -14,7 +14,7 @@ import org.jetbrains.compose.resources.painterResource
 object Menu {
 
     val menuListNames = listOf(
-        "DashBoard","Uploads","Acessos","Classes","Aula ao vivo"
+        "DashBoard","Uploads","Acessos","Classes"
     )
 
     @Composable
@@ -24,7 +24,6 @@ object Menu {
             painterResource(Res.drawable.ic_upload),
             painterResource(Res.drawable.ic_add_acesso),
             painterResource(Res.drawable.ic_aulas),
-            painterResource(Res.drawable.ic_live),
         )
     }
 }
