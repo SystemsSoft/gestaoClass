@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
@@ -39,6 +40,18 @@ object Theme {
             Color(0xFF0A1F44)
         )
     )
+
+    val loginBackgroundBrush = Brush.linearGradient(
+        colors = listOf(
+            Color(0xffb8bcc3),
+            Color(0xFFF7F8FA),
+            Color(0xffb8bcc3),
+            Color(0xFFEDF0F5)
+        ),
+        start = Offset.Zero,
+        end = Offset.Infinite
+    )
+
 
     private val LightColorPalette = lightColors(
         primary = Color.LightGray,

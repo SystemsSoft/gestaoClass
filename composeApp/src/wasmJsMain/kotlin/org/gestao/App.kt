@@ -19,6 +19,7 @@ import org.gestao.viewmodel.allUploads
 import org.gestao.viewmodel.getAllAccesses
 import org.gestao.viewmodel.getAllClasses
 import org.gestao.viewmodel.getAllUploads
+import org.gestao.viewmodel.isUserValidated
 
 @Composable
 fun App() {
@@ -29,7 +30,7 @@ fun App() {
 @Composable
 fun setupAppUI() {
     Theme.MyAppTheme {
-      /*  if (isUserValidated.collectAsState().value) {
+       if (isUserValidated.collectAsState().value) {
             observeRequestStatus()
             setupNavigation()
             setupNavigationMenu()
@@ -37,11 +38,7 @@ fun setupAppUI() {
             fieldLogOut()
         } else {
             loginScreen()
-        }*/
-        observeRequestStatus()
-        setupNavigation()
-        setupNavigationMenu()
-        fieldLogOut()
+        }
     }
 }
 
