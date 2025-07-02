@@ -9,6 +9,7 @@ import gestaoclass.composeapp.generated.resources.ic_add_acesso
 import gestaoclass.composeapp.generated.resources.ic_aulas
 import gestaoclass.composeapp.generated.resources.ic_live
 import gestaoclass.composeapp.generated.resources.ic_upload
+import gestaoclass.composeapp.generated.resources.logo
 import org.jetbrains.compose.resources.painterResource
 
 object Menu {

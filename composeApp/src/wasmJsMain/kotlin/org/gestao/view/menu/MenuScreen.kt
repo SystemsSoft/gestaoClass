@@ -1,6 +1,10 @@
 package org.gestao.view.menu
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,10 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import gestaoclass.composeapp.generated.resources.Res
+import gestaoclass.composeapp.generated.resources.logo
+import gestaoclass.composeapp.generated.resources.logo_sem_fundo
 import gestaoweb.bbf.com.util.Menu.iconsMenu
 import gestaoweb.bbf.com.util.Menu.menuListNames
 import gestaoweb.bbf.com.util.Theme
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.jetbrains.compose.resources.painterResource
 
 val selectedMenuItem = MutableStateFlow(0)
 var accessScreen  = MutableStateFlow (false)
@@ -48,54 +56,68 @@ fun setupNavigationMenu() {
 fun navigationRail() {
     val itemSelected by selectedMenuItem.collectAsState()
 
-    NavigationRail(
-        modifier = Modifier
-            .padding(top = 140.dp)
-            .width(150.dp),
-        backgroundColor = Theme.transparentColor,
-        elevation = 0.dp
+    Column(
+        modifier = Modifier.width(150.dp)
     ) {
-        menuListNames.forEachIndexed { index, item ->
-            val isSelected = itemSelected == index
+        Image(
+            painter = painterResource( Res.drawable.logo_sem_fundo),
+            contentDescription = "App Logo",
+            modifier = Modifier
+                .size(150.dp)
+                .padding(top = 40.dp, bottom = 20.dp, start = 20.dp)
+        )
 
-            val isHovered by remember { mutableStateOf(false) }
-            val size by animateDpAsState(targetValue = when {
-                isHovered -> 65.dp
-                isSelected -> 28.dp
-                else -> 24.dp
-            })
+        NavigationRail(
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .width(150.dp),
+            backgroundColor = Theme.transparentColor,
+            elevation = 0.dp
+        ) {
+            menuListNames.forEachIndexed { index, item ->
+                val isSelected = itemSelected == index
 
-            NavigationRailItem(
-                icon = {
-                    Icon(
-                        iconsMenu()[index],
-                        contentDescription = null,
-                        modifier = Modifier.size(size),
-                        tint = if (isSelected) Color(0xFFFC7900) else Color.White
-                    )
-                },
-                label = {
-                    Text(
-                        item,
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        style = TextStyle(
-                            color = if (isSelected) Color(0xFFFC7900) else Color.White,
-                            fontSize = 10.sp
-                        )
-                    )
-                },
-                selected = isSelected,
-                onClick = {
-                    if (index == selectedMenuItem.value ){
-                        accessScreen.value = false
-                        classesScreen.value = false
-                        uploadScreen.value = false
-                        selectedMenuItem.value = 0
-                    } else {
-                       selectedMenuItem.value = index
+                val isHovered by remember { mutableStateOf(false) }
+                val size by animateDpAsState(
+                    targetValue = when {
+                        isHovered -> 65.dp
+                        isSelected -> 28.dp
+                        else -> 24.dp
                     }
-                },
-            )
+                )
+
+                NavigationRailItem(
+                    icon = {
+                        Icon(
+                            iconsMenu()[index],
+                            contentDescription = null,
+                            modifier = Modifier.size(size),
+                            tint = if (isSelected) Color(0xFFFC7900) else Color.White
+                        )
+                    },
+                    label = {
+                        Text(
+                            item,
+                            modifier = Modifier.padding(vertical = 12.dp),
+                            style = TextStyle(
+                                color = if (isSelected) Color(0xFFFC7900) else Color.White,
+                                fontSize = 10.sp
+                            )
+                        )
+                    },
+                    selected = isSelected,
+                    onClick = {
+                        if (index == selectedMenuItem.value) {
+                            accessScreen.value = false
+                            classesScreen.value = false
+                            uploadScreen.value = false
+                            selectedMenuItem.value = 0
+                        } else {
+                            selectedMenuItem.value = index
+                        }
+                    },
+                )
+            }
         }
     }
 }
