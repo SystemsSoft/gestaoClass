@@ -43,12 +43,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dialogClassFilter
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.heightField
 import model.AccessDto
 import org.gestao.model.ClassDto
-import org.gestao.view.dialogClassFilter
 import org.gestao.view.isLoadingValidate
 import org.gestao.view.navigation.openEditItemAccess
 import org.gestao.viewmodel.accessListDto

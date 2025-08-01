@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,19 +44,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import gestaoclass.composeapp.generated.resources.Res
 import gestaoclass.composeapp.generated.resources.ic_logout
-import gestaoclass.composeapp.generated.resources.ic_novo
-import gestaoclass.composeapp.generated.resources.ic_user
-import gestaoclass.composeapp.generated.resources.lock
 import gestaoclass.composeapp.generated.resources.logo_sem_fundo
-import gestaoclass.composeapp.generated.resources.person
 import gestaoclass.composeapp.generated.resources.visibility
 import gestaoclass.composeapp.generated.resources.visibility_off
-import gestaoweb.bbf.com.util.Theme.colorIconClient
 import gestaoweb.bbf.com.util.Theme.darkBlueColor
 import gestaoweb.bbf.com.util.Theme.fontDefault
 import gestaoweb.bbf.com.util.Theme.gradientBackground
 import gestaoweb.bbf.com.util.Theme.loginBackgroundBrush
-import gestaoweb.bbf.com.util.Theme.transparentColor
 import kotlinx.browser.window
 import org.gestao.viewmodel.authenticationFailed
 import org.gestao.viewmodel.validateUser
@@ -101,7 +94,7 @@ fun authenticationFields() {
             ) {
                 // Logo Image
                 Image(
-                    painter = painterResource(Res.drawable.logo_sem_fundo), // Using R.drawable
+                    painter = painterResource(Res.drawable.logo_sem_fundo),
                     contentDescription = "Logo",
                     modifier = Modifier
                         .size(180.dp)

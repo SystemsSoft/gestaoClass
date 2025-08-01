@@ -1,5 +1,3 @@
-package org.gestao.view
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import org.gestao.view.showDialogClassFilter
 
 
 @Composable
@@ -42,8 +41,12 @@ fun <T> dialogClassFilter(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
+                    // 1. Criar uma lista de itens únicos pelo nome
+                    val uniqueItems = list.distinctBy { getItemName(it) }
+
                     LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
-                        items(list) { item ->
+                        // 2. Usar a lista de itens únicos
+                        items(uniqueItems) { item ->
                             Text(
                                 text = getItemName(item),
                                 modifier = Modifier
